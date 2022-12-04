@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Internal;
 using ShareEbook_v1.Models;
 using System;
+using System.Diagnostics;
 
 namespace ShareEbook_v1.Data
 {
@@ -15,21 +16,6 @@ namespace ShareEbook_v1.Data
                 return;
             }
 
-            var documents = new Document[]
-            {
-                new Document {Name = "ASP.Net Document", Category = "Lập trình", Author = "Microsoft", Description = "Good Document"},
-                new Document {Name = "Naruto", Category = "Anime", Author = "Someone", Description = "Great Anime"},
-                new Document {Name = "Chainsaw man", Category = "Manga", Author = "Someone", Description = "Great Manga"},
-                new Document {Name = "Chỉ là ...", Category = "Tiểu thuyết", Author = "Reddy", Description = "Sad..."},
-                new Document {Name = "Hành trình", Category = "Sách", Author = "Hidor", Description = "Good Document"},
-            };
-
-            foreach(var d in documents)
-            {
-                context.Documents.Add(d);
-            }
-            context.SaveChanges();
-
             var users = new User[]
             {
                 new User{Name = "Nguyễn Quang Huy", Email="Huynguyenquang@gmail.com", PhoneNumber = "0329267878", Gender = Gender.Male, Birthday = DateTime.Now},
@@ -39,22 +25,39 @@ namespace ShareEbook_v1.Data
                 new User{Name = "Ngô Hồng Thái", Email="HonThai@gmail.com", PhoneNumber = "0339267878", Gender = Gender.Male, Birthday = DateTime.Now},
             };
 
-            foreach (var u in users)
+            foreach (User u in users)
             {
                 context.Users.Add(u);
             }
             context.SaveChanges();
 
-            var accounts = new Account[]
+            var documents = new Document[]
             {
-                new Account{Username = "hidro", Password = "123", Type = TypeAccount.Admin},
-                new Account{Username = "daideptrai", Password = "123", Type = TypeAccount.User},
-                new Account{Username = "thuyduong", Password = "123", Type = TypeAccount.User},
-                new Account{Username = "loantran", Password = "123", Type = TypeAccount.User},
-                new Account{Username = "hongthai", Password = "123", Type = TypeAccount.User},
+                new Document {Name = "ASP.Net Document", Category = "Lập trình", Author = "Microsoft", Picture = new byte[1], FileDocument = new byte[1], Description = "Good Document"},
+                new Document {Name = "Naruto", Category = "Anime", Author = "Someone", Picture = new byte[1], FileDocument = new byte[1], Description = "Great Anime"},
+                new Document {Name = "Chainsaw man", Category = "Manga", Author = "Someone", Picture = new byte[1], FileDocument = new byte[1], Description = "Great Manga"},
+                new Document {Name = "Chỉ là ...", Category = "Tiểu thuyết", Author = "Reddy", Picture = new byte[1], FileDocument = new byte[1], Description = "Sad..."},
+                new Document {Name = "Hành trình", Category = "Sách", Author = "Hidor", Picture = new byte[1], FileDocument = new byte[1], Description = "Good Document"},
             };
 
-            foreach (var a in accounts)
+            foreach(Document d in documents)
+            {
+                context.Documents.Add(d);
+            }
+            context.SaveChanges();
+
+            
+
+            var accounts = new Account[]
+            {
+                new Account{Username = "hidro", Password = "123", Type = TypeAccount.Admin, UserId = 1},
+                new Account{Username = "daideptrai", Password = "123", Type = TypeAccount.User, UserId = 2},
+                new Account{Username = "thuyduong", Password = "123", Type = TypeAccount.User, UserId = 3},
+                new Account{Username = "loantran", Password = "123", Type = TypeAccount.User, UserId = 4} ,
+                new Account{Username = "hongthai", Password = "123", Type = TypeAccount.User, UserId = 5},
+            };
+
+            foreach (Account a in accounts)
             {
                 context.Accounts.Add(a);
             }
@@ -69,7 +72,7 @@ namespace ShareEbook_v1.Data
                 new Notifi{Content = "Chúc mừng bạn đã đăng tài liệu thành công", Type = 1, UserId = 5},
             };
 
-            foreach(var n in notifis)
+            foreach(Notifi n in notifis)
             {
                 context.Notifis.Add(n);
             }
@@ -84,11 +87,13 @@ namespace ShareEbook_v1.Data
                 new Post{DateSubmitted = DateTime.Now.AddMonths(-2),  Pending = true, UserId = 5, DocumentId = 5},
             };
 
-            foreach(var p in posts)
+            foreach(Post p in posts)
             {
                 context.Posts.Add(p);
             }
             context.SaveChanges();
+
+            Debug.WriteLine("Seed data success!!");
         }
     }
 }

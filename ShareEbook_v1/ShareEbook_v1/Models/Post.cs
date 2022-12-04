@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace ShareEbook_v1.Models
 {   
@@ -11,12 +12,14 @@ namespace ShareEbook_v1.Models
         
         public int Id { get => _id; set => _id = value; }
 
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime DateSubmitted { get => _dateSubmitted; set => _dateSubmitted = value; }
         public bool Pending { get => _pending; set => _pending = value; }
 
-        public int DocumentId;
-        public int UserId;
-        public Document DocumentInfor;
-        public User UserInfor;
+        public int DocumentId { get; set; }
+        public int UserId { get; set; }
+        public Document DocumentInfor { get; set; }
+        public User UserInfor { get; set; }
     }
 }

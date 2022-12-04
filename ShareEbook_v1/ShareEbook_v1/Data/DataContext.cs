@@ -22,6 +22,8 @@ namespace ShareEbook_v1.Data
             modelBuilder.Entity<Document>().ToTable("Document");
             modelBuilder.Entity<Post>().ToTable("Post");
             modelBuilder.Entity<Notifi>().ToTable("Notifi");
+
+            
         }
     }
 }
