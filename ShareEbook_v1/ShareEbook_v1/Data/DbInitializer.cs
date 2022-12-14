@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Internal;
 using ShareEbook_v1.Models;
 using System;
-using System.Diagnostics;
 
 namespace ShareEbook_v1.Data
 {
@@ -92,8 +91,6 @@ namespace ShareEbook_v1.Data
                 context.Posts.Add(p);
             }
             context.SaveChanges();
-
-            Debug.WriteLine("Seed data success!!");
         }
     }
 }

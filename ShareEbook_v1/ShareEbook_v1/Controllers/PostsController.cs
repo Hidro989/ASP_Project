@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -33,7 +34,7 @@ namespace ShareEbook_v1.Controllers
                 return NotFound();
             }
 
-            var post = await _context.Posts
+            var post = await _context.Posts.Include(p => p.DocumentInfor)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (post == null)
             {
@@ -46,6 +47,7 @@ namespace ShareEbook_v1.Controllers
         // GET: Posts/Create
         public IActionResult Create()
         {
+            ViewData["Username"] = HttpContext.Session.GetString("_Username");
             return View();
         }
 

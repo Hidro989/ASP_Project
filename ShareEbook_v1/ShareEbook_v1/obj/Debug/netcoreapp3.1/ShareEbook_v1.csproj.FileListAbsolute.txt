@@ -151,3 +151,4 @@ D:\WorkSpace\ASP_Project\ShareEbook_v1\ShareEbook_v1\obj\Debug\netcoreapp3.1\Raz
 D:\WorkSpace\ASP_Project\ShareEbook_v1\ShareEbook_v1\obj\Debug\netcoreapp3.1\Razor\Views\Posts\Details.cshtml.g.cs
 D:\WorkSpace\ASP_Project\ShareEbook_v1\ShareEbook_v1\obj\Debug\netcoreapp3.1\Razor\Views\Posts\Edit.cshtml.g.cs
 D:\WorkSpace\ASP_Project\ShareEbook_v1\ShareEbook_v1\obj\Debug\netcoreapp3.1\Razor\Views\Posts\Index.cshtml.g.cs
+D:\WorkSpace\ASP_Project\ShareEbook_v1\ShareEbook_v1\obj\Debug\netcoreapp3.1\Razor\Views\Home\Login.cshtml.g.cs
