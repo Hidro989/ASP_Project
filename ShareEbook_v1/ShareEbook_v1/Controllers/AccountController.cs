@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ShareEbook_v1.Data;
 using ShareEbook_v1.Models;
+using ShareEbook_v1.ViewModels;
+using ShareEbook_v1.Views.Account;
 using System.Linq;
 using System.Security.Policy;
 using System.Threading.Tasks;
@@ -52,42 +54,36 @@ namespace ShareEbook_v1.Controllers
         }
 
         // GET: AccountController/Edit/5
-        public async Task<IActionResult> Edit(string username, bool? passwordError = false)
+        public async Task<IActionResult> Edit(string username)
         {   
             if(username == null)
             {
                 return NotFound();
             }
-            var model = await _context.Accounts.Include(a => a.User).Where(a => a.Username == username).FirstOrDefaultAsync();
+            var model = await _context.Accounts.FirstOrDefaultAsync(a => a.Username == username);
             if(model == null)
             {
                 return NotFound();
             }
 
-            if (passwordError.GetValueOrDefault())
-            {
-                ViewData["ErrorMessage"] =
-                    "Mật khẩu không chính xác!\nVui lòng thử lại!";
-            }
             return View(model);
         }
 
         // POST: AccountController/Edit/5
-        [HttpPost]
+        [HttpPost(Name = "Edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string username)
+        public async Task<IActionResult> EditPost(string username)
         {   
             if(string.IsNullOrEmpty(username))
             {
                 return NotFound();
             }
-            var account = await _context.Accounts.Include(a => a.User).FirstOrDefaultAsync(a => a.Username == username);
-            var userToUpdate = await _context.Users.FirstOrDefaultAsync(u => u.Id == account.UserId);
+            var accounttoUpdate = await _context.Accounts.FirstOrDefaultAsync(a => a.Username == username);
 
-            if (await TryUpdateModelAsync<User>(
-                userToUpdate,
+            if (await TryUpdateModelAsync<Account>(
+                accounttoUpdate,
                 "",
-                u => u.Name, u => u.Email, u => u.PhoneNumber, u=> u.Birthday, u=> u.Gender))
+                a => a.Password))
             {
                 
                 try
@@ -100,7 +96,7 @@ namespace ShareEbook_v1.Controllers
                         "Thử lại, Nếu sự cố vấn tiếp diễn hãy gặp quản trị viên hệ thống");
                 }
             }
-            return View(account);
+            return View(accounttoUpdate);
         }
 
         // GET: AccountController/Delete/5
@@ -122,6 +118,46 @@ namespace ShareEbook_v1.Controllers
             {
                 return View();
             }
+        }
+
+        [HttpGet]
+        public IActionResult ChangePassword(bool? currentPasswordError = false)
+        {
+            if (currentPasswordError.GetValueOrDefault())
+            {
+                ViewData["ErrorMessage"] = "Mật khẩu hiện tại không chính xác";
+            }
+            ViewData["Username"] = HttpContext.Session.GetString("_Username");
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _context.Accounts.FirstOrDefaultAsync(u => u.Username == HttpContext.Session.GetString("_Username"));
+                if(user.Password == model.CurrentPassword)
+                {
+                    user.Password = model.NewPassword;
+                    try
+                    {
+                        _context.Update(user);
+                        await _context.SaveChangesAsync();
+                        return View("ChangePasswordConfirmation");
+                    }
+                    catch (DbUpdateException)
+                    {
+                        ModelState.AddModelError("", "Không thể lưu thay đổi. Thử lại, nếu sự cố vấn tiếp tục vui lòng liên hệ quản trị viên");
+                    }
+                }
+                else
+                {
+                    return RedirectToAction(nameof(ChangePassword), new { currentPasswordError = true });
+                }
+            }
+
+            return View(model);
         }
     }
 }

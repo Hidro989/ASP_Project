@@ -30,7 +30,7 @@
                                     <ul class="dropdown-menu" aria-labelledby="dropdownmenu">
                                         <li><a class="dropdown-item" asp-controller="Posts" asp-action="Create">Đăng tài liệu</a></li>
                                         <li><a class="dropdown-item" asp-controller="User" asp-action="Edit" asp-route-username="@ViewData["Username"]">Thông tin tài khoản</a></li>
-                                        <li><a class="dropdown-item" asp-controller="Account" asp-action="Edit" asp-route-username="@ViewData["Username"]">Đổi mật khẩu</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Account" asp-action="ChangePassword" asp-route-username="@ViewData["Username"]">Đổi mật khẩu</a></li>
                                         <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Logout">Đăng xuất</a></li>
                                     </ul>
                                 </div>
