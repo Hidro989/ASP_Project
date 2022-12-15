@@ -21,15 +21,15 @@ namespace ShareEbook_v1.Models
 
         public int Id { get => _id; set => _id = value; }
 
-        [Required, StringLength(50)]
+        [Required(ErrorMessage = "Vui lòng nhập họ và tên"), StringLength(50), Display(Name = "Họ và tên")]
         public string Name { get => _name; set => _name = value; }
 
-        [Required,DataType(DataType.EmailAddress),]
+        [Required(ErrorMessage = "Vui lòng nhập email"),DataType(DataType.EmailAddress),]
         [RegularExpression("^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$", ErrorMessage = "Vui lòng nhập email hợp lệ!!")]
         public string Email { get => _email; set => _email = value; }
 
-        [Required, DataType(DataType.PhoneNumber)]
-       // [RegularExpression(@"(((^\+|)84)|0)(3|5|7|8|9)+([0-9]{10})$", ErrorMessage = "Vui lòng nhập số điện thoại hợp lệ!!")]
+        [Required(ErrorMessage = "Vui lòng nhập số điện thoại"), DataType(DataType.PhoneNumber)]
+        //[RegularExpression(@"^\\+?[1-9][0-9]{7,14}$", ErrorMessage = "Vui lòng nhập số điện thoại hợp lệ!!")]
         public string PhoneNumber { get => _phoneNumber; set => _phoneNumber = value; }
 
 

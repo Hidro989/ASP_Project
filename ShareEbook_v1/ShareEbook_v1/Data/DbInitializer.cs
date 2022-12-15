@@ -32,11 +32,11 @@ namespace ShareEbook_v1.Data
 
             var documents = new Document[]
             {
-                new Document {Name = "ASP.Net Document", Category = "Lập trình", Author = "Microsoft", Picture = new byte[1], FileDocument = new byte[1], Description = "Good Document"},
-                new Document {Name = "Naruto", Category = "Anime", Author = "Someone", Picture = new byte[1], FileDocument = new byte[1], Description = "Great Anime"},
-                new Document {Name = "Chainsaw man", Category = "Manga", Author = "Someone", Picture = new byte[1], FileDocument = new byte[1], Description = "Great Manga"},
-                new Document {Name = "Chỉ là ...", Category = "Tiểu thuyết", Author = "Reddy", Picture = new byte[1], FileDocument = new byte[1], Description = "Sad..."},
-                new Document {Name = "Hành trình", Category = "Sách", Author = "Hidor", Picture = new byte[1], FileDocument = new byte[1], Description = "Good Document"},
+                new Document {Name = "ASP.Net Document", Category = "Lập trình", Author = "Microsoft", Description = "Good Document"},
+                new Document {Name = "Naruto", Category = "Anime", Author = "Someone", Description = "Great Anime"},
+                new Document {Name = "Chainsaw man", Category = "Manga", Author = "Someone", Description = "Great Manga"},
+                new Document {Name = "Chỉ là ...", Category = "Tiểu thuyết", Author = "Reddy", Description = "Sad..."},
+                new Document {Name = "Hành trình", Category = "Sách", Author = "Hidor", Description = "Good Document"},
             };
 
             foreach(Document d in documents)

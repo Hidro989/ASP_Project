@@ -8,16 +8,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ShareEbook_v1.Data;
 using ShareEbook_v1.Models;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace ShareEbook_v1.Controllers
 {
     public class PostsController : Controller
     {
         private readonly DataContext _context;
-
-        public PostsController(DataContext context)
+        private readonly IWebHostEnvironment webHostEnvironment;
+        public PostsController(DataContext context, IWebHostEnvironment webHost)
         {
             _context = context;
+            webHostEnvironment = webHost;
         }
 
         // GET: Posts
@@ -29,6 +32,7 @@ namespace ShareEbook_v1.Controllers
         // GET: Posts/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            ViewData["Username"] = HttpContext.Session.GetString("_Username");
             if (id == null)
             {
                 return NotFound();
@@ -56,13 +60,21 @@ namespace ShareEbook_v1.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,DateSubmitted,Pending")] Post post)
+        public async Task<IActionResult> Create(Post post)
         {
+            string username = HttpContext.Session.GetString("_Username");
+
             if (ModelState.IsValid)
             {
+                string uniquePictureFileName = UploadedPicture(post);
+                string uniqueFileName = UploadedFile(post);
+                post.DocumentInfor.FileUrl = uniqueFileName;
+                post.DocumentInfor.PictureUrl = uniquePictureFileName;
+                var account = _context.Accounts.Where(a => a.Username == username).Include(a => a.User).AsNoTracking().FirstOrDefault();
+                post.UserId = account.UserId;
                 _context.Add(post);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Home");
             }
             return View(post);
         }
@@ -150,6 +162,40 @@ namespace ShareEbook_v1.Controllers
         private bool PostExists(int id)
         {
             return _context.Posts.Any(e => e.Id == id);
+        }
+
+        private string UploadedPicture(Post post)
+        {
+            string uniqueFileName = null;
+            if(post.DocumentInfor.Picture != null)
+            {
+                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + post.DocumentInfor.Picture.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using(var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    post.DocumentInfor.Picture.CopyTo(fileStream);
+                }
+            }
+
+            return uniqueFileName;
+        }
+
+        private string UploadedFile(Post post)
+        {
+            string uniqueFileName = null;
+            if (post.DocumentInfor.FileDocument != null)
+            {
+                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "fileDocument");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + post.DocumentInfor.FileDocument.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    post.DocumentInfor.FileDocument.CopyTo(fileStream);
+                }
+            }
+
+            return uniqueFileName;
         }
     }
 }

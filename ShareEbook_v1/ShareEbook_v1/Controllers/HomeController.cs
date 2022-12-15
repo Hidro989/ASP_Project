@@ -29,7 +29,7 @@ namespace ShareEbook_v1.Controllers
 
         public async Task<IActionResult> Index()
         {   
-            var model =  await _context.Posts.Include(p => p.DocumentInfor).ToListAsync();
+            var model =  await _context.Posts.Include(p => p.DocumentInfor).AsNoTracking().ToListAsync();
             ViewData["Username"] = HttpContext.Session.GetString(SessionKeyUser);
             return View(model);
         }

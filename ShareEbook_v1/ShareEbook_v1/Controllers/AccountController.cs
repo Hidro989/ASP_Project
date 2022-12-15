@@ -1,10 +1,22 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using ShareEbook_v1.Data;
+using ShareEbook_v1.Models;
+using System.Linq;
+using System.Security.Policy;
+using System.Threading.Tasks;
 
 namespace ShareEbook_v1.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly DataContext _context;
+        public AccountController(DataContext context)
+        {
+            _context = context;
+        }
+
         // GET: AccountController
         public ActionResult Index()
         {
@@ -12,9 +24,10 @@ namespace ShareEbook_v1.Controllers
         }
 
         // GET: AccountController/Details/5
-        public ActionResult Details(int id)
+        public async Task<IActionResult> Details(string username)
         {
-            return View();
+            var model = await _context.Accounts.Include(a => a.User).Where(a => a.Username == username).FirstOrDefaultAsync();
+            return View(model);
         }
 
         // GET: AccountController/Create
@@ -39,24 +52,55 @@ namespace ShareEbook_v1.Controllers
         }
 
         // GET: AccountController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
+        public async Task<IActionResult> Edit(string username, bool? passwordError = false)
+        {   
+            if(username == null)
+            {
+                return NotFound();
+            }
+            var model = await _context.Accounts.Include(a => a.User).Where(a => a.Username == username).FirstOrDefaultAsync();
+            if(model == null)
+            {
+                return NotFound();
+            }
+
+            if (passwordError.GetValueOrDefault())
+            {
+                ViewData["ErrorMessage"] =
+                    "Mật khẩu không chính xác!\nVui lòng thử lại!";
+            }
+            return View(model);
         }
 
         // POST: AccountController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
+        public async Task<IActionResult> Edit(string username)
+        {   
+            if(string.IsNullOrEmpty(username))
             {
-                return RedirectToAction(nameof(Index));
+                return NotFound();
             }
-            catch
+            var account = await _context.Accounts.Include(a => a.User).FirstOrDefaultAsync(a => a.Username == username);
+            var userToUpdate = await _context.Users.FirstOrDefaultAsync(u => u.Id == account.UserId);
+
+            if (await TryUpdateModelAsync<User>(
+                userToUpdate,
+                "",
+                u => u.Name, u => u.Email, u => u.PhoneNumber, u=> u.Birthday, u=> u.Gender))
             {
-                return View();
+                
+                try
+                {
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Index", "Home");
+                }catch(DbUpdateException)
+                {
+                    ModelState.AddModelError("", "Không thể lưu thay đổi" +
+                        "Thử lại, Nếu sự cố vấn tiếp diễn hãy gặp quản trị viên hệ thống");
+                }
             }
+            return View(account);
         }
 
         // GET: AccountController/Delete/5

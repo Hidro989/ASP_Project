@@ -16,9 +16,9 @@ namespace ShareEbook_v1.Migrations
                     Name = table.Column<string>(maxLength: 200, nullable: false),
                     Category = table.Column<string>(nullable: true),
                     Author = table.Column<string>(nullable: false),
-                    Picture = table.Column<byte[]>(nullable: false),
-                    FileDocument = table.Column<byte[]>(nullable: false),
-                    Description = table.Column<string>(nullable: true)
+                    Description = table.Column<string>(nullable: true),
+                    PictureUrl = table.Column<string>(nullable: true),
+                    FileUrl = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

@@ -1,15 +1,21 @@
 ﻿@model ShareEbook_v1.Models.Post
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detail";
 }
 
-<h1>Details</h1>
+<h1>Chi tiết</h1>
 
 <div>
-    <h4>Post</h4>
+    <h4>Thông tin ebook</h4>
     <hr />
     <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DocumentInfor.Picture)
+        </dt>
+        <dt class="col-sm-10">
+            <img width="150" height="150" style="border:1px;margin-top:20px; margin-left:120px;" src="~/images/@Html.DisplayFor(model => model.DocumentInfor.PictureUrl)" alt="Logo" />
+        </dt>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.DocumentInfor.Name)
         </dt>
@@ -40,15 +46,10 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.DateSubmitted)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Pending)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Pending)
-        </dd>
+        <a class="btn btn-success" asp-controller="Document" asp-action="Download" asp-route-id="@Model.DocumentId" download>Download</a>
     </dl>
 </div>
 <div>
     @*<a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |*@
-    <a asp-controller="Home" asp-action="Index">Back to Home</a>
+    <a asp-controller="Home" asp-action="Index">Quay về Trang chủ</a>
 </div>
