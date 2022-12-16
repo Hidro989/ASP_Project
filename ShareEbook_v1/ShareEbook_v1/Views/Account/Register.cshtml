@@ -1,9 +1,12 @@
 ﻿@model ShareEbook_v1.ViewModels.RegisterViewModel
 
-<h2>Đổi mật khẩu</h2>
+<h2>Đăng ký</h2>
 <hr/>
 <div class="row">
 	<div class="col-md-12">
+		@if(ViewBag.ErrorMessage != null){
+			<span class="text-danger">@ViewData["ErrorMessage"]</span>
+		}
 		<form method="post">
 			<div asp-validation-summary="All" class="text-danger"></div>
 			<div class="form-group">
@@ -22,9 +25,28 @@
 				<span asp-validation-for="Name"></span>
 			</div>
 			<div class="form-group">
-				<label asp-for="Name"></label>
-				<input asp-for="Name" />
-				<span asp-validation-for="Name"></span>
+				<label asp-for="Email"></label>
+				<input asp-for="Email" />
+				<span asp-validation-for="Email"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Phonenumber"></label>
+				<input asp-for="Phonenumber" />
+				<span asp-validation-for="Phonenumber"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Birthday"></label>
+				<input asp-for="Birthday" />
+				<span asp-validation-for="Birthday"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Gender"></label>
+				<select asp-for="Gender">
+					<option value="@Gender.Male">Nam</option>
+					<option value="@Gender.Female">Nữ</option>
+					<option value="@Gender.Other">Khác</option>
+				</select>
+				<span asp-validation-for="Gender"></span>
 			</div>
 			<button type="submit" class="btn btn-primary">Cập nhật</button>
 		</form>

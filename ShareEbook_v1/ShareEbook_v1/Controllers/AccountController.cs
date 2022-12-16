@@ -144,7 +144,7 @@ namespace ShareEbook_v1.Controllers
                     {
                         _context.Update(user);
                         await _context.SaveChangesAsync();
-                        return View("ChangePasswordConfirmation");
+                        return View("ChangePasswordConfirmation", "Mật khẩu của bạn đã được thay đổi thành công");
                     }
                     catch (DbUpdateException)
                     {
@@ -160,9 +160,59 @@ namespace ShareEbook_v1.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> Register()
+        public IActionResult Register()
         {
             return View();
+        }
+
+        [HttpPost, ActionName("Register")]
+        public async Task<IActionResult> RegisterPost(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+
+                var ac = _context.Accounts.FirstOrDefault(a => a.Username == model.Username);
+                if(ac != null)
+                {
+                    ViewData["ErrorMessage"] = "Tên người dùng đã tồn tại";
+                    return View(model);
+                }
+                
+                var user = new User
+                {
+                    Name = model.Name,
+                    Email = model.Email,
+                    PhoneNumber = model.Phonenumber,
+                    Gender = model.Gender,
+                    Birthday = model.Birthday
+                };
+
+                _context.Users.Add(user);
+                _context.SaveChanges();
+                int id = _context.Users.Max(u => u.Id);
+                var account = new Account
+                {
+                    Username = model.Username,
+                    Password = model.Password,
+                    UserId = id,
+                    User = null
+                };
+
+                try
+                {
+                    _context.Accounts.Add(account);
+                    _context.SaveChanges();
+                    return View("ChangePasswordConfirmation", "Đăng ký tài khoản thành công");
+                }
+                catch (DbUpdateException)
+                {
+                    ModelState.AddModelError("", "Không thể lưu thay đổi. Thử lại, nếu sự cố vấn tiếp tục vui lòng liên hệ quản trị viên");
+                    _context.Users.Remove(_context.Users.FirstOrDefault(u => u.Id == id));
+                    _context.SaveChanges();
+
+                }
+            }
+            return View(model);
         }
     }
 }

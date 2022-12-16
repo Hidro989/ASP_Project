@@ -27,7 +27,7 @@ namespace ShareEbook_v1.ViewModels
 
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime? Birthday { get; set; }
+        public DateTime Birthday { get; set; }
 
     }
 }
