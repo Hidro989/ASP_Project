@@ -30,7 +30,17 @@ namespace ShareEbook_v1.Controllers
         public async Task<IActionResult> Index()
         {   
             var model =  await _context.Posts.Include(p => p.DocumentInfor).AsNoTracking().ToListAsync();
-            ViewData["Username"] = HttpContext.Session.GetString(SessionKeyUser);
+            string name = HttpContext.Session.GetString(SessionKeyUser);
+            ViewData["Username"] = name;
+            if(!string.IsNullOrEmpty(name))
+            {
+                Account loginAccount = await _context.Accounts.AsNoTracking().FirstOrDefaultAsync(a => a.Username == name);
+                if(loginAccount.Type == TypeAccount.Admin)
+                {
+                    return NotFound();
+                }
+
+            }
             return View(model);
         }
 
@@ -48,7 +58,7 @@ namespace ShareEbook_v1.Controllers
                 HttpContext.Session.SetString(SessionKeyUser, account.Username);
                 if (account.Type == TypeAccount.Admin)
                 {
-                    
+                    return RedirectToAction("Index","Admin");
                 }
                 else
                 {

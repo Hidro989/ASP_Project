@@ -159,5 +159,10 @@ namespace ShareEbook_v1.Controllers
 
             return View(model);
         }
+
+        public async Task<IActionResult> Register()
+        {
+            return View();
+        }
     }
 }
