@@ -8,7 +8,7 @@ namespace ShareEbook_v1.Models
     {
         private int _id;
         private DateTime _dateSubmitted = DateTime.Now;
-        private bool _pending = false;
+        private bool _pending = true;
         
         public int Id { get => _id; set => _id = value; }
 

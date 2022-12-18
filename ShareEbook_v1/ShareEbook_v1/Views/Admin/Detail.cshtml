@@ -1,0 +1,63 @@
+@model Post
+<nav class="navbar navbar-expand-lg navbar-light bg-dark">
+    <div class="container-fluid">   
+          <a class="btn btn-info" asp-route-id="" >
+            <i class="fas fa-align-left"></i>
+            <span>Quay lại</span>
+        </a>
+    </div>
+</nav>
+
+
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title">@Model.DocumentInfor.Name</h3>
+            <h6 class="card-subtitle">@Model.DocumentInfor.Author</h6>
+            <div class="row">
+                <div class="col-lg-5 col-md-5 col-sm-6">
+                    <div class="white-box text-center"><img src="~/images/@Model.DocumentInfor.PictureUrl" class="img-responsive"></div>
+                </div>
+                <div class="col-lg-7 col-md-7 col-sm-6">
+                    <h4 class="box-title mt-5">Mô tả</h4>
+                    <p>@Model.DocumentInfor.Description</p>
+                    <h3 class="box-title mt-5">Người đăng</h3>
+                    <ul class="list-unstyled">
+                        <li><i class="fa fa-check text-success"></i>@Model.UserInfor.Name</li>
+                        <li><i class="fa fa-check text-success"></i>@Model.DateSubmitted</li>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <h3 class="box-title mt-5">Thông tin</h3>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-product table-dark">
+                            <tbody>
+                                <tr>
+                                    <td>Tên Sách</td>
+                                    <td>@Model.DocumentInfor.Name</td>
+                                </tr>
+                                 <tr>
+                                    <td>Tác giả</td>
+                                    <td>@Model.DocumentInfor.Author</td>
+                                </tr>
+                                <tr>
+                                    <td>Người đăng</td>
+                                    <td>@Model.UserInfor.Name</td>
+                                </tr>
+                                 <tr>
+                                    <td>Ngày đăng</td>
+                                    <td>@Model.DateSubmitted</td>
+                                </tr>
+                                <tr>
+                                    <td>Sách chưa duyệt</td>
+                                    <td>@Model.Pending</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <h3 class="box-title mt-5">Nội dung sách</h3>
+                    <iframe src="https://docs.google.com/gview?url=http://remote.url.tld/@Model.DocumentInfor.FileUrl&embedded=true" width="100%" height="500px"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

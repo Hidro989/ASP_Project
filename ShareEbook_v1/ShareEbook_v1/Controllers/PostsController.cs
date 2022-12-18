@@ -140,12 +140,15 @@ namespace ShareEbook_v1.Controllers
 
             var post = await _context.Posts
                 .FirstOrDefaultAsync(m => m.Id == id);
+            var document = _context.Documents.FirstOrDefault(doc => doc.Id == post.DocumentId);
             if (post == null)
             {
                 return NotFound();
             }
-
-            return View(post);
+            _context.Documents.Remove(document);
+            _context.Posts.Remove(post);
+            _context.SaveChanges();
+            return RedirectToAction("Post","Admin");
         }
 
         // POST: Posts/Delete/5
@@ -196,6 +199,22 @@ namespace ShareEbook_v1.Controllers
             }
 
             return uniqueFileName;
+        }
+        public ActionResult Verify([FromRoute] int? id){
+            if(id == null)
+            {
+                return NotFound();
+            }
+
+            var post = _context.Posts
+                .FirstOrDefault(m => m.Id == id);
+            if (post == null)
+            {
+                return NotFound();
+            }
+            post.Pending = false;
+            _context.SaveChanges();
+            return RedirectToAction("Post","Admin");
         }
     }
 }
