@@ -29,7 +29,7 @@ namespace ShareEbook_v1.Controllers
 
         public async Task<IActionResult> Index()
         {   
-            var model =  await _context.Posts.Include(p => p.DocumentInfor).AsNoTracking().ToListAsync();
+            var model =  await _context.Posts.Where(p => p.Pending == false).Include(p => p.DocumentInfor).AsNoTracking().ToListAsync();
             string name = HttpContext.Session.GetString(SessionKeyUser);
             ViewData["Username"] = name;
             if(!string.IsNullOrEmpty(name))
@@ -58,12 +58,12 @@ namespace ShareEbook_v1.Controllers
                 HttpContext.Session.SetString(SessionKeyUser, account.Username);
                 if (account.Type == TypeAccount.Admin)
                 {
-                    return RedirectToAction("Index","Admin");
+                    return RedirectToAction("Post","Admin");
                 }
                 else
                 {
                     
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index","Home");
                 }
                 
             }

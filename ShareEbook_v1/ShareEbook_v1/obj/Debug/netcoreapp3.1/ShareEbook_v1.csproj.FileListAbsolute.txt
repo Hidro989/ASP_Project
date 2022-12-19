@@ -159,7 +159,10 @@ D:\WorkSpace\ASP_Project\ShareEbook_v1\ShareEbook_v1\obj\Debug\netcoreapp3.1\Raz
 D:\WorkSpace\ASP_Project\ShareEbook_v1\ShareEbook_v1\obj\Debug\netcoreapp3.1\Razor\Views\Admin\Index.cshtml.g.cs
 D:\WorkSpace\ASP_Project\ShareEbook_v1\ShareEbook_v1\obj\Debug\netcoreapp3.1\Razor\Views\Admin\_ViewStart.cshtml.g.cs
 D:\WorkSpace\ASP_Project\ShareEbook_v1\ShareEbook_v1\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_AdminLayout.cshtml.g.cs
+<<<<<<< HEAD
 D:\WorkSpace\ASP_Project\ShareEbook_v1\ShareEbook_v1\obj\Debug\netcoreapp3.1\Razor\Views\Shared\ConfirmMessage.cshtml.g.cs
+=======
+>>>>>>> admin
 D:\dotnet-projects\ASP_Project\ShareEbook_v1\ShareEbook_v1\bin\Debug\netcoreapp3.1\appsettings.Development.json
 D:\dotnet-projects\ASP_Project\ShareEbook_v1\ShareEbook_v1\bin\Debug\netcoreapp3.1\appsettings.json
 D:\dotnet-projects\ASP_Project\ShareEbook_v1\ShareEbook_v1\bin\Debug\netcoreapp3.1\Properties\launchSettings.json
@@ -296,7 +299,6 @@ D:\dotnet-projects\ASP_Project\ShareEbook_v1\ShareEbook_v1\obj\Debug\netcoreapp3
 D:\dotnet-projects\ASP_Project\ShareEbook_v1\ShareEbook_v1\obj\Debug\netcoreapp3.1\Razor\Views\Account\ChangePassword.cshtml.g.cs
 D:\dotnet-projects\ASP_Project\ShareEbook_v1\ShareEbook_v1\obj\Debug\netcoreapp3.1\Razor\Views\Account\Edit.cshtml.g.cs
 D:\dotnet-projects\ASP_Project\ShareEbook_v1\ShareEbook_v1\obj\Debug\netcoreapp3.1\Razor\Views\Account\Register.cshtml.g.cs
-D:\dotnet-projects\ASP_Project\ShareEbook_v1\ShareEbook_v1\obj\Debug\netcoreapp3.1\Razor\Views\Admin\Index.cshtml.g.cs
 D:\dotnet-projects\ASP_Project\ShareEbook_v1\ShareEbook_v1\obj\Debug\netcoreapp3.1\Razor\Views\Admin\_ViewStart.cshtml.g.cs
 D:\dotnet-projects\ASP_Project\ShareEbook_v1\ShareEbook_v1\obj\Debug\netcoreapp3.1\Razor\Views\Home\Index.cshtml.g.cs
 D:\dotnet-projects\ASP_Project\ShareEbook_v1\ShareEbook_v1\obj\Debug\netcoreapp3.1\Razor\Views\Home\Login.cshtml.g.cs
@@ -323,3 +325,8 @@ D:\dotnet-projects\ASP_Project\ShareEbook_v1\ShareEbook_v1\obj\Debug\netcoreapp3
 D:\dotnet-projects\ASP_Project\ShareEbook_v1\ShareEbook_v1\obj\Debug\netcoreapp3.1\ShareEbook_v1.dll
 D:\dotnet-projects\ASP_Project\ShareEbook_v1\ShareEbook_v1\obj\Debug\netcoreapp3.1\ShareEbook_v1.pdb
 D:\dotnet-projects\ASP_Project\ShareEbook_v1\ShareEbook_v1\obj\Debug\netcoreapp3.1\ShareEbook_v1.genruntimeconfig.cache
+D:\dotnet-projects\ASP_Project\ShareEbook_v1\ShareEbook_v1\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Components\Table\Default.cshtml.g.cs
+D:\dotnet-projects\ASP_Project\ShareEbook_v1\ShareEbook_v1\obj\Debug\netcoreapp3.1\Razor\Views\Admin\Post.cshtml.g.cs
+D:\dotnet-projects\ASP_Project\ShareEbook_v1\ShareEbook_v1\obj\Debug\netcoreapp3.1\Razor\Views\Admin\Stat.cshtml.g.cs
+D:\dotnet-projects\ASP_Project\ShareEbook_v1\ShareEbook_v1\obj\Debug\netcoreapp3.1\Razor\Views\Admin\User.cshtml.g.cs
+D:\dotnet-projects\ASP_Project\ShareEbook_v1\ShareEbook_v1\obj\Debug\netcoreapp3.1\Razor\Views\Admin\Detail.cshtml.g.cs

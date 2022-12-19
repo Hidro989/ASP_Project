@@ -4,28 +4,59 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - ShareEbook_v1</title>
+    
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
-</head>
-<body>
-    <header>
-       <h1>Đây là trang admin Layout</h1>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; Hydro 2022 - ShareEbook_v1 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Quyền riêng tư</a>
-        </div>
-    </footer>
+    <link rel="stylesheet" href="~/css/style.css" />
+    <title>@ViewData["Title"]</title>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+</head>
+
+@{  
+    string value = ViewBag.action.ToString();
+    string GetActive(string selected){
+            if(value == selected){
+            return "active";
+        }
+        return "";
+    }
+}
+
+<body>
+       <div class="wrapper">
+        <!-- Sidebar  -->
+        <nav id="sidebar" class="bg-dark">
+            <div class="sidebar-header">
+                <h3>Admin</h3>
+            </div>
+            <ul class="list-unstyled components">
+                <li class=@GetActive("Post")>
+                    <a asp-controller="Admin" asp-action="Post" >Quản lý bài đăng</a>
+                </li>
+                <li class=@GetActive("User")>
+                    <a asp-controller="Admin" asp-action="User">Quản lý người dùng</a>
+                </li>
+                <li class=@GetActive("Stat")>
+                    <a asp-controller="Admin" asp-action="Stat">Thống kê</a>
+                </li>
+                <li>
+                    <a href="#pageSubmenu">Pages</a>
+                </li>
+                <li>
+                    <a href="#">Portfolio</a>
+                </li>
+                <li>
+                    <a href="#">Contact</a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Page Content  -->
+        <div id="content">
+            @RenderBody()
+        </div>
+    </div>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

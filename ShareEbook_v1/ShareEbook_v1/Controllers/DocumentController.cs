@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ShareEbook_v1.Data;
+using ShareEbook_v1.Models;
 using System.IO;
 using System.Linq;
 
@@ -102,7 +103,5 @@ namespace ShareEbook_v1.Controllers
                 return View();
             }
         }
-
-
     }
 }

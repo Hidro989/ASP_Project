@@ -104,9 +104,18 @@ namespace ShareEbook_v1.Controllers
         }
 
         // GET: UserController/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int? id)
         {
-            return View();
+            if(id == null){
+                return NotFound();
+            }
+            var user = _context.Users.FirstOrDefault(u => u.Id == id);
+            if(user == null){
+                return NotFound();
+            }
+            _context.Users.Remove(user);
+            _context.SaveChanges();
+            return RedirectToAction("User","Admin");
         }
 
         // POST: UserController/Delete/5
