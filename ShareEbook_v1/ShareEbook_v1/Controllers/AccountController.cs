@@ -144,7 +144,7 @@ namespace ShareEbook_v1.Controllers
                     {
                         _context.Update(user);
                         await _context.SaveChangesAsync();
-                        return View("ChangePasswordConfirmation", "Mật khẩu của bạn đã được thay đổi thành công");
+                        return View("ConfirmMessage", "Mật khẩu của bạn đã được thay đổi thành công,Index,Home");
                     }
                     catch (DbUpdateException)
                     {
@@ -202,7 +202,7 @@ namespace ShareEbook_v1.Controllers
                 {
                     _context.Accounts.Add(account);
                     _context.SaveChanges();
-                    return View("ChangePasswordConfirmation", "Đăng ký tài khoản thành công");
+                    return View("ConfirmMessage", "Đăng ký tài khoản thành công,Login,Home");
                 }
                 catch (DbUpdateException)
                 {

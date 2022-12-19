@@ -91,7 +91,7 @@ namespace ShareEbook_v1.Controllers
                 try
                 {
                     await _context.SaveChangesAsync();
-                    return RedirectToAction("Index", "Home");
+                    return View("ConfirmMessage", "Sửa thông tin thành công,Index,Home");
                 }
                 catch (DbUpdateException)
                 {

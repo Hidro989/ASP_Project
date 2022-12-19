@@ -5,7 +5,7 @@
 <div class="d-flex flex-row mb-3 flex-wrap">
     @foreach (var post in Model)
     {
-        <div class=" d-flex mb-3 col-3 px-1 w-100">
+       @* <div class=" d-flex mb-3 col-3 px-1 w-100">
             <div class="d-flex flex-column text-dark rounded border w-100">
 
                 <a asp-controller="Posts" asp-action="Details" asp-route-id="@post.Id" class="d-block text-decoration-none text-dark">
@@ -13,11 +13,30 @@
                         <img class="w-100" height="250" src="~/images/@post.DocumentInfor.PictureUrl" alt="Logo" />
                     </div>
                     <p class="text-center">@post.DocumentInfor.Name</p>
-                    @*<button asp-controller="Posts" asp-action="Details" asp-route-id="@post.Id" class="btn btn-success">Chi tiết</button>*@
+                    <button asp-controller="Posts" asp-action="Details" asp-route-id="@post.Id" class="btn btn-success">Chi tiết</button>
                 </a>
                 <a class="btn btn-success" asp-controller="Document" asp-action="Download" asp-route-id="@post.DocumentId" download>Download</a>
             </div>
 
+        </div>*@
+        <div class="d-flex mb-3 col-3 px-1 w-100">
+
+            <div class="card w-100">
+                <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+                    <img class="w-100" height="250" src="~/images/@post.DocumentInfor.PictureUrl" alt="Logo" class="img-fluid" />
+                    <a href="#">
+                        <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                    </a>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">@post.DocumentInfor.Name</h5>
+                    <p class="card-text">@post.DateSubmitted</p>
+                    <div>
+                        <a asp-controller="Posts" asp-action="Details" asp-route-id="@post.Id" class="btn btn-primary mx-1">Chi tiết</a>
+                    <a asp-controller="Document" asp-action="Download" asp-route-id="@post.DocumentId" download class="btn btn-success">Download</a>
+                    </div>
+                </div>
+            </div>
         </div>
 
     }

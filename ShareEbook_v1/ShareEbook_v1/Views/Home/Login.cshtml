@@ -7,31 +7,86 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Login</title>
+    <title>Đăng nhập</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
-    <div class="container">
-        <div style="margin-top: 200px;">
+    <section class="vh-100">
+        <div class="container-fluid h-custom">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-md-9 col-lg-6 col-xl-5">
+                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+                         class="img-fluid" alt="Sample image">
+                </div>
+                <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+                    <form method="post">
+                        <!-- Email input -->
+                        <div class="form-outline mb-4">
+                            <input type="text" id="form3Example3" name="user" class="form-control form-control-lg"
+                                   placeholder="Nhập tên người dùng" />
+                            <label class="form-label" for="form3Example3">Tên người dùng</label>
+                        </div>
 
-        <h2 class="text-center">Đăng nhập</h2>
-        <form method="post">
-            <div class="form-group">
-                <label for="username">Username:</label>
-                <input type="text" class="form-control" id="username" name="user" placeholder="Enter username">
+                        <!-- Password input -->
+                        <div class="form-outline mb-3">
+                            <input type="password" id="form3Example4" class="form-control form-control-lg"
+                                   placeholder="Nhập mật khẩu" name="password" />
+                            <label class="form-label" for="form3Example4">Mật khẩu</label>
+                        </div>
+                        <p class="text-danger text-center">@ViewData["error"]</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <!-- Checkbox -->
+                            <div class="form-check mb-0">
+                                <input class="form-check-input me-2" type="checkbox"  id="form2Example3" />
+                                <label class="form-check-label" for="form2Example3">
+                                    Khi nhớ
+                                </label>
+                            </div>
+                            <a href="#!" class="text-body">Quên mật khẩu?</a>
+                        </div>
+
+                        <div class="text-center text-lg-start mt-4 pt-2">
+                            <button type="submit" class="btn btn-primary btn-lg"
+                                    style="padding-left: 2.5rem; padding-right: 2.5rem;">Đăng nhập</button>
+                            <p class="small fw-bold mt-2 pt-1 mb-0">
+                                Bạn có tài khoản chưa? <a asp-area="" asp-controller="Account" asp-action="Register" class="link-danger">Đăng ký</a>
+                            </p>
+                        </div>
+                       
+                    </form>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="pwd">Password:</label>
-                <input type="password" class="form-control" id="pwd" name="password" placeholder="Enter password">
-            </div>
-            <p class="text-danger text-center">@ViewData["error"]</p>
-           @* <div class="checkbox">
-                <label><input type="checkbox"> Remember me</label>
-            </div>*@
-            <button type="submit" class="btn btn-success btn-block btn-lg">Đăng nhập</button>
-        </form>
         </div>
-    </div>
+        <div class="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-primary">
+            <!-- Copyright -->
+            <div class="text-white mb-3 mb-md-0">
+                Copyright © 2022. All rights reserved. Hydro
+            </div>
+            <!-- Copyright -->
+            @*<div class="container">
+                <div style="margin-top: 200px;">
+
+                    <h2 class="text-center">Đăng nhập</h2>
+                    <form method="post">
+                        <div class="form-group">
+                            <label for="username">Username:</label>
+                            <input type="text" class="form-control" id="username" name="user" placeholder="Enter username">
+                        </div>
+                        <div class="form-group">
+                            <label for="pwd">Password:</label>
+                            <input type="password" class="form-control" id="pwd" name="password" placeholder="Enter password">
+                        </div>
+                        <p class="text-danger text-center">@ViewData["error"]</p>
+                        <div class="checkbox">
+                            <label><input type="checkbox"> Remember me</label>
+                        </div>
+                        <button type="submit" class="btn btn-success btn-block btn-lg">Đăng nhập</button>
+                    </form>
+                </div>
+            </div>
+            <a asp-area="" asp-controller="Home" asp-action="Index" class="btn btn-primary">Trang chủ</a>*@
+        </div>
+    </section>
 </body>
 </html>

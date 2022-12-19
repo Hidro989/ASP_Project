@@ -74,7 +74,7 @@ namespace ShareEbook_v1.Controllers
                 post.UserId = account.UserId;
                 _context.Add(post);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index", "Home");
+                return View("ConfirmMessage", "Đăng bài thành công,Index,Home");
             }
             return View(post);
         }
