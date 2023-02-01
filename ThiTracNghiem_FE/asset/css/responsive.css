@@ -1,0 +1,50 @@
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) 
+{ 
+
+}
+
+/* // Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) 
+{ 
+    .form-signin{
+        max-width: 568px;
+    }
+}
+
+/* // Large devices (desktops, 992px and up) */
+@media (min-width: 992px) 
+{ 
+    .app{
+        padding-bottom: 0;
+    }
+
+    .main{
+        width: calc(100% - 330px);
+        padding-left: 8.5%;
+    }
+
+    .main-move{
+        display: none;
+    }
+    .answer p{
+        font-weight: 400;
+    }
+    .right{
+        display: block;
+    }
+
+
+    #subQes{
+        display: none;
+    }
+    .option{
+        display: none;
+    }
+}
+
+/* // X-Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {  }
+
+/* // XX-Large devices (larger desktops, 1400px and up) */
+@media (min-width: 1400px) {  }

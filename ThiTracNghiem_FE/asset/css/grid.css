@@ -1,0 +1,70 @@
+.c{
+    position: relative;
+    width: 100%;
+    max-width: 1170px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+.row{
+    margin-left: -4px;
+    margin-right: -4px;
+}
+
+.col{
+    position: relative;
+    float: left;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+.c-12{
+    width: 100%;
+}
+
+.c::after, .row::after,
+.u-cf{
+    content:"";
+    display: table;
+    clear: both;
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) 
+{ 
+
+}
+
+/* // Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) 
+{ 
+
+    .row{
+        margin-left:-8px;
+        margin-right:-8px;
+    }
+    .col{
+        padding-left: 8px;
+        padding-right:8px
+    }
+}
+
+/* // Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {  }
+
+/* // X-Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) 
+{ 
+
+    .row{
+        margin-left:-12px;
+        margin-right:-12px;
+    }
+    .col{
+        padding-left: 12px;
+        padding-right:12px
+    }
+}
+
+/* // XX-Large devices (larger desktops, 1400px and up) */
+@media (min-width: 1400px) {  }
