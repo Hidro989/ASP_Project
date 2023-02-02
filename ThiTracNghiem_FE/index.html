@@ -166,6 +166,9 @@
 
                     </div>
                 </div>
+                <div class="m-t16">
+                    <button class="btn btn-primary" onclick="openResult()">&check; Nộp bài</button></button>
+                </div>
             </div>
         </main>
         <footer class="footer">
@@ -237,6 +240,7 @@
         <div class="modal__overlay">  
         </div>
         <div class="result tc">
+            <div class="close">&#10005;</div>
             <h2>Tin học văn phòng</h2>
             <p class="result-text">Kết quả</p>
             <p class="result-point">10 / 100</p>
@@ -260,24 +264,27 @@
         var result = document.getElementById('relt');
         result.classList.toggle("active");
     }
-    // async function displayData(data) {
-    //     const item = document.getElementById('list');
-    //     item.innerText = JSON.stringify(data);
-    // }
-    // async function getItems() {
-    //     fetch('https://localhost:7002/api/MaThi', {
-    //         method: 'GET',
-    //         headers: {
-    //             'Accept': 'application/json',
-    //             'Content-Type': 'application/json'
-    //         }})
-    //         .then(res => res.json())
-    //         .then(data => displayData(data))
-    //         .then(err => console.log(err));
+    async function displayData(data) {
+        const item = document.getElementById('list');
+        item.innerText = JSON.stringify(data);
+    }
+    async function getItems() {
+        fetch('https://localhost:7002/api/MaThi', {
+            method: 'GET',
+            withCredentials: true,    
+            crossorigin: true,    
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'mode':'no-cors'
+            }})
+            .then(res => res.json())
+            .then(data => console.log(data))
+            .then(err => console.log(err));
 
-    // }
+    }
     
-    // getItems();
+    getItems();
 
 </script>
 

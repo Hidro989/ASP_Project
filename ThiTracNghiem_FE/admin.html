@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./asset/css/admin.css">
+    <link rel="stylesheet" href="./asset/css/base.css">
+    <link rel="stylesheet" href="./asset/css/grid.css">
+    <link rel="stylesheet" href="./asset/css/responsive.css">
+    <title>Admin Trang quản lý</title>
+</head>
+<body>
+    <div class="app">
+        <div class="content u-cf">
+            <div class="content-left fl">
+                <h1 class="tc logo">Thi <span >Trắc</span> Nghiệm</h1>
+                <div class="content-left_list m-t16">
+                    <div class="content-left_item active tc">
+                        Quản lý môn thi
+                    </div>
+                    <div class="content-left_item tc">
+                        Quản lý đề thi
+                    </div>
+                    <div class="content-left_item tc">
+                        Quản lý câu hỏi
+                    </div>
+                    <div class="content-left_item tc">
+                        Quản lý mã thi
+                    </div>
+                    <div class="content-left_item tc">
+                        Đăng xuất
+                    </div>
+                </div>
+            </div>
+            <div id="pageMonThi" class="content-main fl">
+                <div class="content-box u-cf">
+                    <button class="btn btn-primary--small fl">Thêm</button>
+                    <div class="fr search-box">
+                        <label for="search">Tìm kiếm: </label>
+                        <input type="text" id="search">
+                    </div>
+                </div>
+
+                <div class="content-box m-t16">
+                    <table>
+                        <thead>
+                            <tr>
+                                <td>ID</td>
+                                <td>Môn thi</td>
+                                <td colspan="2">Số đề thi</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Triết học</td>
+                                <td>12</td>
+                                <td>
+                                    <button><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/></svg></button>
+                                    <button><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"/></svg></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Triết học Triết học Triết học Triết học Triết học Triết học Triết học Triết học Triết học Triết học Triết học Triết học Triết học Triết học</td>
+                                <td>12</td>
+                                <td>
+                                    <button><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/></svg></button>
+                                    <button><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"/></svg></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div  id="pageDeThi" class="content-main fl">
+                <div class="content-box u-cf">
+                    <button class="btn btn-primary--small fl">Thêm</button>
+                    <div class="fr search-box">
+                        <label for="search">Tìm kiếm: </label>
+                        <input type="text" id="search">
+                    </div>
+                </div>
+
+                <div class="content-box m-t16">
+                    <table>
+                        <thead>
+                            <tr>
+                                <td>ID</td>
+                                <td>Tên đề thi</td>
+                                <td>Số lượng câu hỏi</td>
+                                <td colspan="2">Tên môn thi</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Đề 23</td>
+                                <td>12</td>
+                                <td>Triết học</td>
+                                <td>
+                                    <button><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/></svg></button>
+                                    <button><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"/></svg></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Đề 24</td>
+                                <td>12</td>
+                                <td>Lập trình hướng đối tượng</td>
+                                <td>
+                                    <button><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/></svg></button>
+                                    <button><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"/></svg></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div  id="pageCauHoi" class="content-main fl">
+                <div class="content-box u-cf">
+                    <button class="btn btn-primary--small fl">Thêm</button>
+                    <div class="fr search-box">
+                        <label for="search">Tìm kiếm: </label>
+                        <input type="text" id="search">
+                    </div>
+                </div>
+
+                <div class="content-box m-t16">
+                    <table>
+                        <thead>
+                            <tr>
+                                <td>ID</td>
+                                <td>Nội dung</td>
+                                <td>A</td>
+                                <td>B</td>
+                                <td>C</td>
+                                <td>D</td>
+                                <td>Đáp án đúng</td>
+                                <td colspan="2">Đề thi</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Tìm đường đi ngắn nhất giữa nhà A sang nhà B biết A Tìm đường đi ngắn nhất giữa nhà A sang nhà B biết A Tìm đường đi ngắn nhất giữa nhà A sang nhà B biết A </td>
+                                <td>A</td>
+                                <td>B</td>
+                                <td>C</td>
+                                <td>D</td>
+                                <td>Đáp án đúng</td>
+                                <td>Đề thi</td>
+                                <td>
+                                    <button><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 576 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></button>
+                                    <button><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/></svg></button>
+                                    <button><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"/></svg></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Nội dung</td>
+                                <td>A</td>
+                                <td>B</td>
+                                <td>C</td>
+                                <td>D</td>
+                                <td>Đáp án đúng</td>
+                                <td>Đề thi</td>
+                                <td>
+                                    <button><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 576 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></button>
+                                    <button><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/></svg></button>
+                                    <button><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"/></svg></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div  id="pageMaThi" class="content-main fl">
+                <div class="content-box u-cf">
+                    <button class="btn btn-primary--small fl">Thêm</button>
+                    <div class="fr search-box">
+                        <label for="search">Tìm kiếm: </label>
+                        <input type="text" id="search">
+                    </div>
+                </div>
+
+                <div class="content-box m-t16">
+                    <table>
+                        <thead>
+                            <tr>
+                                <td>Mã thi</td>
+                                <td colspan="2">SLSD</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>abcdxyz</td>
+                                <td>5/10</td>
+                                <td>
+                                    <button><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"/></svg></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>abcdxyz</td>
+                                <td>5/10</td>
+                                <td><button><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"/></svg></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+       
+    </div>
+
+    <div class="modal" id="insertMonThi">
+        <div class="modal__overlay">  
+        </div>
+        <div class="typingBox tc">
+            <div class="close">✕</div>
+            <h2>Thêm môn thi</h2>
+            <div  class="m-t16">
+                <label for=""> Tên môn thi:</label>
+                <input type="text" placeholder="Tên môn thi" id="tenMonThi" value="">
+                <p class="textAlert m-t16"></p>
+            </div>
+            <div class="btns m-t16">
+                <button class="acceptBtn">Thêm</button>
+                <button>Hủy</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="insertDeThi">
+        <div class="modal__overlay">  
+        </div>
+        <div class="typingBox tc">
+            <div class="close">✕</div>
+            <h2>Thêm đề thi</h2>
+            <div  class="m-t16">
+                <label for=""> Môn thi:</label>
+                <select name="" id="">
+                    <option value="">Tin học văn phòng</option>
+                    <option value="">Triết học</option>
+                </select>
+            </div>
+            <div  class="m-t16">
+                <label for=""> Tên đề thi:</label>
+                <input type="text" placeholder="Tên môn thi">
+            </div>
+            <div class="m-t16">
+                <button>Thêm file câu hỏi</button>
+                <p id="nameFile">cauhoi.exel</p>
+            </div>
+            <div class="btns m-t16">
+                <button >Thêm</button>
+                <button >Hủy</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="insertCauHoi">
+        <div class="modal__overlay">  
+        </div>
+        <div class="typingBox tc">
+            <div class="close">✕</div>
+            <h2>Thêm câu hỏi</h2>
+            <div  class="m-t16">
+                <label for=""> Nội dung:</label>
+                <textarea name="" id="" rows="5"></textarea>
+            </div>
+            <div class="m-t16">
+                <div  class="m-t16 subtext">
+                    <label for=""> A:</label>
+                    <textarea name="" id="" rows="5"></textarea>
+                </div>
+                <div  class="m-t16 subtext">
+                    <label for=""> B</label>
+                    <textarea name="" id="" rows="5"></textarea>
+                </div>
+            </div>
+            
+            <div class="m-t16">
+
+                <div  class="m-t16 subtext">
+                    <label for=""> C</label>
+                    <textarea name="" id="" rows="5"></textarea>
+                </div>
+                <div  class="m-t16 subtext">
+                    <label for=""> D</label>
+                    <textarea name="" id="" rows="5"></textarea>
+                </div>
+            </div>
+            <div  class="m-t16">
+                <label for=""> Đáp án đúng:</label>
+                <select>
+                    <option value="">A</option>
+                    <option value="">B</option>
+                    <option value="">C</option>
+                    <option value="">D</option>
+                </select>
+            </div>
+            <div  class="m-t16">
+                <label for=""> Tên đề thi:</label>
+                <select>
+                    <option value="">Đề 23 (Triết học)</option>
+                    <option value="">Đề 23 (Nhân sinh học)</option>
+                </select>
+            </div>
+            <div class="btns m-t16">
+                <button >Thêm</button>
+                <button >Hủy</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="insertMaThi">
+        <div class="modal__overlay">  
+        </div>
+        <div class="typingBox tc">
+            <div class="close">✕</div>
+            <h2>Thêm câu hỏi</h2>
+            <div class="m-t16">
+                <label for="">Số lượng:</label>
+                <input type="number" min="1" value="1">
+            </div>
+            <div class="m-t16">
+                <label for="">Mã thi:</label>
+                <textarea name="" id=""  rows="5"></textarea>
+            </div>
+            <div class="btns m-t16">
+                <button >Thêm</button>
+                <button >Hủy</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal">
+        <div class="modal__overlay">  
+        </div>
+        <div class="typingBox tc">
+            <div class="close">✕</div>
+            <h2>Thông báo</h2>
+            <p>Bạn có chắc chắn muốn xóa mục này không?</p>
+            <div class="btns m-t16">
+                <button >Đồng ý</button>
+                <button >Hủy</button>
+            </div>
+        </div>
+    </div>
+    
+</body>
+<script>
+
+    var pageMonThi = document.getElementById('pageMonThi');
+    var modalMonThi = document.getElementById('insertMonThi');
+    var inputMonThi = document.getElementById('tenMonThi');
+    // Xủ lý page môn thi
+    pageMonThi.addEventListener('click', (e) => {
+        
+        if(e.target.classList.contains('btn', 'btn-primary--small', 'fl')){
+            document.getElementById('insertMonThi').classList.toggle('active');
+        }
+    })
+    // Xử lý modal môn thi
+    modalMonThi.addEventListener('click', (e) => {
+        if(
+            e.target.classList.contains('close') 
+        || e.target.classList.contains('modal__overlay')
+        || e.target.innerText == "Hủy" )
+        {
+            modalMonThi.classList.remove('active');
+            inputMonThi.value = "";
+        }
+
+        if(e.target.innerText == "Thêm"){
+            createMonThi(inputMonThi.value);
+            text.value = "";
+            modalMonThi.classList.remove('active');
+        }
+    });
+
+
+    // Xử lý xác thực
+
+
+    async function getItems() {
+    fetch('https://localhost:7002/api/MaThi', {
+        method: 'GET',
+        withCredentials: true,    
+        crossorigin: true,    
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'mode':'no-cors'
+        }})
+        .then(res => res.json())
+        .then(data => console.log(data))
+        .then(err => console.log(err));
+
+    }   
+
+
+    //Tạo môn thi
+    async function createMonThi(tenMonThi){
+        item = {
+            "tenMonThi": tenMonThi
+        }
+        fetch('https://localhost:7002/api/MonThi',
+        {
+            method: 'POST',
+            headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'mode':'no-cors'
+            },
+            body: JSON.stringify(item)
+        })
+        .then(res => res.json)
+        .then(data => {
+            alert("Thêm môn thi thành công!!");
+            console.log('Request succeeded with JSON response', data);
+        })
+        .catch(er => {
+            alert("Thêm môn thi thất bại");
+            console.log('Request failed', error);
+        });
+    }
+
+
+
+
+
+    getItems();
+</script>
+</html>
