@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Net.WebSockets;
 using ThiTracNghiem.Data;
 using ThiTracNghiem.Models;
 using ThiTracNghiem.ViewModels;
@@ -68,6 +69,27 @@ namespace ThiTracNghiem.Controllers
             }
 
             return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+
+        [HttpPut("{ma}")]
+        public async Task<IActionResult> Update(string ma)
+        {
+            var maThi = await _context.DsMaThi.FindAsync(ma);
+            if(maThi == null)
+            {
+                NotFound();
+            }
+
+            maThi.SLSD = maThi.SLSD - 1;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return NoContent();
+            }catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
     }
 }

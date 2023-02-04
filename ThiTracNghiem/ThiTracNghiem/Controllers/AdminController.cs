@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ThiTracNghiem.Data;
+using ThiTracNghiem.Models;
 
 namespace ThiTracNghiem.Controllers
 {
@@ -15,11 +16,11 @@ namespace ThiTracNghiem.Controllers
             _context = context;
         }
 
-        [HttpGet("{username}/{password}")]
-        public bool Check(string username, string password)
+        [HttpPost]
+        public bool Check(Admin model)
         {
-            var admin = _context.Admins.Where(a => (a.UserName == username && a.Password == password)).FirstOrDefault();
-            if(admin == null)
+            var admin = _context.Admins.Where(a => (a.UserName == model.UserName && a.Password == model.Password)).FirstOrDefault();
+            if (admin == null)
             {
                 return false;
             }

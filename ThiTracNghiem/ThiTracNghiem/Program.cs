@@ -15,6 +15,7 @@ namespace ThiTracNghiem
             builder.Services.AddDbContext<TracNghiemContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("MyDb")));
             builder.Services.AddScoped<IMonThiRepository, MonThiRepository>();
             builder.Services.AddControllers();
+            
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             //builder.Services.AddCors(option =>
             //{
@@ -41,10 +42,10 @@ namespace ThiTracNghiem
             app.UseHttpsRedirection();
             //app.UseCors("MyAllowSpecificOrigins");
             app.UseAuthorization();
-
+            
 
             app.MapControllers();
-
+            
             app.Run();
         }
     }

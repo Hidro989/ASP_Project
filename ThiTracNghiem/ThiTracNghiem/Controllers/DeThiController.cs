@@ -36,6 +36,18 @@ namespace ThiTracNghiem.Controllers
             return Ok(deThi);
         }
 
+        [HttpGet("/GetByMonThiId/{monThiID}")]
+        public async Task<ActionResult<IEnumerable<DeThi>>> GetByMonThiId(int monThiID)
+        {
+            var deThis = await _context.DsDeThi.Where(d => d.MonThiID == monThiID).ToListAsync();
+            if(deThis == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(deThis);
+        }
+
         [HttpPost]
         public async Task<ActionResult<DeThi>> Insert(DeThiVM model)
         {
