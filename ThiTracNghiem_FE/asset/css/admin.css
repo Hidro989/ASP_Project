@@ -89,6 +89,7 @@
 .typingBox textarea{
     display: block;
     width: 500px;
+    padding: 4px 8px;
 }
 .typingBox .subtext{
     display: inline-block;
@@ -108,7 +109,15 @@
     background: var(--green-color);
 }
 
+/* Pagination */
+#paginator li{
+    display: inline-block;
+    margin-right: 4px;
+}
 
+#paginator li.active{
+    background: var(--green-color);
+}
 /* on/off display page */
 #namefile,
 #pageDeThi,

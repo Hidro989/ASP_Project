@@ -12,7 +12,7 @@
 
 html{
     font-size: 62.5%;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     line-height: 1.6;
     -webkit-text-size-adjust: 100%;
 }
@@ -76,7 +76,7 @@ thead{
 
 tbody tr td:last-child{
     border-left: none;
-    width: 10%;
+    width: 15%;
 }
 tbody tr td:nth-last-child(2){
     border-right: none;

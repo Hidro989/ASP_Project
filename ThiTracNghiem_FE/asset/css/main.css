@@ -4,7 +4,9 @@
     padding-bottom: 56px;
 }
 
-.content {}
+.content {
+    width: 100%;
+}
 
 /* Main content */
 .main {

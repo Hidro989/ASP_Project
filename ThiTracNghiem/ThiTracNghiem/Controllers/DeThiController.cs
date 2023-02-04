@@ -36,7 +36,7 @@ namespace ThiTracNghiem.Controllers
             return Ok(deThi);
         }
 
-        [HttpGet("/GetByMonThiId/{monThiID}")]
+        [HttpGet("GetByMonThiId/{monThiID}")]
         public async Task<ActionResult<IEnumerable<DeThi>>> GetByMonThiId(int monThiID)
         {
             var deThis = await _context.DsDeThi.Where(d => d.MonThiID == monThiID).ToListAsync();
@@ -47,6 +47,30 @@ namespace ThiTracNghiem.Controllers
 
             return Ok(deThis);
         }
+
+        [HttpGet("GetDeThiWithName")]
+        public async Task<ActionResult<IEnumerable<DeThiWithNameVM>>> GetDeThiWithName()
+        {
+            var deThis = await _context.DsDeThi.Include(d => d.MonThi).AsNoTracking().ToListAsync();
+            var listDeThiWithName = new List<DeThiWithNameVM>();
+
+            for(int i = 0; i < deThis.Count; ++i)
+            {
+                DeThiWithNameVM item = new()
+                {
+                    ID = deThis[i].ID,
+                    TenDeThi = deThis[i].TenDeThi,
+                    SoLuongCauHoi = deThis[i].SoLuongCauHoi,
+                    MonThiID = deThis[i].MonThiID,
+                    TenMonThi = deThis[i].MonThi.TenMonThi
+                };
+
+                listDeThiWithName.Add(item);
+            }
+
+            return Ok(listDeThiWithName);
+        }
+
 
         [HttpPost]
         public async Task<ActionResult<DeThi>> Insert(DeThiVM model)

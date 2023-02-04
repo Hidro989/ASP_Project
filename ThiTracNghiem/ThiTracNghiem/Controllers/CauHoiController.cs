@@ -38,7 +38,7 @@ namespace ThiTracNghiem.Controllers
             return Ok(cauHoi);
         }
 
-        [HttpGet("/GetByDeThiId/{deThiId}")]
+        [HttpGet("GetByDeThiId/{deThiId}")]
         public async Task<ActionResult<IEnumerable<CauHoi>>> GetByDeThiId(int deThiId)
         {
             var cauHois = await _context.DsCauHoi.Where(c => c.DeThiID == deThiId).ToListAsync();
