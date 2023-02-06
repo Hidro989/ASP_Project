@@ -1,53 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Đăng nhập</title>
-    <link rel="stylesheet" href="./asset/css/login.css">
-    <link rel="stylesheet" href="./asset/css/base.css">
-    <link rel="stylesheet" href="./asset/css/grid.css">
-    <link rel="stylesheet" href="./asset/css/responsive.css">
-</head>
-<body>
+    <link rel="stylesheet" href="./asset/css/login.css" />
+    <link rel="stylesheet" href="./asset/css/base.css" />
+    <link rel="stylesheet" href="./asset/css/grid.css" />
+    <link rel="stylesheet" href="./asset/css/responsive.css" />
+  </head>
+  <body onload="exitExam()">
     <div class="app">
-        <header class="header-login">
-          <div class="c">
-            <h1 class="tc logo">Thi <span >Trắc</span> Nghiệm</h1>
-          </div>
-            
-        </header>
-        <main>
-            <div class="c">
-                <form class="form-signin">
-                    <h1 class="tc">Làm bài thi</h1>
-                
-                    <div class="form-floating">
-                      <input type="text" class="form-control" id="floatingInput" placeholder="Mã thi">
-                    </div>
+      <header class="header-login">
+        <div class="c">
+          <h1 class="tc logo">Thi <span>Trắc</span> Nghiệm</h1>
+        </div>
+      </header>
+      <main>
+        <div class="c">
+          <form class="form-signin" id="exam-form">
+            <h1 class="tc">Làm bài thi</h1>
 
-                    <div class="form-floating">
-                      <select>
-                        <option value="">Triết học</option>
-                        <option value="">Tin học đại cương</option>
-                        <option value="">Toán đại cương</option>
-                      </select>
-                    </div>
-                    <p class="error-text tc m-t16">Mã thi không chính xác</p>
-                    <button class="btn btn-primary m-t16" type="submit">Làm bài thi</button>
-                    
-                    <div class="tc form-floating">
-                      <a href="/ThiTracNghiem/login.html">Đăng nhập</a>
-                    </div>
-                  </form>
-
+            <div class="form-floating">
+              <input
+                type="text"
+                oninput="examChange()"
+                class="form-control"
+                id="floatingInput"
+                placeholder="Mã thi"
+              />
             </div>
-        </main>
 
-        <footer class="footer-login">
-          <p >© 2023 ThiTracNghiem. All rights reserved. | Website Designed by Hidro</p>
-        </footer>
+            <div class="form-floating">
+              <select onfocus="subjectLoaded()" id="exam-select">
+                <option value="" selected disabled hidden>Môn thi</option>
+              </select>
+            </div>
+            <p class="error-text tc m-t16" id="error-text"></p>
+            <button
+              class="btn btn-primary m-t16"
+              type="button"
+              onclick="examHandle()"
+            >
+              Làm bài thi
+            </button>
+
+            <div class="tc form-floating">
+              <a href="./login.html">Đăng nhập</a>
+            </div>
+          </form>
+        </div>
+      </main>
+
+      <footer class="footer-login">
+        <p>
+          © 2023 ThiTracNghiem. All rights reserved. | Website Designed by Hidro
+        </p>
+      </footer>
     </div>
-</body>
+    <script type="text/javascript" src="./asset/js/main.js"></script>
+  </body>
 </html>

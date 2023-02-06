@@ -11,163 +11,47 @@
     <link rel="stylesheet" href="./asset/css/responsive.css">
 </head>
 
-<body>
+<body onload="checkPermissions()">
     <div class="app">
         <header class="header">
             <div class="c">
               <h1 class="tc logo">Thi <span >Trắc</span> Nghiệm</h1>
-            </div>             
+            </div>
           </header>
-        <main class="content u-cf">
+        <main class="content u-cf c-12">
             <div class="main fl">
                 <div class="row tc main-title">
-                    <h1>Triết học</h1>
-                    <p>Số lượng câu hỏi: <b>100</b> Thời gian: <b>60 phút</b></p>
+                    <h1 id="subject-exam"></h1>
+                    <p>Số lượng câu hỏi: <b id="num-question"></b> Thời gian: <b id="time-exam"></b></p>
                 </div>
-                <div class="row main-move">
-                    <div class="col c-12">
-                        <button type="button" class="btn-move fl">&larr;</button>
-                        <button type="button" class="btn-move fr">&rarr;</button>
-                    </div>
-                </div>
-                <div class="main-question">
-                    <div class="row">
-                        <div class="col c-12">
-                            <span class="question_order tc">
-                                C1
-                            </span>
-                        </div>
-                        <div class="col c-12">
-                            <p class="question_content">
-                                Phân tích cơ sở lý luận của khẳng định của Đảng Cộng sản Việt Nam:
-                                 “Mọi đường lối, chủ trương của Đảng phải xuất phát từ thực tế, tôn trọng quy luật khách quan”.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="question_answers">
-                        <div class="row">
-                           
-                            <div class="col c-12 answer checked--wrong">
-                                <span class="fl">A</span>
-                                
-                                <p class="fl">Phân tích cơ sở lý luận của khẳng định của Đảng Cộng sản Việt Nam: “Mọi đường lối, chủ trương của Đảng phải xuất phát từ thực tế, tôn trọng quy luật khách quan”.</p>
-                            </div>
-                            <div class="col c-12 answer selected">
-                                <span class="fl">B</span>
-                                <p class="fl">Phức tạp</p>
-                            </div>
-                            <div class="col c-12 answer checked--right">
-                                <span class="fl">C</span>
-                                
-                                <p class="fl">Hợp nhất</p>
-                            </div>
-                            <div class="col c-12 answer">
-                                <span class="fl">D</span>
-                                
-                                <p class="fl">Hợp nhất phức tạp</p>
-                            </div>
-                        
-                        </div>
-                            
-                    </div>
-                </div>
+                
 
-                <div class="rework tc">
-                    <button class="btn btn-primary">&#8634; Làm lại</button>
+                <div class="main-question">
+                    <div class="row main-move">
+                        <div class="col c-12">
+                            <button type="button" id="btn-prve" onclick="showQuestionMobile(-1)" class="btn-move fl">&larr;</button>
+                            <button type="button" id="btn-next" onclick="showQuestionMobile(1)" class="btn-move fr">&rarr;</button>
+                        </div>
+                    </div>
+                    <div id="main-question">
+                    </div>
+                </div>
+                
+
+                <div class="rework tc" id="rework">
+                    <button class="btn btn-primary--small" onclick="redoExam()">&#8634; Làm lại</button>
                 </div>
             </div>
-            
+
             <div class="right fl">
                 <div class="right-time tc">
-                    <span>60:00</span>
+                    <span class="time-down"></span>
                 </div>
-                <div class="right-aws u-cf m-t16">
-                    <div class="right-aws_item fl">
-                        <span>C1</span>
-                        <div class="aws_item-box">
-                            <label for="c1a">A</label>
-                            <input type="checkbox" name="c1" id="c1a">
-                        </div>
-                        <div class="aws_item-box">
-                            <label for="c1b">B</label>
-                            <input type="checkbox" name="c1" id="c1b">
-                        </div>
-                        <div class="aws_item-box">
-                            <label for="c1c">C</label>
-                            <input type="checkbox" name="c1" id="c1c">
-                        </div>
-
-                        <div class="aws_item-box">
-                            <label for="c1d">D</label>
-                            <input type="checkbox" name="c1" id="c1d">
-                        </div>
-
-                    </div>
-                    <div class="right-aws_item fl">
-                        <span>C1</span>
-                        <div class="aws_item-box">
-                            <label for="c1a">A</label>
-                            <input type="checkbox" name="c1" id="c1a">
-                        </div>
-                        <div class="aws_item-box">
-                            <label for="c1b">B</label>
-                            <input type="checkbox" name="c1" id="c1b">
-                        </div>
-                        <div class="aws_item-box">
-                            <label for="c1c">C</label>
-                            <input type="checkbox" name="c1" id="c1c">
-                        </div>
-
-                        <div class="aws_item-box">
-                            <label for="c1d">D</label>
-                            <input type="checkbox" name="c1" id="c1d">
-                        </div>
-
-                    </div><div class="right-aws_item fl">
-                        <span>C1</span>
-                        <div class="aws_item-box">
-                            <label for="c1a">A</label>
-                            <input type="checkbox" name="c1" id="c1a">
-                        </div>
-                        <div class="aws_item-box">
-                            <label for="c1b">B</label>
-                            <input type="checkbox" name="c1" id="c1b">
-                        </div>
-                        <div class="aws_item-box">
-                            <label for="c1c">C</label>
-                            <input type="checkbox" name="c1" id="c1c">
-                        </div>
-
-                        <div class="aws_item-box">
-                            <label for="c1d">D</label>
-                            <input type="checkbox" name="c1" id="c1d">
-                        </div>
-
-                    </div>
-                    <div class="right-aws_item fl">
-                        <span>C10</span>
-                        <div class="aws_item-box">
-                            <label for="c1a">A</label>
-                            <input type="checkbox" name="c1" id="c1a">
-                        </div>
-                        <div class="aws_item-box">
-                            <label for="c1b">B</label>
-                            <input type="checkbox" name="c1" id="c1b">
-                        </div>
-                        <div class="aws_item-box">
-                            <label for="c1c">C</label>
-                            <input type="checkbox" name="c1" id="c1c">
-                        </div>
-
-                        <div class="aws_item-box">
-                            <label for="c1d">D</label>
-                            <input type="checkbox" name="c1" id="c1d">
-                        </div>
-
-                    </div>
+                <div class="right-aws u-cf m-t16" id="right-answer">
                 </div>
                 <div class="m-t16">
-                    <button class="btn btn-primary" onclick="openResult()">&check; Nộp bài</button></button>
+                    <button class="btn btn-primary--half fl" id="btn-check" onclick="resultHandle()">Nộp bài</button></button>
+                    <button class="btn btn-primary--half fl">Thoát</button>
                 </div>
             </div>
         </main>
@@ -176,116 +60,46 @@
         </footer>
 
         <div class="option">
-            <div class="finished tc fl" onclick="openResult()">
+            <div class="finished tc fl" onclick="resultHandle()">
                 &check;
             </div>
-           <div class="time fl tc">60:00</div>
-           <div class="bars fl" onclick="myFunction(this)">
+           <div class="time fl tc time-down"></div>
+           <div class="bars fl" id="bars" onclick="modalMobileToggle()">
             <div class="bar1"></div>
             <div class="bar2"></div>
             <div class="bar3"></div>
           </div>
         </div>
-        
+
     </div>
     <div class="modal" id="subQes">
-        <div class="modal__overlay">  
+        <div class="modal__overlay">
         </div>
         <div class="subquestion">
-            <h2 class="tc">Danh sách câu hỏi</h2>
-            <div class="subquestion_item u-cf">
-                <span class="question_order tc fl">
-                    C1
-                </span>
-                
-                <div class="subAnswers fl">
-                    <div class="answer subAnswer fl checked--right">
-                        <span>A</span>
-                    </div>
-                    <div class="answer subAnswer fl">
-                        <span>B</span>
-                    </div>
-                    <div class="answer subAnswer fl">
-                        <span>C</span>
-                    </div>
-                    <div class="answer subAnswer fl">
-                        <span>D</span>
-                    </div>
-                </div>
+            <div class="subquestion_title">
+                <h2 class="tc">Danh sách câu hỏi</h2>
+                <button class="btn btn-primary--small tc">Thoát</button>
             </div>
-
-            <div class="subquestion_item u-cf">
-                <span class="question_order tc fl">
-                    C100
-                </span>
-                
-                <div class="subAnswers fl">
-                    <div class="answer subAnswer fl checked--right">
-                        <span>A</span>
-                    </div>
-                    <div class="answer subAnswer fl">
-                        <span>B</span>
-                    </div>
-                    <div class="answer subAnswer fl">
-                        <span>C</span>
-                    </div>
-                    <div class="answer subAnswer fl">
-                        <span>D</span>
-                    </div>
-                </div>
+            <div id="sub-question">
             </div>
         </div>
     </div>
-    <div class="modal" id="relt">
-        <div class="modal__overlay">  
+    <div class="modal" id="relt-modal">
+        <div class="modal__overlay">
         </div>
         <div class="result tc">
-            <div class="close">&#10005;</div>
-            <h2>Tin học văn phòng</h2>
+            <div class="close" onclick="closeResult()">&#10005;</div>
+            <h2></h2>
             <p class="result-text">Kết quả</p>
-            <p class="result-point">10 / 100</p>
-            <p>Thời gian <b>10: 12</b> </p>
+            <p class="result-point" id="score-result"></p>
+            <p>Thời gian làm bài: <b id="time-result"></b> </p>
             <div>
-                <button>Xem chi tiết</button>
-                <button>Làm lại</button>
+                <button onclick="showDetail()">Xem chi tiết</button>
+                <button onclick="redoExam()">Làm lại</button>
             </div>
-            
+
         </div>
     </div>
 </body>
-<script>
-    function myFunction(x) {
-        x.classList.toggle("change");
-        var subQes = document.getElementById('subQes');
-        subQes.classList.toggle("active");
-    }
-
-    function openResult(){
-        var result = document.getElementById('relt');
-        result.classList.toggle("active");
-    }
-    async function displayData(data) {
-        const item = document.getElementById('list');
-        item.innerText = JSON.stringify(data);
-    }
-    async function getItems() {
-        fetch('https://localhost:7002/api/MaThi', {
-            method: 'GET',
-            withCredentials: true,    
-            crossorigin: true,    
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'mode':'no-cors'
-            }})
-            .then(res => res.json())
-            .then(data => console.log(data))
-            .then(err => console.log(err));
-
-    }
-    
-    getItems();
-
-</script>
-
+<script type="text/javascript" src="./asset/js/main.js"></script>
 </html>

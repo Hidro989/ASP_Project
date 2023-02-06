@@ -1,782 +1,324 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./asset/css/admin.css">
-    <link rel="stylesheet" href="./asset/css/base.css">
-    <link rel="stylesheet" href="./asset/css/grid.css">
-    <link rel="stylesheet" href="./asset/css/responsive.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./asset/css/admin.css" />
+    <link rel="stylesheet" href="./asset/css/base.css" />
+    <link rel="stylesheet" href="./asset/css/grid.css" />
+    <link rel="stylesheet" href="./asset/css/responsive.css" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/xlsx.full.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/jszip.js"></script>
     <title>Admin Trang quản lý</title>
-</head>
+  </head>
 
-<body>
+  <body onload="checkAdmin()">
     <div class="app">
-        <div class="content u-cf">
-            <div class="content-left fl" id="leftSideBar">
-                <h1 class="tc logo">Thi <span>Trắc</span> Nghiệm</h1>
-                <div class="content-left_list m-t16">
-                    <div class="content-left_item active tc">
-                        Quản lý môn thi
-                    </div>
-                    <div class="content-left_item tc">
-                        Quản lý đề thi
-                    </div>
-                    <div class="content-left_item tc">
-                        Quản lý câu hỏi
-                    </div>
-                    <div class="content-left_item tc">
-                        Quản lý mã thi
-                    </div>
-                    <div class="content-left_item tc">
-                        Đăng xuất
-                    </div>
-                </div>
+      <div class="content u-cf">
+        <div class="content-left fl" id="leftSideBar">
+          <h1 class="tc logo">Thi <span>Trắc</span> Nghiệm</h1>
+          <div class="content-left_list m-t16">
+            <div class="content-left_item active tc">Quản lý môn thi</div>
+            <div class="content-left_item tc">Quản lý đề thi</div>
+            <div class="content-left_item tc">Quản lý câu hỏi</div>
+            <div class="content-left_item tc">Quản lý mã thi</div>
+            <div class="content-left_item tc" onclick="clearCookie()">
+              Đăng xuất
             </div>
-            <div id="pageMonThi" class="content-main fl">
-                <div class="content-box u-cf">
-                    <button class="btn btn-primary--small fl btnAddMonThi">Thêm</button>
-                    <div class="fr search-box">
-                        <label for="search">Tìm kiếm: </label>
-                        <input type="text" id="search">
-                    </div>
-                </div>
+          </div>
+        </div>
+        <div id="pageMonThi" class="content-main fl">
+          <div class="content-box u-cf">
+            <button class="btn btn-primary--small fl btnAddMonThi">Thêm</button>
+            <div class="fr search-box">
+              <label for="search">Tìm kiếm: </label>
+              <input type="text" id="search" />
+            </div>
+          </div>
 
-                <div class="content-box m-t16">
-                    <table>
-                        <thead>
-                            <tr>
-                                <td>ID</td>
-                                <td>Môn thi</td>
-                                <td colspan="2">Số đề thi</td>
-                            </tr>
-                        </thead>
-                        <tbody id="tbodyMonThi">
+          <div class="content-box m-t16">
+            <table>
+              <thead>
+                <tr>
+                  <td>ID</td>
+                  <td>Môn thi</td>
+                  <td colspan="2">Số đề thi</td>
+                </tr>
+              </thead>
+              <tbody id="tbodyMonThi"></tbody>
+            </table>
+          </div>
 
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- <div class="content-box m-t16">
+          <!-- <div class="content-box m-t16">
                     <ul class="tc" id="paginator">
 
                     </ul>
                 </div> -->
-            </div>
-            <div id="pageDeThi" class="content-main fl">
-                <div class="content-box u-cf">
-                    <button class="btn btn-primary--small fl">Thêm</button>
-                    <div class="fr search-box">
-                        <label for="search">Tìm kiếm: </label>
-                        <input type="text" id="search">
-                    </div>
-                </div>
-
-                <div class="content-box m-t16">
-                    <table>
-                        <thead>
-                            <tr>
-                                <td>ID</td>
-                                <td>Tên đề thi</td>
-                                <td>Số lượng câu hỏi</td>
-                                <td colspan="2">Tên môn thi</td>
-                            </tr>
-                        </thead>
-                        <tbody id="tbodyDeThi">
-                           
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div id="pageCauHoi" class="content-main fl">
-                <div class="content-box u-cf">
-                    <button class="btn btn-primary--small fl btnAddCauHoi" >Thêm</button>
-                    <div class="fr search-box">
-                        <label for="search">Tìm kiếm: </label>
-                        <input type="text" id="search">
-                    </div>
-                </div>
-
-                <div class="content-box m-t16">
-                    <table>
-                        <thead>
-                            <tr>
-                                <td>ID</td>
-                                <td>Nội dung</td>
-                                <td>A</td>
-                                <td>B</td>
-                                <td>C</td>
-                                <td>D</td>
-                                <td>Đáp án đúng</td>
-                                <td colspan="2">Đề thi</td>
-                            </tr>
-                        </thead>
-                        <tbody id="tbodyCauHoi">
-                            
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div id="pageMaThi" class="content-main fl">
-                <div class="content-box u-cf">
-                    <button class="btn btn-primary--small fl">Thêm</button>
-                    <div class="fr search-box">
-                        <label for="search">Tìm kiếm: </label>
-                        <input type="text" id="search">
-                    </div>
-                </div>
-
-                <div class="content-box m-t16">
-                    <table>
-                        <thead>
-                            <tr>
-                                <td>Mã thi</td>
-                                <td colspan="2">SLSD</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>abcdxyz</td>
-                                <td>5/10</td>
-                                <td>
-                                    <button><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"
-                                            viewBox="0 0 448 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
-                                            <path
-                                                d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z" />
-                                        </svg></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>abcdxyz</td>
-                                <td>5/10</td>
-                                <td><button><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"
-                                            viewBox="0 0 448 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
-                                            <path
-                                                d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z" />
-                                        </svg></button></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
         </div>
+        <div id="pageDeThi" class="content-main fl">
+          <div class="content-box u-cf">
+            <button class="btn btn-primary--small fl btnAddDeThi">Thêm</button>
+            <div class="fr search-box">
+              <label for="search">Tìm kiếm: </label>
+              <input type="text" id="search" />
+            </div>
+          </div>
 
+          <div class="content-box m-t16">
+            <table>
+              <thead>
+                <tr>
+                  <td>ID</td>
+                  <td>Tên đề thi</td>
+                  <td>Số lượng câu hỏi</td>
+                  <td colspan="2">Tên môn thi</td>
+                </tr>
+              </thead>
+              <tbody id="tbodyDeThi"></tbody>
+            </table>
+          </div>
+        </div>
+        <div id="pageCauHoi" class="content-main fl">
+          <div class="content-box u-cf">
+            <button class="btn btn-primary--small fl btnAddCauHoi">Thêm</button>
+            <div class="fr search-box">
+              <label for="search">Tìm kiếm: </label>
+              <input type="text" id="search" />
+            </div>
+          </div>
+
+          <div class="content-box m-t16">
+            <table>
+              <thead>
+                <tr>
+                  <td>ID</td>
+                  <td>Nội dung</td>
+                  <td>A</td>
+                  <td>B</td>
+                  <td>C</td>
+                  <td>D</td>
+                  <td>Đáp án đúng</td>
+                  <td colspan="2">Đề thi</td>
+                </tr>
+              </thead>
+              <tbody id="tbodyCauHoi"></tbody>
+            </table>
+          </div>
+        </div>
+        <div id="pageMaThi" class="content-main fl">
+          <div class="content-box u-cf">
+            <button class="btn btn-primary--small fl btnAddMaThi">Thêm</button>
+            <div class="fr search-box">
+              <label for="search">Tìm kiếm: </label>
+              <input type="text" id="search" />
+            </div>
+          </div>
+
+          <div class="content-box m-t16">
+            <table>
+              <thead>
+                <tr>
+                  <td>Mã thi</td>
+                  <td colspan="2">SLSD</td>
+                </tr>
+              </thead>
+              <tbody id="tbodyMaThi">
+                <tr>
+                  <td>abcdxyz</td>
+                  <td>5/10</td>
+                  <td>
+                    <button>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        height="20"
+                        width="20"
+                        viewBox="0 0 448 512"
+                      >
+                        <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+                        <path
+                          d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"
+                        />
+                      </svg>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="modal" id="insertMonThi">
-        <div class="modal__overlay">
+      <div class="modal__overlay"></div>
+      <div class="typingBox tc">
+        <div class="close">✕</div>
+        <h2>Thêm môn thi</h2>
+        <div class="m-t16">
+          <label for=""> Tên môn thi:</label>
+          <input
+            onkeydown="if(event.keyCode === 13) themMonThi()"
+            type="text"
+            placeholder="Tên môn thi"
+            id="tenMonThi"
+            value=""
+          />
+          <p class="textAlert m-t16"></p>
         </div>
-        <div class="typingBox tc">
-            <div class="close">✕</div>
-            <h2>Thêm môn thi</h2>
-            <div class="m-t16">
-                <label for=""> Tên môn thi:</label>
-                <input type="text" placeholder="Tên môn thi" id="tenMonThi" value="">
-                <p class="textAlert m-t16"></p>
-            </div>
-            <div class="btns m-t16">
-                <button>Thêm</button>
-                <button>Hủy</button>
-            </div>
+        <div class="btns m-t16">
+          <button>Thêm</button>
+          <button>Hủy</button>
         </div>
+      </div>
     </div>
     <div class="modal" id="insertDeThi">
-        <div class="modal__overlay">
+      <div class="modal__overlay"></div>
+      <div class="typingBox tc">
+        <div class="close">✕</div>
+        <h2>Thêm đề thi</h2>
+        <div class="m-t16">
+          <label for="selectMonThi"> Môn thi:</label>
+          <select  id="selectMonThi" onfocus="clearErrorDeThi()">
+           
+          </select>
         </div>
-        <div class="typingBox tc">
-            <div class="close">✕</div>
-            <h2>Thêm đề thi</h2>
-            <div class="m-t16">
-                <label for=""> Môn thi:</label>
-                <select name="" id="">
-                    <option value="">Tin học văn phòng</option>
-                    <option value="">Triết học</option>
-                </select>
-            </div>
-            <div class="m-t16">
-                <label for=""> Tên đề thi:</label>
-                <input type="text" placeholder="Tên môn thi">
-            </div>
-            <div class="m-t16">
-                <button>Thêm file câu hỏi</button>
-                <p id="nameFile">cauhoi.exel</p>
-            </div>
-            <div class="btns m-t16">
-                <button>Thêm</button>
-                <button>Hủy</button>
-            </div>
+        <div class="m-t16">
+          <label for="inputDeThi"> Tên đề thi:</label>
+          <input type="text" placeholder="Tên đề thi" id="inputDeThi" onfocus="clearErrorDeThi()"/>
         </div>
+        <div class="m-t16">
+          <label for="fileUpload">Chọn file câu hỏi:</label>
+                <input type="file"
+                 id="fileUpload" 
+                placeholder="Chọn file"
+                    accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                    onfocus="clearErrorDeThi()">
+          
+        </div>
+        <p class="textAlert m-t16" id="textAlertDeThi"></p>
+        <div class="btns m-t16">
+          <button>Thêm</button>
+          <button>Hủy</button>
+        </div>
+      </div>
     </div>
     <div class="modal" id="insertCauHoi">
-        <div class="modal__overlay">
+      <div class="modal__overlay"></div>
+      <div class="typingBox tc">
+        <div class="close">✕</div>
+        <h2>Thêm câu hỏi</h2>
+        <div class="m-t16">
+          <label for="selectDeThi"> Tên đề thi:</label>
+          <select id="selectDeThi" onfocus="clearError()"></select>
         </div>
-        <div class="typingBox tc">
-            <div class="close">✕</div>
-            <h2>Thêm câu hỏi</h2>
-            <div class="m-t16">
-                <label for="selectDeThi"> Tên đề thi:</label>
-                <select id="selectDeThi">
-                    
-                </select>
-            </div>
-            <div class="m-t16">
-                <label for="noiDung"> Nội dung:</label>
-                <textarea name="" id="noiDung" rows="5"></textarea>
-            </div>
-            <div class="m-t16">
-                <div class="m-t16 subtext">
-                    <label for="dapAnA"> A:</label>
-                    <textarea name="" id="dapAnA" rows="5"></textarea>
-                </div>
-                <div class="m-t16 subtext">
-                    <label for="dapAnB"> B</label>
-                    <textarea name="" id="dapAnB" rows="5"></textarea>
-                </div>
-            </div>
-
-            <div class="m-t16">
-
-                <div class="m-t16 subtext">
-                    <label for="dapAnC"> C</label>
-                    <textarea name="" id="dapAnC" rows="5"></textarea>
-                </div>
-                <div class="m-t16 subtext">
-                    <label for="dapAnD"> D</label>
-                    <textarea name="" id="dapAnD" rows="5"></textarea>
-                </div>
-            </div>
-            <div class="m-t16">
-                <label for="selectDapAn"> Đáp án đúng:</label>
-                <select id="selectDapAn">
-                    <option value="-1">-- Chọn đáp án đúng --</option>
-                    <option value="1">A</option>
-                    <option value="2">B</option>
-                    <option value="3">C</option>
-                    <option value="4">D</option>
-                </select>
-            </div>
-           
-
-            <p class="textAlert m-t16"></p>
-            <div class="btns m-t16">
-                <button>Thêm</button>
-                <button>Hủy</button>
-            </div>
-        
+        <div class="m-t16">
+          <label for="noiDung"> Nội dung:</label>
+          <textarea
+            name=""
+            id="noiDung"
+            rows="5"
+            onfocus="clearError()"
+          ></textarea>
         </div>
+        <div class="m-t16">
+          <div class="m-t16 subtext">
+            <label for="dapAnA"> A:</label>
+            <textarea
+              name=""
+              id="dapAnA"
+              rows="5"
+              onfocus="clearError()"
+            ></textarea>
+          </div>
+          <div class="m-t16 subtext">
+            <label for="dapAnB"> B</label>
+            <textarea
+              name=""
+              id="dapAnB"
+              rows="5"
+              onfocus="clearError()"
+            ></textarea>
+          </div>
+        </div>
+
+        <div class="m-t16">
+          <div class="m-t16 subtext">
+            <label for="dapAnC"> C</label>
+            <textarea
+              name=""
+              id="dapAnC"
+              rows="5"
+              onfocus="clearError()"
+            ></textarea>
+          </div>
+          <div class="m-t16 subtext">
+            <label for="dapAnD"> D</label>
+            <textarea
+              name=""
+              id="dapAnD"
+              rows="5"
+              onfocus="clearError()"
+            ></textarea>
+          </div>
+        </div>
+        <div class="m-t16">
+          <label for="selectDapAn"> Đáp án đúng:</label>
+          <select id="selectDapAn" onfocus="clearError()">
+            <option value="-1">-- Chọn đáp án đúng --</option>
+            <option value="1">A</option>
+            <option value="2">B</option>
+            <option value="3">C</option>
+            <option value="4">D</option>
+          </select>
+        </div>
+
+        <p class="textAlert m-t16" id="text-alert-question">
+          Vui lòng nhập đầy đủ dữ liệu
+        </p>
+        <div class="btns m-t16">
+          <button>Thêm</button>
+          <button>Hủy</button>
+        </div>
+      </div>
     </div>
     <div class="modal" id="insertMaThi">
-        <div class="modal__overlay">
+      <div class="modal__overlay"></div>
+      <div class="typingBox tc">
+        <div class="close">✕</div>
+        <h2>Thêm câu hỏi</h2>
+        <div class="m-t16">
+          <label for="">Số lượng:</label>
+          <input type="number" min="1" value="1" id="numberCode" />
+          <button
+            class="btn btn-primary--small m-t16"
+            style="display: inline-block"
+          >
+            Tạo mã
+          </button>
         </div>
-        <div class="typingBox tc">
-            <div class="close">✕</div>
-            <h2>Thêm câu hỏi</h2>
-            <div class="m-t16">
-                <label for="">Số lượng:</label>
-                <input type="number" min="1" value="1">
-            </div>
-            <div class="m-t16">
-                <label for="">Mã thi:</label>
-                <textarea name="" id="" rows="5"></textarea>
-            </div>
-            <div class="btns m-t16">
-                <button>Thêm</button>
-                <button>Hủy</button>
-            </div>
+        <div class="m-t16">
+          <label for="">Mã thi:</label>
+          <textarea name="" id="listCode" rows="5"></textarea>
         </div>
+        <div class="btns m-t16">
+          <button>Thoát</button>
+        </div>
+      </div>
     </div>
 
     <div class="modal" id="modalDelete">
-        <div class="modal__overlay">
+      <div class="modal__overlay"></div>
+      <div class="typingBox tc">
+        <div class="close">✕</div>
+        <h2>Thông báo</h2>
+        <p>Bạn có chắc chắn muốn xóa mục này không?</p>
+        <div class="btns m-t16">
+          <button>Đồng ý</button>
+          <button>Hủy</button>
         </div>
-        <div class="typingBox tc">
-            <div class="close">✕</div>
-            <h2>Thông báo</h2>
-            <p>Bạn có chắc chắn muốn xóa mục này không?</p>
-            <div class="btns m-t16">
-                <button>Đồng ý</button>
-                <button>Hủy</button>
-            </div>
-        </div>
+      </div>
     </div>
-
-</body>
-<script>
-
-    const $ = document.querySelector.bind(document);
-    const $$ = document.querySelectorAll.bind(document);
-    const fromId = document.getElementById.bind(document);
-    const fromClass = document.getElementsByClassName.bind(document);
-    const fromTag = document.getElementsByTagName.bind(document);
-
-    var contentLeft = $('#leftSideBar');
-    var pageMonThi = fromId('pageMonThi');
-    var pageDeThi = fromId('pageDeThi');
-    var pageCauHoi = fromId('pageCauHoi');
-    var pageMaThi = fromId('pageMaThi');
-    var modalMonThi = fromId('insertMonThi');
-    var modalCauHoi = fromId('insertCauHoi');
-    var inputMonThi = fromId('tenMonThi');
-    var tbodyDeThi = fromId('tbodyDeThi');
-    var tbodyMonThi = fromId('tbodyMonThi');
-    var modalDelete = $('#modalDelete');
-    
-    // Tải danh sách môn thi
-    function getMonThis() {
-        fetch('https://localhost:7002/api/MonThi')
-            .then(res => res.json())
-            .then(data => displayMonThi(data))
-            .catch(err => console.log(err));
-        }
-    getMonThis();
-
-    // Tải danh sách đề thi
-    async function getListDeThi(){
-        await fetch('https://localhost:7002/api/DeThi/GetDeThiWithName')
-        .then(res => res.json())
-        .then(data => displayDeThi(data))
-        .catch(err => console.log(err));
-    }
-    
-    // Hiển thị danh sách đề thi
-    function displayDeThi(data){
-        let html = [];
-        data.forEach(element => {
-            let text = `<tr>
-                               <td>${element.id}</td>
-                                <td>${element.tenDeThi}</td>
-                                <td>${element.soLuongCauHoi === null ? 0 : element.soLuongCauHoi}</td>
-                                <td>${element.tenMonThi}</td>
-                                <td data-id="${element.id}">
-                                    <button class="btnEditMonThi"><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/></svg></button>
-                                    <button class="btnDeleteMonThi" ><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"/></svg></button>
-                                </td>
-                            </tr>`;
-
-            html.push(text);
-        });
-        tbodyDeThi.innerHTML = html.join("");
-    }
-    
-    // Tải danh sách câu hỏi
-    async function getListCauHoi(){
-        await fetch('https://localhost:7002/api/CauHoi')
-        .then(res => res.json())
-        .then(data => displayCauHoi(data))
-        .catch(err => console.log(err));
-    }
-    
-    // Hiển thị danh sách câu hỏi
-    function displayCauHoi(data){
-
-        let html = [];
-        data.forEach(element => {
-            
-            let dapAnDung = "";
-            switch(element.dapAnDung){
-                case 1: dapAnDung = "A";
-                    break;
-                case 2: dapAnDung = "B";
-                    break;
-                case 3: dapAnDung = "C";
-                    break;
-                case 4: dapAnDung = "D";
-                    break;   
-            }
-
-            let text = ` <tr>
-                                <td>${element.id}</td>
-                                <td>${element.noiDung}</td>
-                                <td>${element.a}</td>
-                                <td>${element.b}</td>
-                                <td>${element.c}</td>
-                                <td>${element.d}</td>
-                                <td>${dapAnDung}</td>
-                                <td>${element.deThiID}</td>
-                                <td data-id="${element.id}">
-                                    <button class="btnShowCauHoi"><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"
-                                            viewBox="0 0 576 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
-                                            <path
-                                                d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z" />
-                                        </svg></button>
-                                    <button class="btnEditCauHoi"><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"
-                                            viewBox="0 0 512 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
-                                            <path
-                                                d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z" />
-                                        </svg></button>
-                                    <button class="btnDeleteCauHoi"><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"
-                                            viewBox="0 0 448 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
-                                            <path
-                                                d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z" />
-                                        </svg></button>
-                                </td>
-                            </tr>`;
-
-            html.push(text);
-        });
-
-        $('#tbodyCauHoi').innerHTML = html.join("");
-    }
-    
-    // Tải môn thi theo Id
-    async function getMonThiById(Id) {
-
-        const response = await fetch(`https://localhost:7002/api/MonThi/${Id}`)
-            .then(res => res.json())
-            .catch(er => {
-                alert(er);
-                console.log(er)
-            });
-        return response;
-    }
-    
-    // Hiển thị dữ liệu lên table
-    function displayMonThi(data) {
-        let html = [];
-        data.forEach(element => {
-            let text = `<tr>
-                                <td>${element.id}</td>
-                                <td>${element.tenMonThi}</td>
-                                <td>${element.soLuongDe === null ? 0 : element.soLuongDe}</td>
-                                <td data-id="${element.id}">
-                                    <button class="btnEditMonThi"><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/></svg></button>
-                                    <button class="btnDeleteMonThi" ><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"/></svg></button>
-                                </td>
-                            </tr>`;
-
-            html.push(text);
-        });
-        tbodyMonThi.innerHTML = html.join("");
-    }
-
-    //Lắng nghe left sidebar
-    contentLeft.addEventListener('click', (e) => {
-        const contentItems = $$('.content-left_item');
-        if(e.target.classList.contains('content-left_item')){
-            if(e.target.classList.contains('active') == false){
-                contentItems.forEach(element => {
-                if(element !== e.target){
-                    element.classList.remove('active');
-                }else{
-                    element.classList.add('active');
-                }
-
-                
-            });
-
-            if(e.target.innerText === "Quản lý môn thi"){
-                    pageDeThi.style.display = 'none';
-                    pageCauHoi.style.display = 'none';
-                    pageMaThi.style.display = 'none';
-                    pageMonThi.style.display = 'block';
-                    getMonThis();
-                }
-                else if(e.target.innerText === "Quản lý đề thi"){
-                    pageDeThi.style.display = 'block';
-                    pageCauHoi.style.display = 'none';
-                    pageMaThi.style.display = 'none';
-                    pageMonThi.style.display = 'none';
-                    getListDeThi();
-                }
-                else if(e.target.innerText === "Quản lý câu hỏi"){
-                    pageDeThi.style.display = 'none';
-                    pageCauHoi.style.display = 'block';
-                    pageMaThi.style.display = 'none';
-                    pageMonThi.style.display = 'none';
-                    getListCauHoi();
-                }
-                else if(e.target.innerText === "Quản lý mã thi"){
-                    pageDeThi.style.display = 'none';
-                    pageCauHoi.style.display = 'none';
-                    pageMaThi.style.display = 'block';
-                    pageMonThi.style.display = 'none';
-                    
-                }
-            }
-            
-        }
-
-        
-    });
-    
-    // Xủ lý page môn thi
-    pageMonThi.addEventListener('click', async (e) => {
-
-        if (e.target.closest('.btnAddMonThi') !== null) {
-            modalMonThi.children[1].children[1].innerText = "Thêm môn thi";
-            modalMonThi.children[1].lastElementChild.firstElementChild.innerText = "Thêm"
-            modalMonThi.classList.toggle('active');
-        }
-        if (e.target.closest('.btnEditMonThi') !== null) {
-            let item = await getMonThiById(e.target.closest('.btnEditMonThi').parentElement.dataset.id);
-            inputMonThi.value = item.tenMonThi;
-            inputMonThi.dataset.id = item.id;
-            modalMonThi.children[1].children[1].innerText = "Sửa môn thi";
-            modalMonThi.children[1].lastElementChild.firstElementChild.innerText = "Sửa"
-            modalMonThi.classList.add('active');
-        }
-
-        if (e.target.closest('.btnDeleteMonThi') !== null) {
-            modalDelete.classList.add('active');
-            modalDelete.dataset.id = e.target.closest('.btnDeleteMonThi').parentElement.dataset.id;
-            modalDelete.dataset.type = "monthi";
-        }
-
-    })
-   
-    // Xử lý modal môn thi
-    modalMonThi.addEventListener('click', (e) => {
-        if (
-            e.target.classList.contains('close')
-            || e.target.classList.contains('modal__overlay')
-            || e.target.innerText == "Hủy") {
-            modalMonThi.classList.remove('active');
-            inputMonThi.value = "";
-            inputMonThi.closest('.typingBox').classList.remove('typingBox--error');
-        }
-
-        if (e.target.innerText == "Thêm") {
-            if (inputMonThi.value !== "") {
-                createMonThi(inputMonThi.value);
-                inputMonThi.value = ""
-                modalMonThi.classList.remove('active');
-
-            } else {
-                var parent = inputMonThi.closest(".typingBox");
-                parent.classList.add('typingBox--error');
-                inputMonThi.parentElement.lastElementChild.innerText = "Vui lòng nhập đẩy đủ thông tin";
-
-            }
-
-        }
-
-        if (e.target.innerText == "Sửa") {
-            if (inputMonThi.value !== "") {
-                updateMonThi(inputMonThi.dataset.id, inputMonThi.value);
-                inputMonThi.value = ""
-                modalMonThi.classList.remove('active');
-
-            } else {
-                var parent = inputMonThi.closest(".typingBox");
-                parent.classList.add('typingBox--error');
-                inputMonThi.parentElement.lastElementChild.innerText = "Vui lòng nhập đẩy đủ thông tin";
-
-            }
-        }
-    });
-     
-    // inputMonThi lắng nghe sự kiện
-     var listenIpMonThi = (inputMonThi.addEventListener('focus', () => {
-        let parent = inputMonThi.closest('.typingBox');
-        if (parent.classList.contains('typingBox--error')) {
-            parent.classList.remove('typingBox--error');
-        }
-    }));
-
-
-    // Xử lý page Câu hỏi
-    pageCauHoi.addEventListener('click',async (e) => {
-        if(e.target.closest('.btnAddCauHoi') != null){
-
-            // Lấy dư liệu cho thẻ selection
-            let data = await fetch('https://localhost:7002/api/DeThi/GetDeThiWithName')
-                    .then(res => res.json());
-            let html = [];
-            html.push(`<option value="-1">-- Chọn đề thi --</option>`);
-            data.forEach(element => {
-                html.push(`<option value="${element.id}">${element.tenDeThi} (${element.tenMonThi})</option>`);
-            });
-            $('#selectDeThi').innerHTML = html.join('');
-
-            modalCauHoi.classList.add('active');
-        }
-    });
-
-    // Xử lý modal Câu hỏi
-    modalCauHoi.addEventListener('click', (e) => {
-        
-        if (
-            e.target.classList.contains('close')
-            || e.target.classList.contains('modal__overlay')
-            || e.target.innerText == "Hủy") {
-            modalCauHoi.classList.remove('active');
-            
-        }
-
-        if (e.target.innerText == "Thêm") {
-            let noiDung = $('#noiDung').value;
-            let dapAnA = $('#dapAnA').value;
-            let dapAnB = $('#dapAnB').value;
-            let dapAnC = $('#dapAnC').value;
-            let dapAnD = $('#dapAnD').value;
-            let dapAnOptions =$('#selectDapAn').children;
-            let dapAnDung = null;
-            let deThiOptions = $('#selectDeThi').children;
-            let deThiID = null;
-            for(let i = 0; i < dapAnOptions.length; i++){
-                if(dapAnOptions[i].value != -1 && dapAnOptions[i].selected == true){
-                    dapAnDung = dapAnOptions[i].value;
-                }
-            }
-
-            for(let i = 0; i < deThiOptions.length; i++){
-                if(deThiOptions[i].value != -1 && deThiOptions[i].selected == true){
-                    deThiID = deThiOptions[i].value;
-                }
-            }
-
-            console.log(noiDung);
-            console.log(dapAnDung);
-            console.log(deThiID);
-
-        }
-    });
-    
-    
-
-    // modalDelete lắng nghe sự kiện click
-    modalDelete.addEventListener('click', async (e) => {
-        if (
-            e.target.classList.contains('close')
-            || e.target.classList.contains('modal__overlay')
-            || e.target.innerText == "Hủy") {
-            modalDelete.classList.remove('active');
-        }
-
-        if (e.target.innerText == "Đồng ý") {
-            await deleteItem(modalDelete.dataset.id, modalDelete.dataset.type);
-            modalDelete.classList.remove('active');
-        }
-    });
-
-   
-
-    //Tạo môn thi
-    async function createMonThi(tenMonThi) {
-        item = {
-            "tenMonThi": tenMonThi
-        }
-        await fetch('https://localhost:7002/api/MonThi',
-            {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'mode': 'no-cors'
-                },
-                body: JSON.stringify(item)
-            })
-            .then(res => res.json)
-            .then(data => {
-                alert("Thêm môn thi thành công!!");
-                console.log('Request succeeded with JSON response', data);
-            })
-            .catch(er => {
-                alert("Thêm môn thi thất bại");
-                console.log('Request failed', error);
-            });
-
-        await getMonThis();
-    }
-
-    //Sửa môn thi
-    async function updateMonThi(Id, tenMonThi) {
-        let item = {
-            "id": Id,
-            "tenMonThi": tenMonThi
-        };
-
-        await fetch(`https://localhost:7002/api/MonThi/${Id}`,
-            {
-                method: 'PUT',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(item)
-            })
-            .then(() => getMonThis())
-            .catch(er => console.error('Không thể cập nhật mục', er));
-    }
-
-    // Xóa mục
-    async function deleteItem(Id, type) {
-        await fetch(`https://localhost:7002/api/${type}/${Id}`,
-            {
-                method: 'DELETE'
-            })
-            .then(() => getMonThis())
-            .catch(er => console.error('Không thể xóa mục', er));
-    }
-
-
-    // Phân trang của page
-
-    // var listItem = [];
-    // let allPages;
-    // async function getListData(){
-    //     let data = await getMonThis();
-    //     allPages = data.length;
-    //     for(let i = 0; i < data.length; ++i){
-    //         listItem.push(data[i]);
-    //     }
-    // }
-    // getListData();
-    // console.log(allPages);
-    // const ul = $('#paginator');
-
-    // const numberPerPage = 10;
-    // const currentPage = 1;
-    // const numberOfPages = Math.ceil(allPages / numberPerPage);
-
-
-    // function elem(allPages, page) {
-
-    //     let li = [];
-    //     let beforePages = page - 1;
-    //     let afterPage = page + 1;
-    //     let liActive;
-
-    //     if (page > 1) {
-    //         li.push(`<li class="btn btn-primary--small" onclick="elem(allPages, ${page - 1})">Trước</li>`);
-    //     }
-
-    //     for (let pageLength = beforePages; pageLength <= afterPage; pageLength++) {
-
-    //         if (pageLength > allPages) {
-    //             continue;
-    //         }
-
-    //         if (pageLength == 0) {
-    //             pageLength = pageLength + 1;
-    //         }
-    //         if (page == pageLength) {
-    //             liActive = 'active';
-    //         } else {
-    //             liActive = '';
-    //         }
-    //         li.push(`<li class="btn btn-primary--small ${liActive}" onclick="elem(allPages, ${pageLength})">${pageLength}</li>`);
-
-    //     }
-    //     if (page < allPages) {
-    //         li.push(`<li class="btn btn-primary--small" onclick="elem(allPages, ${page + 1})">Sau</li>`);
-    //     }
-
-
-
-    //     ul.innerHTML = li.join('');
-    // }
-
-    // elem(allPages, currentPage);
-
-
-
-
-
-
-</script>
-
+  </body>
+  <script src="./asset/js/admin.js"></script>
 </html>

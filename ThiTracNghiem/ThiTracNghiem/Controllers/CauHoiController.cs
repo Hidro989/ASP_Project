@@ -68,6 +68,42 @@ namespace ThiTracNghiem.Controllers
             return CreatedAtAction(nameof(GetById), new { id = cauHoi.ID }, cauHoi);
         }
 
+        [HttpPost(nameof(PostListQuestion))]
+        public async Task<IActionResult> PostListQuestion(List<CauHoiVM> model)
+        {
+            if(model == null)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
+            foreach(var ques in model)
+            {
+                var newQues = new CauHoi
+                {
+                    NoiDung = ques.NoiDung,
+                    A = ques.A,
+                    B = ques.B,
+                    C = ques.C,
+                    D = ques.D,
+                    DapAnDung = ques.DapAnDung,
+                    DeThiID = ques.DethiID
+                };
+
+                _context.DsCauHoi.Add(newQues);
+            }
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
+            return NoContent();
+        }
+
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, CauHoiVM model)
         {

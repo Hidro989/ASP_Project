@@ -1,127 +1,124 @@
-.content{
-    width: 100%;
+.content {
+  width: 100%;
 }
 
-
-.content-left{
-    width: 300px;
-    height: 100vh;
-    background: #f5f5f5;
-    border-right: 2px solid #fff;
+.content-left {
+  width: 300px;
+  height: 100vh;
+  background: #f5f5f5;
+  border-right: 2px solid #fff;
 }
-.content-left_item{
-    font-size: 18px;
-    background: var(--primary-color);
-    padding: 8px 0;
-    border: 1px solid #e7e7e7;
-    color: var(--white-color);
-    cursor: pointer;
-
+.content-left_item {
+  font-size: 18px;
+  background: var(--primary-color);
+  padding: 8px 0;
+  border: 1px solid #e7e7e7;
+  color: var(--white-color);
+  cursor: pointer;
 }
-.content-left_list{
-    
+.content-left_list {
 }
-.content-left_list .content-left_item:last-child{
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 300px;
+.content-left_list .content-left_item:last-child {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 300px;
 }
-.content-left_item:hover{
-    background: var(--green-color);
+.content-left_item:hover {
+  background: var(--green-color);
 }
-.content-left_item.active{
-    background: var(--green-color);
+.content-left_item.active {
+  background: var(--green-color);
 }
-.content-main{
-    background: #f5f5f5;
-    height: 100vh;
-    width: calc(100% - 300px);
-    padding: 16px;
+.content-main {
+  background: #f5f5f5;
+  height: 100vh;
+  width: calc(100% - 300px);
+  padding: 16px;
 }
 
-.content-box{
-    width: 100%;
-    background: #fff;
-    padding: 16px;
-    border-radius: 4px;
+.content-box {
+  width: 100%;
+  background: #fff;
+  padding: 16px;
+  border-radius: 4px;
 }
 
-.search-box{
-
+.search-box {
 }
 
-.search-box input{
-    padding: 4px 8px;
+.search-box input {
+  padding: 4px 8px;
 }
 
-.typingBox{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 10;
-    background: #fff;
-    min-width: 300px;
-    padding: 16px;
-    border-radius: 4px;
-    box-shadow: 1px 1px rgba(0,0,0,0.4);
+.typingBox {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  background: #fff;
+  min-width: 300px;
+  padding: 16px;
+  border-radius: 4px;
+  box-shadow: 1px 1px rgba(0, 0, 0, 0.4);
 }
 
-.typingBox.typingBox--error .textAlert{
-    display: block;
-    color: red;
-    font-size: 14px;
+.typingBox.typingBox--error .textAlert {
+  display: block;
+  color: red;
+  font-size: 14px;
 }
 
-.typingBox.typingBox--error input{
-    border: 1px solid red;
+.typingBox.typingBox--error input,
+.typingBox.typingBox--error select,
+.typingBox.typingBox--error textarea {
+  border: 1px solid red;
 }
-.typingBox .textAlert{
-    display: none;
+.typingBox .textAlert {
+  display: none;
 }
 
 .typingBox input,
-.typingBox select{
-    padding: 4px 8px;
-    width: 100%;
+.typingBox select {
+  padding: 4px 8px;
+  width: 100%;
 }
-.typingBox textarea{
-    display: block;
-    width: 500px;
-    padding: 4px 8px;
+.typingBox textarea {
+  display: block;
+  width: 500px;
+  padding: 4px 8px;
 }
-.typingBox .subtext{
-    display: inline-block;
+.typingBox .subtext {
+  display: inline-block;
 }
-.typingBox .subtext textarea{
-    width: 250px;
+.typingBox .subtext textarea {
+  width: 250px;
 }
-.btns button{
-    background: var(--primary-color);
-    padding: 10px 12px;
-    border: 0;
-    border-radius: 4px;
-    color: var(--white-color);
-    cursor: pointer;
+.btns button {
+  background: var(--primary-color);
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 4px;
+  color: var(--white-color);
+  cursor: pointer;
 }
-.btns button:hover{
-    background: var(--green-color);
+.btns button:hover {
+  background: var(--green-color);
 }
 
 /* Pagination */
-#paginator li{
-    display: inline-block;
-    margin-right: 4px;
+#paginator li {
+  display: inline-block;
+  margin-right: 4px;
 }
 
-#paginator li.active{
-    background: var(--green-color);
+#paginator li.active {
+  background: var(--green-color);
 }
 /* on/off display page */
-#namefile,
 #pageDeThi,
 #pageCauHoi,
-#pageMaThi{
-    display: none;
+#pageMaThi {
+  display: none;
 }

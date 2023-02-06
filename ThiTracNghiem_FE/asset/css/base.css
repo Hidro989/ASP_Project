@@ -29,6 +29,14 @@ a{
     background-color: transparent;
 }
 
+button:disabled{
+    background: #e7e7e7;
+    color: #999;
+}
+button:disabled:hover{
+    background: #d7d7d7;
+}
+
 .tup{
     text-transform: uppercase;
 }
@@ -105,6 +113,7 @@ tbody button:hover{
     outline: none;
     border: 0;
 }
+.btn-primary--half,
 .btn-primary--small,
 .btn-primary{
     background: var(--primary-color);
@@ -113,6 +122,12 @@ tbody button:hover{
     color: var(--white-color);
     font-weight: bold;
     font-size: 1.8rem;
+}
+.btn-primary--half +.btn-primary--half{
+    margin-left: 4px;
+}
+.btn-primary--half{
+    width: 49%;
 }
 .btn-primary--small{
     width: auto;

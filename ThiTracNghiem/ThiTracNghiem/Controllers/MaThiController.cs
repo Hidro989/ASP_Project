@@ -80,7 +80,10 @@ namespace ThiTracNghiem.Controllers
                 NotFound();
             }
 
-            maThi.SLSD = maThi.SLSD - 1;
+            if(maThi.SLSD < 10)
+            {
+                maThi.SLSD = maThi.SLSD - 1;
+            }
 
             try
             {
@@ -93,3 +96,5 @@ namespace ThiTracNghiem.Controllers
         }
     }
 }
+
+

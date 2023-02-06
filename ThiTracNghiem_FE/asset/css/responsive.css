@@ -25,7 +25,13 @@
     }
 
     .main-move{
-        display: none;
+        position: absolute;
+        bottom: 0;
+        left: 50.5%;
+        transform: translateX(-50%);
+    }
+    .main-move .btn-move+.btn-move{
+        margin-left: 16px;
     }
     .answer p{
         font-weight: 400;
