@@ -1,345 +1,335 @@
-
 .app {
-    position: relative;
-    padding-bottom: 56px;
+  position: relative;
+  padding-bottom: 56px;
 }
 
 .content {
-    width: 100%;
+  width: 100%;
 }
 
 /* Main content */
 .main {
-    position: relative;
-    background: #f5f8ff;
-    width: 100%;
-    padding: 0 1.6rem;
-    padding-top: 56px;
-    min-height: calc(100vh - 126px)
+  position: relative;
+  background: #f5f8ff;
+  width: 100%;
+  padding: 0 1.6rem;
+  padding-top: 56px;
+  min-height: calc(100vh - 126px);
 }
-.right{
-    display: none;
-    background: #f5f8ff;
-    border-left: 1px solid #e7e7e7;
-    width: 330px;
-    padding: 16px;
-    min-height: calc(100vh - 126px)
+.right {
+  display: none;
+  background: #f5f8ff;
+  border-left: 1px solid #e7e7e7;
+  width: 330px;
+  padding: 16px;
+  min-height: calc(100vh - 126px);
 }
-.right-time{
-    font-size: 2.8rem;
-    font-weight: 600;
-    background: var(--green-color);
-    border-radius: 8px;
-    color: var(--white-color);
-}
-
-.right-aws{
-    width: 100%;
-    min-height: 444px;
-    overflow-y: auto;
-}
-.right-aws_item{
-    background: #D0E3FF;
-    width: 50%;
-    padding: 2px 4px;
-    border: 1px solid #e7e7e7;
-    border-radius: 4px;
-    cursor: pointer;
-}
-.right-aws_item.selected{
-    background: var(--primary-color);
-}
-.right-aws_item.correct{
-    background: var(--green-color);
-}
-.right-aws_item.error{
-    background: rgb(224, 96, 104);
+.right-time {
+  font-size: 2.8rem;
+  font-weight: 600;
+  background: var(--green-color);
+  border-radius: 8px;
+  color: var(--white-color);
 }
 
-.right-aws_item span{
-    font-size: 2rem;
-    font-weight: 600;
+.right-aws {
+  width: 100%;
+  min-height: 444px;
+  overflow-y: auto;
+}
+.right-aws_item {
+  background: #d0e3ff;
+  width: 50%;
+  padding: 2px 4px;
+  border: 1px solid #e7e7e7;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.right-aws_item:hover{
+  background: var(--primary-color);
+}
+.right-aws_item.selected {
+  background: var(--primary-color);
+}
+.right-aws_item.correct {
+  background: var(--green-color);
+}
+.right-aws_item.error {
+  background: rgb(224, 96, 104);
 }
 
-.right-aws_item input[type = "checkbox"]{
-    accent-color: green;
-    height: 20px;
-    width: 20px;
+.right-aws_item span {
+  font-size: 2rem;
+  font-weight: 600;
 }
 
-.aws_item-box{
-    display: inline-block;
+.right-aws_item input[type="checkbox"] {
+  accent-color: green;
+  height: 20px;
+  width: 20px;
 }
-.aws_item-box label{
-    display: block;
+
+.aws_item-box {
+  display: inline-block;
+}
+.aws_item-box label {
+  display: block;
 }
 /* Main title */
 .main-title h1 {
-    font-size: 2.8rem;
-    font-weight: 700;
+  font-size: 2.8rem;
+  font-weight: 700;
 }
 
 .main-title p {
-    font-size: 1.2rem;
+  font-size: 1.2rem;
 }
 
 /* Main move */
 
-.main-move{
-    margin-bottom: 24px;
+.main-move {
+  margin-bottom: 24px;
 }
-.btn-move{
-    display: block;
-    padding: 4px 8px;
-    background: var(--primary-color);
-    color: #fff;
-    font-size: 28px;
-    outline: 0;
-    border: 0;
-    border-radius: 4px;
+.btn-move {
+  display: block;
+  padding: 4px 8px;
+  background: var(--primary-color);
+  color: #fff;
+  font-size: 28px;
+  outline: 0;
+  border: 0;
+  border-radius: 4px;
 }
-.btn-move:hover{
-    background: var(--green-color);
+.btn-move:hover {
+  background: var(--green-color);
 }
 /* Main question */
 .main-question {
-    position: relative;
-    min-height: 430px;
+  position: relative;
+  min-height: 430px;
 }
 
 .question_order {
-    background: #e5dbff;
-    color: #1A202C;
-    padding: 8px 12px;
-    font-size: 1.4rem;
-    font-weight: 700;
-    border-radius: 0.8rem;
+  background: #e5dbff;
+  color: #1a202c;
+  padding: 8px 12px;
+  font-size: 1.4rem;
+  font-weight: 700;
+  border-radius: 0.8rem;
 }
 
 .question_content {
-    font-weight: 600;
-    margin-top: 8px;
+  font-weight: 600;
+  margin-top: 8px;
 }
 
 .question_answers {
-    background: #fff;
-    padding: 20px;
-    border-radius: 0.4rem;
-    margin-bottom: 3.2rem;
+  background: #fff;
+  padding: 20px;
+  border-radius: 0.4rem;
+  margin-bottom: 3.2rem;
 }
 
 .answer {
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    margin-top: 1rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  margin-top: 1rem;
 }
 
 .answer span {
-    display: block;
-    background: #D0E3FF;
-    text-align: center;
-    width: 48px;
-    height: 48px;
-    line-height: 48px;
-    border-radius: 50%;
-    border: 1px solid #D0E3FF;
-    color: #6088E0;
-    font-weight: 600;
-    font-size: 1.6rem;
+  display: block;
+  background: #d0e3ff;
+  text-align: center;
+  width: 48px;
+  height: 48px;
+  line-height: 48px;
+  border-radius: 50%;
+  border: 1px solid #d0e3ff;
+  color: #6088e0;
+  font-weight: 600;
+  font-size: 1.6rem;
 }
 
 .answer p {
-    text-align: left;
-    font-size: 1.6rem;
-    margin-left: 1.6rem;
-    font-weight: 700;
-    width: calc(100% - 64px);
+  text-align: left;
+  font-size: 1.6rem;
+  margin-left: 1.6rem;
+  font-weight: 700;
+  width: calc(100% - 64px);
 }
 
 .answer.selected span {
-    background: var(--primary-color);
-    border: 1px solid var(--primary-color);
-    color: var(--white-color);
+  background: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  color: var(--white-color);
 }
 
 .answer.selected p {
-    color: var(--primary-color);
-    text-decoration: underline;
+  color: var(--primary-color);
+  text-decoration: underline;
 }
 
-.answer.checked--wrong span{
-    background: rgb(255, 238, 239);
-    color: rgb(224, 96, 104);
-    border: 1px solid rgb(224, 96, 104);
+.answer.checked--wrong span {
+  background: rgb(255, 238, 239);
+  color: rgb(224, 96, 104);
+  border: 1px solid rgb(224, 96, 104);
 }
 
-.answer.checked--right span{
-    background: rgb(240, 249, 248);
-    color: rgb(104, 199, 181);
-    border: 1px solid rgb(104, 199, 181);
+.answer.checked--right span {
+  background: rgb(240, 249, 248);
+  color: rgb(104, 199, 181);
+  border: 1px solid rgb(104, 199, 181);
 }
 
 /* Button rework */
-.rework{
-    margin-bottom: 16px;
+.rework {
+  margin-bottom: 16px;
 }
-.rework button{
-    display: none;
+.rework button {
+  display: none;
 }
-.rework.active button{
-    display: inline-block;
-    margin-bottom: 16px;
-    width: auto;
+.rework.active button {
+  display: inline-block;
+  margin-bottom: 16px;
+  width: auto;
 }
-
 
 /* Time */
 .option {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    height: 56px;
-    z-index: 999;
-    background: var(--white-color);
-    border-radius: 8px 8px 0px 0px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 56px;
+  z-index: 999;
+  background: var(--white-color);
+  border-radius: 8px 8px 0px 0px;
 
-    color: var(--white-color);
-    overflow: hidden;
+  color: var(--white-color);
+  overflow: hidden;
 }
 
-.option.active .time{
-    background: rgb(224, 96, 104);
+.option.active .time {
+  background: rgb(224, 96, 104);
 }
 
-.finished{
-    width: 56px;
-    background: var(--primary-color);
-    padding: 10px;
-    font-size: 24px;
-    cursor: pointer;
-}
-
-.time{
-    height: 100%;
-    width: calc(100% - 112px);
-    background: var(--green-color);
-    padding: 8px 16px;
-    letter-spacing: 2px;
-    font-weight: 500;
-    font-size: 2.8rem;
+.time {
+  height: 100%;
+  width: calc(100% - 112px);
+  background: var(--green-color);
+  padding: 8px 16px;
+  letter-spacing: 2px;
+  font-weight: 500;
+  font-size: 2.8rem;
 }
 
 .bars {
-    width: 56px;
-    cursor: pointer;
-    background: var(--primary-color);
-    padding: 10px;
+  width: 56px;
+  cursor: pointer;
+  background: var(--primary-color);
+  padding: 10px;
 }
 
 .bar1,
 .bar2,
 .bar3 {
-    width: 35px;
-    height: 5px;
-    background-color: #fff;
-    margin: 6px 0;
-    transition: 0.4s;
+  width: 35px;
+  height: 5px;
+  background-color: #fff;
+  margin: 6px 0;
+  transition: 0.4s;
 }
 
 .change .bar1 {
-    transform: translate(0, 11px) rotate(-45deg);
+  transform: translate(0, 11px) rotate(-45deg);
 }
 
 .change .bar2 {
-    opacity: 0;
+  opacity: 0;
 }
 
 .change .bar3 {
-    transform: translate(0, -11px) rotate(45deg);
+  transform: translate(0, -11px) rotate(45deg);
 }
 
 /* Sub question */
 
-
-.subquestion{
-    position: absolute;
-    display: block;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 99;
-    padding: 16px 16px 56px;
-    background: #f5f8ff;
-    opacity: 1;
+.subquestion {
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99;
+  padding: 16px 16px 56px;
+  background: #f5f8ff;
+  opacity: 1;
 }
-.subquestion_title button{
-    position: absolute;
-    left: 16px;
-    top : 16px
+.subquestion_title button {
+  position: absolute;
+  left: 16px;
+  top: 16px;
 }
-.subquestion_item{
-    margin-top: 16px;
-    border: 1px solid #c5c4c4;
-    border-radius: 4px;
-    width: 100%;
-    box-shadow: 1px 1px #e4e4e4;
-    padding: 8px;
-    cursor: pointer;
-}
-
-.subquestion_item:hover{
-    background: var(--primary-color);
+.subquestion_item {
+  margin-top: 16px;
+  border: 1px solid #c5c4c4;
+  border-radius: 4px;
+  width: 100%;
+  box-shadow: 1px 1px #e4e4e4;
+  padding: 8px;
+  cursor: pointer;
 }
 
-
-.subAnswers{
-    width: calc(100% - 65px);
+.subquestion_item:hover {
+  background: var(--primary-color);
 }
 
-.answer.subAnswer{
-    margin-top: 0;
-    width: 25%
+.subAnswers {
+  width: calc(100% - 65px);
 }
-.answer.subAnswer span{
-    width: 40px;
-    height: 40px;
-    line-height: 40px;
-    margin-left: 20px;
+
+.answer.subAnswer {
+  margin-top: 0;
+  width: 25%;
+}
+.answer.subAnswer span {
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  margin-left: 20px;
 }
 
 /* Result */
-.result{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    min-width: 300px;
-    min-height: 300px;
-    background: #fff;
-    border-radius: 4px;
-    box-shadow: 1px 1px rgb(0 0 0 / 40%);
-    padding: 16px;
+.result {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 300px;
+  min-height: 300px;
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 1px 1px rgb(0 0 0 / 40%);
+  padding: 16px;
 }
 
-.result .result-text{
-    font-size: 20px;
-    font-weight: 600;
+.result .result-text {
+  font-size: 20px;
+  font-weight: 600;
 }
 
-
-.result .result-point{
-    font-size: 4.8rem;
-    font-weight: bold;
-    color: var(--green-color);
+.result .result-point {
+  font-size: 4.8rem;
+  font-weight: bold;
+  color: var(--green-color);
 }
 
-.result button{
-    background: var(--primary-color);
-    padding: 10px 12px;
-    border: 0;
-    border-radius: 4px;
-    color: var(--white-color);
-    cursor: pointer;
+.result button {
+  background: var(--primary-color);
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 4px;
+  color: var(--white-color);
+  cursor: pointer;
 }

@@ -43,7 +43,11 @@
   padding: 16px;
   border-radius: 4px;
 }
-
+.content-box.ol-auto{
+  min-height: 496px;
+  max-height: 496px;
+  overflow-y: auto;
+}
 .search-box {
 }
 
@@ -70,7 +74,7 @@
   font-size: 14px;
 }
 
-.typingBox.typingBox--error input,
+.typingBox.typingBox--error input:not([type="file"]),
 .typingBox.typingBox--error select,
 .typingBox.typingBox--error textarea {
   border: 1px solid red;
@@ -108,14 +112,12 @@
 }
 
 /* Pagination */
-#paginator li {
+#paginator button {
   display: inline-block;
-  margin-right: 4px;
+  font-weight: bold;
+  font-size: 2rem;
 }
 
-#paginator li.active {
-  background: var(--green-color);
-}
 /* on/off display page */
 #pageDeThi,
 #pageCauHoi,

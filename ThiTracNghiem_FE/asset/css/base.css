@@ -1,211 +1,225 @@
-:root{
-    --primary-color: #6088E0;
-    --green-color: #A3E053;
-    --text-color: #000;
-    --white-color: #fff;
+:root {
+  --primary-color: #6088e0;
+  --green-color: #a3e053;
+  --text-color: #000;
+  --white-color: #fff;
 }
-*{
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-}
-
-html{
-    font-size: 62.5%;
-    font-family: Arial, Helvetica, sans-serif;
-    line-height: 1.6;
-    -webkit-text-size-adjust: 100%;
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
-body{
-    font-size: 1.6rem;
-    font-weight: 400;
-    color: var(--text-color);
+html {
+  font-size: 62.5%;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+  -webkit-text-size-adjust: 100%;
 }
 
-a{
-    text-decoration: none;
-    color: var(--text-color);
-    background-color: transparent;
+body {
+  font-size: 1.6rem;
+  font-weight: 400;
+  color: var(--text-color);
 }
 
-button:disabled{
-    background: #e7e7e7;
-    color: #999;
-}
-button:disabled:hover{
-    background: #d7d7d7;
+a {
+  text-decoration: none;
+  color: var(--text-color);
+  background-color: transparent;
 }
 
-.tup{
-    text-transform: uppercase;
+button:disabled {
+  background: #e7e7e7 !important;
+  color: #999 !important;
+}
+button:disabled:hover {
+  background: #d7d7d7 !important;
 }
 
-.tc{
-    text-align: center;
+.tup {
+  text-transform: uppercase;
 }
 
-.fl{
-    float: left;
+.tc {
+  text-align: center;
 }
 
-.fr{
-    float: right;
+.fl {
+  float: left;
 }
 
-.of-x{
-    overflow-x: hidden;
+.fr {
+  float: right;
 }
 
-b, strong{
-    font-weight: bold;
+.of-x {
+  overflow-x: hidden;
 }
 
-p{
-    margin: 0 0 24px;
+b,
+strong {
+  font-weight: bold;
 }
 
-table{
-    width: 100%;
+p {
+  margin: 0 0 24px;
 }
 
-table, th, td{
-    border: 1px solid #ccc;
-    border-collapse: collapse;
-    text-align: center;
-    padding: 4px;
-}
-thead tr td{
-    font-weight: 600;
-}
-thead{
-    background:var(--primary-color);
+table {
+  width: 100%;
 }
 
-tbody tr td:last-child{
-    border-left: none;
-    width: 15%;
+table,
+th,
+td {
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+  text-align: center;
+  padding: 4px;
 }
-tbody tr td:nth-last-child(2){
-    border-right: none;
+thead tr td {
+  font-weight: 600;
+}
+thead {
+  background: var(--primary-color);
 }
 
-tbody button{
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 4px 8px;
-    background: #fff;
-    cursor: pointer;
+tbody tr td:last-child {
+  border-left: none;
+  width: 15%;
 }
-tbody button:hover{
-    background: #f7f7f7;
+tbody tr td:nth-last-child(2) {
+  border-right: none;
 }
-.m-t16{
-    margin-top: 1.6rem;
+
+tbody button {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 4px 8px;
+  background: #fff;
+  cursor: pointer;
+}
+tbody button:hover {
+  background: #f7f7f7;
+}
+.m-t16 {
+  margin-top: 1.6rem;
 }
 
 /* Button */
-.btn{
-    display: block;
-    background: transparent;
-    padding: 1rem 1.5rem;
-    cursor: pointer;
-    outline: none;
-    border: 0;
+.btn {
+  display: block;
+  /* background: transparent; */
+  padding: 1rem 1.5rem;
+  cursor: pointer;
+  outline: none;
+  border: 0;
 }
 .btn-primary--half,
 .btn-primary--small,
-.btn-primary{
-    background: var(--primary-color);
-    border-radius: 0.4rem;
-    width: 100%;
-    color: var(--white-color);
-    font-weight: bold;
-    font-size: 1.8rem;
+.btn-primary {
+  background: var(--primary-color);
+  border-radius: 0.4rem;
+  width: 100%;
+  color: var(--white-color);
+  font-weight: bold;
+  font-size: 1.8rem;
 }
-.btn-primary--half +.btn-primary--half{
-    margin-left: 4px;
+.btn-primary--half + .btn-primary--half {
+  margin-left: 4px;
 }
-.btn-primary--half{
-    width: 49%;
+.btn-primary--half {
+  width: 49%;
 }
-.btn-primary--small{
-    width: auto;
-    font-size: 1.6rem;
-    font-weight: 600;
+.btn-primary--small {
+  width: auto;
+  font-size: 1.6rem;
+  font-weight: 600;
 }
-.btn-primary--small:hover,
-.btn-primary:hover{
-    background: var(--green-color);
+.btn:hover {
+  background: var(--green-color);
+}
+
+.btn.finished {
+  background: var(--primary-color);
+  width: 56px;
+  height: 100%;
+  font-size: 24px;
+  color: var(--white-color);
 }
 
 /* Logo */
-.logo{
-    color: var(--primary-color);
+.logo {
+  color: var(--primary-color);
 }
-.logo span{
-    color: var(--text-color);
+.logo span {
+  color: var(--text-color);
 }
-
 
 /* Header */
-.header{
-    background-color: #fff;
-    width: 100%;
-    height: 56px;
+.header {
+  background-color: #fff;
+  width: 100%;
+  height: 56px;
 }
 
-.header h1{
-    font-size: 3.2rem;
-    font-weight: 700;
+.header h1 {
+  font-size: 3.2rem;
+  font-weight: 700;
 }
 
 /* Footer */
 
-.footer{
-    position: relative;
-    width: 100%;
-    height: 60px;
-    bottom: 0;
-    background: #fff;
+.footer {
+  position: relative;
+  width: 100%;
+  height: 60px;
+  bottom: 0;
+  background: #fff;
 }
-.footer p{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 2;
-    font-size: 1.2rem;
-    color: #1d1d1d;
-    text-align: center;
+.footer p {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  font-size: 1.2rem;
+  color: #1d1d1d;
+  text-align: center;
 }
 
 /* Modal */
-.modal{
-    display: none;
+.modal {
+  display: none;
 }
-.modal.active{
-    position: fixed;
-    display: block;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 9;
-}
-
-.modal__overlay{
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.4);
+.modal.active {
+  position: fixed;
+  display: block;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 9;
 }
 
-.close{
-    position: absolute;
-    top: 0;
-    right: 16px;
-    font-size: 24px;
-    font-weight: 600;
-    cursor: pointer;
+.modal__overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.close {
+  position: absolute;
+  top: 0;
+  right: 16px;
+  font-size: 24px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Display none */
+.none {
+  display: none;
 }

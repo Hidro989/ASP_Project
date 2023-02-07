@@ -14,7 +14,7 @@ var modalDeThi = fromId("insertDeThi");
 var modalCauHoi = fromId("insertCauHoi");
 var modalMaThi = fromId("insertMaThi");
 var inputMonThi = fromId("tenMonThi");
-var inputDeThi = $('#inputDeThi');
+var inputDeThi = $("#inputDeThi");
 var tbodyDeThi = fromId("tbodyDeThi");
 var tbodyMonThi = fromId("tbodyMonThi");
 var tbodyMaThi = fromId("tbodyMaThi");
@@ -22,8 +22,17 @@ var modalDelete = $("#modalDelete");
 
 // Tải danh sách môn thi
 function getMonThis() {
-  fetch("https://localhost:7002/api/MonThi")
-    .then((res) => res.json())
+  fetch("https://localhost:7002/api/MonThi/Page?pageNumber=1&pageSize=10")
+    .then((res) => {
+      let header = JSON.parse(res.headers.get('X-Pagination'));
+      sessionStorage.setItem("CurrentPage", header.CurrentPage);
+      sessionStorage.setItem("HasNext", header.HasNext);
+      sessionStorage.setItem("HasPrevious", header.HasPrevious);
+      sessionStorage.setItem("PageSize", header.PageSize);
+      sessionStorage.setItem("TotalCount", header.TotalCount);
+      sessionStorage.setItem("TotalPages", header.TotalPages);
+      return res.json();
+    })
     .then((data) => displayMonThi(data))
     .catch((err) => console.log(err));
 }
@@ -31,47 +40,66 @@ getMonThis();
 
 // Tải danh sách đề thi
 async function getListDeThi() {
-  await fetch("https://localhost:7002/api/DeThi/GetDeThiWithName")
-    .then((res) => res.json())
+  await fetch("https://localhost:7002/api/DeThi/Page")
+    .then((res) => {
+      let header = JSON.parse(res.headers.get('X-Pagination'));
+      sessionStorage.setItem("CurrentPage", header.CurrentPage);
+      sessionStorage.setItem("HasNext", header.HasNext);
+      sessionStorage.setItem("HasPrevious", header.HasPrevious);
+      sessionStorage.setItem("PageSize", header.PageSize);
+      sessionStorage.setItem("TotalCount", header.TotalCount);
+      sessionStorage.setItem("TotalPages", header.TotalPages);
+      return res.json();
+    })
     .then((data) => displayDeThi(data))
     .catch((err) => console.log(err));
 }
 
 // Hiển thị danh sách đề thi
-function displayDeThi(data) {
-  let html = [];
-  data.forEach((element) => {
-    let text = `<tr>
-                               <td>${element.id}</td>
-                                <td>${element.tenDeThi}</td>
-                                <td>${element.soLuongCauHoi === null
-        ? 0
-        : element.soLuongCauHoi
-      }</td>
-                                <td>${element.tenMonThi}</td>
-                                <td data-id="${element.id}">
-                                    <button class="btnEditDeThi"><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/></svg></button>
-                                    <button class="btnDeleteDeThi" ><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"/></svg></button>
-                                </td>
-                            </tr>`;
-
-    html.push(text);
+const displayDeThi = (data) => {
+  tbodyDeThi.innerHTML = "";
+  data.forEach(async (element) => {
+    const questions = await fetch(
+      `https://localhost:7002/api/CauHoi/GetByDeThiId/${element.id}`
+    )
+      .then((res) => res.json())
+      .then((data) => data)
+      .catch((err) => console.log(err));
+    tbodyDeThi.innerHTML += `<tr>
+        <td>${element.id}</td>
+        <td>${element.tenDeThi}</td>
+        <td>${questions.length}</td>
+        <td>${element.tenMonThi}</td>
+        <td data-id="${element.id}">
+            <button class="btnEditDeThi"><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/></svg></button>
+            <button class="btnDeleteDeThi" ><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"/></svg></button>
+        </td>
+    </tr>`;
   });
-  tbodyDeThi.innerHTML = html.join("");
-}
+};
 
 // Tải danh sách câu hỏi
 async function getListCauHoi() {
-  await fetch("https://localhost:7002/api/CauHoi")
-    .then((res) => res.json())
+  await fetch("https://localhost:7002/api/CauHoi/Page")
+    .then((res) => {
+      let header = JSON.parse(res.headers.get('X-Pagination'));
+      sessionStorage.setItem("CurrentPage", header.CurrentPage);
+      sessionStorage.setItem("HasNext", header.HasNext);
+      sessionStorage.setItem("HasPrevious", header.HasPrevious);
+      sessionStorage.setItem("PageSize", header.PageSize);
+      sessionStorage.setItem("TotalCount", header.TotalCount);
+      sessionStorage.setItem("TotalPages", header.TotalPages);
+      return res.json();
+    })
     .then((data) => displayCauHoi(data))
     .catch((err) => console.log(err));
 }
 
 // Hiển thị danh sách câu hỏi
-function displayCauHoi(data) {
-  let html = [];
-  data.forEach((element) => {
+const displayCauHoi = (data) => {
+  const tbodyCauHoi = $("#tbodyCauHoi");
+  tbodyCauHoi.innerHTML = "";
+  data.forEach(async (element) => {
     let dapAnDung = "";
     switch (element.dapAnDung) {
       case 1:
@@ -88,7 +116,14 @@ function displayCauHoi(data) {
         break;
     }
 
-    let text = ` <tr>
+    const exam = await fetch(
+      `https://localhost:7002/api/DeThi/${element.deThiID}`
+    )
+      .then((res) => res.json())
+      .then((data) => data)
+      .catch((err) => console.log(err));
+
+    tbodyCauHoi.innerHTML += ` <tr>
         <td>${element.id}</td>
         <td>${element.noiDung}</td>
         <td>${element.a}</td>
@@ -96,9 +131,9 @@ function displayCauHoi(data) {
         <td>${element.c}</td>
         <td>${element.d}</td>
         <td>${dapAnDung}</td>
-        <td>${element.deThiID}</td>
+        <td>${exam.tenDeThi}</td>
         <td data-id="${element.id}">
-            <button class="btnShowCauHoi"><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"
+            <button hidden class="btnShowCauHoi"><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"
                     viewBox="0 0 576 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
                     <path
                         d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z" />
@@ -115,11 +150,8 @@ function displayCauHoi(data) {
                 </svg></button>
         </td>
     </tr>`;
-    html.push(text);
   });
-
-  $("#tbodyCauHoi").innerHTML = html.join("");
-}
+};
 
 // Tải môn thi theo Id
 async function getMonThiById(Id) {
@@ -133,31 +165,40 @@ async function getMonThiById(Id) {
 }
 
 // Hiển thị dữ liệu lên table
-function displayMonThi(data) {
-  let html = [];
-  data.forEach((element) => {
-    let text = `<tr>
-                                <td>${element.id}</td>
-                                <td>${element.tenMonThi}</td>
-                                <td>${element.soLuongDe === null
-        ? 0
-        : element.soLuongDe
-      }</td>
-                                <td data-id="${element.id}">
-                                    <button class="btnEditMonThi"><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/></svg></button>
-                                    <button class="btnDeleteMonThi" ><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"/></svg></button>
-                                </td>
-                            </tr>`;
-
-    html.push(text);
+const displayMonThi = async (data) => {
+  tbodyMonThi.innerHTML = "";
+  data.forEach(async (element) => {
+    const exams = await fetch(
+      `https://localhost:7002/api/DeThi/GetByMonThiId/${element.id}`
+    )
+      .then((res) => res.json())
+      .then((data) => data)
+      .catch((err) => console.log(err));
+    tbodyMonThi.innerHTML += `<tr>
+        <td>${element.id}</td>
+        <td>${element.tenMonThi}</td>
+        <td>${exams.length}</td>
+        <td data-id="${element.id}">
+            <button class="btnEditMonThi"><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/></svg></button>
+            <button class="btnDeleteMonThi" ><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"/></svg></button>
+        </td>
+    </tr>`;
   });
-  tbodyMonThi.innerHTML = html.join("");
-}
+};
 
 // Tải danh sách mã thi
 async function getListMaThi() {
-  await fetch("https://localhost:7002/api/mathi")
-    .then((res) => res.json())
+  await fetch("https://localhost:7002/api/mathi/Page")
+    .then((res) => {
+      let header = JSON.parse(res.headers.get('X-Pagination'));
+      sessionStorage.setItem("CurrentPage", header.CurrentPage);
+      sessionStorage.setItem("HasNext", header.HasNext);
+      sessionStorage.setItem("HasPrevious", header.HasPrevious);
+      sessionStorage.setItem("PageSize", header.PageSize);
+      sessionStorage.setItem("TotalCount", header.TotalCount);
+      sessionStorage.setItem("TotalPages", header.TotalPages);
+      return res.json();
+    })
     .then((data) => displayMaThi(data))
     .catch((err) => console.log(err));
 }
@@ -241,6 +282,7 @@ pageMonThi.addEventListener("click", async (e) => {
       "Thêm";
     modalMonThi.classList.toggle("active");
   }
+
   if (e.target.closest(".btnEditMonThi") !== null) {
     let item = await getMonThiById(
       e.target.closest(".btnEditMonThi").parentElement.dataset.id
@@ -416,6 +458,7 @@ modalCauHoi.addEventListener("click", async (e) => {
     e.target.innerText == "Hủy"
   ) {
     modalCauHoi.classList.remove("active");
+    clearDataQuestion();
   }
 
   if (e.target.innerText == "Thêm") {
@@ -585,43 +628,123 @@ modalMaThi.addEventListener("click", async (e) => {
   }
 });
 
+const clearDataInputDeThi = () => {
+  let html = [];
+  html.push('<option value="-1">-- Chọn môn thi --</option>');
+  $("#selectMonThi").innerHTML = html.join("");
+  $("#selectMonThi").children[0].selected;
+  inputDeThi.value = "";
+  fileUpload.value = "";
+  modalDeThi.classList.remove("active");
+};
+
 // Xử lý page Đề Thi
-pageDeThi.addEventListener('click', async (e) => {
-  if(e.target.closest('.btnAddDeThi') != null){
+pageDeThi.addEventListener("click", async (e) => {
+  if (e.target.closest(".btnAddDeThi") != null) {
     const listMonThi = await fetch(`https://localhost:7002/api/monthi`)
-    .then(res => res.json())
-    .catch(err => console.log(err));
+      .then((res) => res.json())
+      .catch((err) => console.log(err));
 
     let html = [];
-    html.push('<option value="-1">-- Chọn môn thi --</option>')
-    listMonThi.forEach(element => {
+    html.push('<option value="-1">-- Chọn môn thi --</option>');
+    listMonThi.forEach((element) => {
       html.push(`<option value="${element.id}">${element.tenMonThi}</option>`);
     });
-    $('#selectMonThi').innerHTML = html.join('');
-    modalDeThi.classList.add('active');
+    $("#selectMonThi").innerHTML = html.join("");
+    modalDeThi.classList.add("active");
+  }
+
+  if (e.target.closest(".btnEditDeThi") !== null) {
+    const idDeThi = e.target.closest(".btnEditDeThi").parentElement.dataset.id;
+    const deThi = await fetch(`https://localhost:7002/api/dethi/${idDeThi}`, {
+      method: "GET",
+    })
+      .then((res) => res.json())
+      .then((data) => data)
+      .catch((err) => console.log(err));
+
+    $("#inputDeThi").value = deThi.tenDeThi;
+    const listMonThi = await fetch(`https://localhost:7002/api/monthi`)
+      .then((res) => res.json())
+      .catch((err) => console.log(err));
+
+    let html = [];
+    html.push('<option value="-1">-- Chọn môn thi --</option>');
+    listMonThi.forEach((element) => {
+      html.push(`<option value="${element.id}">${element.tenMonThi}</option>`);
+    });
+    $("#selectMonThi").innerHTML = html.join("");
+
+    let monThiOptions = $("#selectMonThi").children;
+    for (let i = 0; i < monThiOptions.length; i++) {
+      if (monThiOptions[i].value == deThi.monThiID) {
+        monThiOptions[i].selected = true;
+      }
+    }
+    modalDeThi.children[1].children[1].innerText = "Sửa đề thi";
+    modalDeThi.children[1].lastElementChild.firstElementChild.innerText = "Sửa";
+    modalDeThi.dataset.id = idDeThi;
+    $("#fileUpload").parentNode.classList.add("none");
+    modalDeThi.classList.add("active");
+  }
+
+  if (e.target.closest(".btnDeleteDeThi") != null) {
+    modalDelete.dataset.id =
+      e.target.closest(".btnDeleteDeThi").parentElement.dataset.id;
+    modalDelete.dataset.type = "dethi";
+    modalDelete.classList.add("active");
   }
 });
 
 // Xử lý modal Đề Thi
-modalDeThi.addEventListener('click', (e) => {
+modalDeThi.addEventListener("click", async (e) => {
   if (
     e.target.classList.contains("close") ||
     e.target.classList.contains("modal__overlay") ||
     e.target.innerText == "Hủy"
   ) {
-    inputDeThi.value = "";
-    $('#selectMonThi').children[0].selected;
-    fileUpload.value = "";
-    modalDeThi.classList.remove("active");
+    clearDataInputDeThi();
   }
 
-  if(e.target.innerText == "Thêm"){
+  if (e.target.innerText == "Thêm") {
     UploadProcess();
-    inputDeThi.value = "";
-    $('#selectMonThi').children[0].selected;
-    fileUpload.value = "";
+  }
+
+  if (e.target.innerText == "Sửa") {
+    const id = modalDeThi.dataset.id;
+    const tenDeThi = inputDeThi.value;
+    const monThiID =
+      $("#selectMonThi").children[$("#selectMonThi").selectedIndex].value;
+
+    if (monThiID == -1 || String(tenDeThi).length == 0) {
+      $("#textAlertDeThi").parentElement.classList.add("typingBox--error");
+      $("#textAlertDeThi").innerText = "Vui lòng nhập đầy đủ các trường";
+      return;
+    }
+
+    const deThi = {
+      id,
+      tenDeThi,
+      monThiID,
+    };
+
+    await fetch("https://localhost:7002/api/dethi/" + id, {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(deThi),
+    })
+      .then(() => {
+        modalDeThi.classList.remove("active");
+        getListDeThi();
+        clearDataInputDeThi();
+      })
+      .catch((err) => console.log(err));
   }
 });
+
 // modalDelete lắng nghe sự kiện click
 modalDelete.addEventListener("click", async (e) => {
   if (
@@ -692,6 +815,7 @@ async function deleteItem(Id, type) {
     .then(() => {
       getMonThis();
       getListCauHoi();
+      getListDeThi();
     })
     .catch((er) => console.error("Không thể xóa mục", er));
 }
@@ -704,15 +828,13 @@ function UploadProcess() {
   //Validate whether File is valid Excel file.
   var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xls|.xlsx)$/;
   if (regex.test(fileUpload.value.toLowerCase())) {
-    if (typeof (FileReader) != "undefined") {
+    if (typeof FileReader != "undefined") {
       var reader = new FileReader();
 
       //For Browsers other than IE.
       if (reader.readAsBinaryString) {
         reader.onload = function (e) {
           ConvertExcelToJson(e.target.result);
-          
-
         };
         reader.readAsBinaryString(fileUpload.files[0]);
       } else {
@@ -731,16 +853,54 @@ function UploadProcess() {
       alert("Trình duyệt của bạn không hỗ trợ HTML5.");
     }
   } else {
-    alert("Làm ơn hãy tải lên tệp Excel hợp lệ");
+    createExamHandle();
   }
+}
+
+const createExamHandle = async () => {
+  const deThiCreated = await createExam().then((data) => data);
+  if (deThiCreated != null) getListDeThi();
+};
+
+const createExam = async () => {
+  const tenDeThi = inputDeThi.value;
+  const monThiID =
+    $("#selectMonThi").children[$("#selectMonThi").selectedIndex].value;
+
+  if (monThiID == -1 || String(tenDeThi).length == 0) {
+    $("#textAlertDeThi").parentElement.classList.add("typingBox--error");
+    $("#textAlertDeThi").innerText = "Vui lòng nhập đầy đủ các trường";
+    return;
+  }
+
+  const deThi = {
+    tenDeThi,
+    monThiID,
+  };
+
+  // Thêm đề thi
+  const deThiCreated = await fetch(`https://localhost:7002/api/dethi`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(deThi),
+  })
+    .then((res) => res.json())
+    .catch((err) => console.log(err));
+  if (deThiCreated != null) {
+    clearDataInputDeThi();
+    return deThiCreated;
+  }
+  return;
 };
 
 // Chuyển file sang dạng Json
 function ConvertExcelToJson(data) {
-
   try {
     var workbook = XLSX.read(data, {
-      type: 'binary'
+      type: "binary",
     });
     var first_ws = workbook.Sheets[workbook.SheetNames[0]];
     var XL_row_object = XLSX.utils.sheet_to_row_object_array(first_ws);
@@ -756,66 +916,36 @@ function ConvertExcelToJson(data) {
     alert("Lỗi thư viện XLSX!!!");
     console.log(err);
   }
-
-
-
-};
-
+}
 
 // Tạo đề thi với danh sách câu hỏi
 async function createDeThi(listQuestion) {
-
   let listQuestionPost = [];
   for (let i = 0; i < listQuestion.length; ++i) {
-
     let arrayValue = Object.values(listQuestion[i]);
-    const questionItem =
-    {
+    const questionItem = {
       noiDung: arrayValue[0],
       a: arrayValue[1],
       b: arrayValue[2],
       c: arrayValue[3],
       d: arrayValue[4],
       dapAnDung: convertStringToNum(arrayValue[5]),
-      dethiID: -1
-    }
+      dethiID: -1,
+    };
 
     // Kiểm tra trường đáp án đúng
     if (questionItem.dapAnDung == 0) {
-      alert("Trường đáp án đúng không hợp lệ\nVui lòng xem lại định dạng file excel");
+      alert(
+        "Trường đáp án đúng không hợp lệ\nVui lòng xem lại định dạng file excel"
+      );
       return;
     }
 
     listQuestionPost.push(questionItem);
   }
 
-  const tenDeThi = inputDeThi.value
-  const monThiID = $('#selectMonThi').children[$('#selectMonThi').selectedIndex].value;
-  
-  // Chuyển form sang trạng thái lỗi
-  if(monThiID == -1 || String(tenDeThi).length == 0){
-    $('#textAlertDeThi').parentElement.classList.add('typingBox--error');
-    $('#textAlertDeThi').innerText = "Vui lòng nhập đầy đủ các trường";
-    return;
-  }
-  const deThi = {
-    tenDeThi,
-    monThiID
-  }
-
-
   // Thêm đề thi
-  const deThiCreated = await fetch(`https://localhost:7002/api/dethi`, {
-    method: "POST",
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(deThi)
-  })
-    .then(res => res.json())
-    .catch(err => console.log(err));
-
+  const deThiCreated = await createExam().then((data) => data);
 
   if (deThiCreated != null) {
     for (let i = 0; i < listQuestionPost.length; ++i) {
@@ -828,20 +958,18 @@ async function createDeThi(listQuestion) {
 
   if (listQuestionPost !== null) {
     await fetch(`https://localhost:7002/api/CauHoi/PostListQuestion`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
+        Accept: "application/json",
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(listQuestionPost)
-    })
-      .catch(err => console.log(err));
+      body: JSON.stringify(listQuestionPost),
+    }).catch((err) => console.log(err));
+    getListDeThi();
   } else {
     alert("Danh sách câu hỏi không hợp lệ");
     return;
   }
-
-
 }
 
 // Chuyển đáp án từ chuỗi sang số
@@ -862,14 +990,12 @@ function convertStringToNum(str) {
   return 0;
 }
 
-
-function clearErrorDeThi(){
-  $('#textAlertDeThi').parentElement.classList.remove('typingBox--error');
-  $('#textAlertDeThi').innerText = "";
+function clearErrorDeThi() {
+  $("#textAlertDeThi").parentElement.classList.remove("typingBox--error");
+  $("#textAlertDeThi").innerText = "";
 }
 
 const checkAdmin = async () => {
-  exitExam();
   const username = getCookie("username");
   const password = getCookie("password");
   if (username && password) {
@@ -924,10 +1050,4 @@ const clearCookie = () => {
   setTimeout(() => {
     window.location = "./login.html";
   }, 500);
-};
-
-const exitExam = () => {
-  localStorage.removeItem("exam");
-  localStorage.removeItem("subject");
-  localStorage.removeItem("code");
 };

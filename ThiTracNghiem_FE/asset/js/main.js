@@ -178,17 +178,16 @@ let questionIndexCurrent;
 const checkCode = async () => {
   const code = localStorage.getItem("code");
   if (code) {
-    await fetch(`https://localhost:7002/api/mathi/${code}`, {
-      method: "PUT",
-    }).catch((err) => console.log(err));
     const cd = await fetch(`https://localhost:7002/api/mathi/${code}`, {
       method: "GET",
     })
       .then((res) => res.json())
       .then((data) => data)
       .catch((err) => console.log(err));
-    console.log(cd.slsd);
-    return cd.slsd >= 0 ? true : false;
+    await fetch(`https://localhost:7002/api/mathi/${code}`, {
+      method: "PUT",
+    }).catch((err) => console.log(err));
+    return cd.slsd > 0 ? true : false;
   }
 };
 
@@ -196,7 +195,7 @@ const checkPermissions = async () => {
   const isCode = await checkCode();
   if (!isCode) {
     window.location.href = "./loginCustomer.html";
-    exitExam();
+    clearDataLocal();
   }
   running = true;
   const idExam = localStorage.getItem("exam");
@@ -262,7 +261,7 @@ const loadQuestion = async (id) => {
   if (questions.length > 0) {
     rightAnswerLoading(questions);
     subQuestionLoading(questions);
-    mainQuestionLoading(questions[0], 1);
+    mainQuestionLoading(questions[0], 0);
   }
 };
 
@@ -273,7 +272,7 @@ const mainQuestionLoading = (question, index) => {
         <div class="row">
             <div class="col c-12">
                 <span class="question_order tc">
-                    C${index}
+                    C${index + 1}
                 </span>
             </div>
             <div class="col c-12">
@@ -286,19 +285,27 @@ const mainQuestionLoading = (question, index) => {
             <div class="row">
                 <button class="col c-12 answer" id="${question.id}-1"
                 >
-                    <span class="fl" onclick="chooseAnswer(event, 1, '${question.a}', ${question.id})">A</span>
+                    <span class="fl" onclick="chooseAnswer(event, 1, '${
+                      question.a
+                    }', ${question.id})">A</span>
                     <p class="fl">${question.a}</p>
                 </button>
                 <button class="col c-12 answer" id="${question.id}-2" >
-                    <span class="fl" onclick="chooseAnswer(event, 2, '${question.b}', ${question.id})">B</span>
+                    <span class="fl" onclick="chooseAnswer(event, 2, '${
+                      question.b
+                    }', ${question.id})">B</span>
                     <p class="fl">${question.b}</p>
                 </button>
                 <button class="col c-12 answer" id="${question.id}-3" >
-                    <span class="fl" onclick="chooseAnswer(event, 3, '${question.c}', ${question.id})">C</span>
+                    <span class="fl" onclick="chooseAnswer(event, 3, '${
+                      question.c
+                    }', ${question.id})">C</span>
                     <p class="fl">${question.c}</p>
                 </button>
                 <button class="col c-12 answer" id="${question.id}-4" >
-                    <span class="fl" onclick="chooseAnswer(event, 4, '${question.d}', ${question.id})">D</span>
+                    <span class="fl" onclick="chooseAnswer(event, 4, '${
+                      question.d
+                    }', ${question.id})">D</span>
                     <p class="fl">${question.d}</p>
                 </button>
             </div>
@@ -306,7 +313,7 @@ const mainQuestionLoading = (question, index) => {
     </div>
   `;
   const rightAnswerItem = $(
-    `.right-aws_item.right-${index} .aws_item-box input:checked`
+    `.right-aws_item.right-${index + 1} .aws_item-box input:checked`
   );
   if (rightAnswerItem) {
     mainQuestion
@@ -330,10 +337,10 @@ const mainQuestionLoading = (question, index) => {
   questionIndexCurrent = index;
 };
 
-const rightAnswerLoading = (questions) => {
+const rightAnswerLoading = (listQuestion) => {
   const rigthAnswer = $("#right-answer");
   rigthAnswer.innerHTML = "";
-  questions.forEach((question, index) => {
+  listQuestion.forEach((question, index) => {
     rigthAnswer.innerHTML += `
         <button class="right-aws_item fl right-${index + 1}" id="right-answer-${
       question.id
@@ -369,9 +376,10 @@ const rightAnswerLoading = (questions) => {
   });
 };
 
-const subQuestionLoading = (questions) => {
+const subQuestionLoading = (listQuestion) => {
   const subQuestion = $("#sub-question");
-  questions.forEach((question, index) => {
+  subQuestion.innerHTML = "";
+  listQuestion.forEach((question, index) => {
     subQuestion.innerHTML += `
       <div class="subquestion_item u-cf subquestion-${
         index + 1
@@ -430,19 +438,22 @@ const showQuestion = async (e) => {
       .then((data) => data)
       .catch((err) => console.log(err));
 
-    mainQuestionLoading(question, number);
+    mainQuestionLoading(question, parseInt(number) - 1);
     modalMobileToggle();
   }
 };
 
-const showQuestionMobile = (num) => {
-  if (num == -1 && questionIndexCurrent > 1) {
+const showQuestionPrev = () => {
+  if (questionIndexCurrent >= 1) {
     const index = questionIndexCurrent - 1;
-    mainQuestionLoading(questions[questionIndexCurrent - 1], index);
+    mainQuestionLoading(questions[index], index);
   }
-  if (num == 1 && questionIndexCurrent < questions.length) {
-    const index = parseInt(questionIndexCurrent) + 1;
-    mainQuestionLoading(questions[questionIndexCurrent], index);
+};
+
+const showQuestionNext = () => {
+  if (questionIndexCurrent < questions.length - 1) {
+    const index = questionIndexCurrent + 1;
+    mainQuestionLoading(questions[index], index);
   }
 };
 
@@ -515,6 +526,8 @@ const showResult = (score) => {
 
   const btnCheck = $("#btn-check");
   btnCheck.disabled = true;
+  const finishedMobile = $("#finished-mobile");
+  finishedMobile.disabled = true;
 
   const questionAnswer = $$(".question_answers .answer");
   const answerRight = $$(".aws_item-box input");
@@ -550,11 +563,16 @@ const closeResult = () => {
 const showDetail = () => {
   closeResult();
   const questionAnswer = $(".right-aws_item");
+  const index =
+    parseInt(
+      questionAnswer.classList[2].split("-")[
+        questionAnswer.classList[2].split("-").length - 1
+      ]
+    ) - 1;
+  const id =
+    questionAnswer.id.split("-")[questionAnswer.id.split("-").length - 1];
 
-  showAnswerDetail(
-    questionAnswer.classList[2].split("-")[1],
-    questionAnswer.id.split("-")[2]
-  );
+  showAnswerDetail(index, id);
 };
 
 const showAnswerDetail = async (index, id) => {
@@ -579,6 +597,8 @@ const redoExam = () => {
     setTimeout(() => {
       const btnCheck = $("#btn-check");
       btnCheck.disabled = false;
+      const finishedMobile = $("#finished-mobile");
+      finishedMobile.disabled = true;
       const rework = $("#rework button");
       rework.style.display = "none";
       closeModal();
@@ -586,7 +606,7 @@ const redoExam = () => {
     }, 500);
 };
 
-const exitExam = () => {
+const clearDataLocal = () => {
   localStorage.removeItem("exam");
   localStorage.removeItem("subject");
   localStorage.removeItem("code");
@@ -597,4 +617,11 @@ const modalMobileToggle = () => {
   bars.classList.toggle("change");
   const subQes = $("#subQes");
   subQes.classList.toggle("active");
+};
+
+const exitExam = () => {
+  setTimeout(() => {
+    window.location.href = "./loginCustomer.html";
+    clearDataLocal();
+  }, 500);
 };
