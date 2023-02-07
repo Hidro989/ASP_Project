@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Net.WebSockets;
 using ThiTracNghiem.Data;
@@ -24,6 +25,25 @@ namespace ThiTracNghiem.Controllers
         public async Task<ActionResult<IEnumerable<MaThi>>> GetAll()
         {
             return Ok(await _context.DsMaThi.AsNoTracking().ToListAsync());
+        }
+
+
+        [HttpGet("Page")]
+        public async Task<ActionResult<PagedList<MaThi>>> GetMaThis([FromQuery] PaginationParams @params)
+        {
+            var maThis = await PagedList<MaThi>.CreateAsync(_context.DsMaThi, @params.PageNumber, @params.PageSize);
+
+            var metadata = new
+            {
+                maThis.TotalCount,
+                maThis.PageSize,
+                maThis.CurrentPage,
+                maThis.TotalPages,
+                maThis.HasNext,
+                maThis.HasPrevious
+            };
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+            return Ok(maThis);
         }
 
         [HttpGet("{ma}")]
@@ -80,7 +100,7 @@ namespace ThiTracNghiem.Controllers
                 NotFound();
             }
 
-            if(maThi.SLSD < 10)
+            if(maThi.SLSD > 0)
             {
                 maThi.SLSD = maThi.SLSD - 1;
             }

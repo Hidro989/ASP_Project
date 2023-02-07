@@ -49,6 +49,16 @@ namespace ThiTracNghiem.Services
             return null;
         }
 
+        public async Task<PagedList<MonThi>> GetMonThis(PaginationParams @params)
+        {
+
+            var monThis = await PagedList<MonThi>.CreateAsync(_context.DsMonThi.OrderBy(m => m.ID),
+                @params.PageNumber,
+                @params.PageSize);
+
+            return monThis;
+        }
+
         public async Task<MonThi> Insert(MonThiVM monThiVM)
         {
             var monThi = new MonThi

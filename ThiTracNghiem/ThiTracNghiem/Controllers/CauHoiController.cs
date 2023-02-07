@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System.Net.WebSockets;
 using ThiTracNghiem.Data;
 using ThiTracNghiem.Models;
@@ -23,6 +25,23 @@ namespace ThiTracNghiem.Controllers
         public async Task<ActionResult<IEnumerable<CauHoi>>> GetAll()
         {
             return Ok(await _context.DsCauHoi.ToListAsync());
+        }
+
+        [HttpGet("Page")]
+        public async Task<ActionResult<PagedList<CauHoi>>> GetCauHoi([FromQuery] PaginationParams @params)
+        {
+            var cauHois = await PagedList<CauHoi>.CreateAsync(_context.DsCauHoi.OrderBy(m => m.ID), @params.PageNumber, @params.PageSize);
+            var metadata = new
+            {
+                cauHois.TotalCount,
+                cauHois.PageSize,
+                cauHois.CurrentPage,
+                cauHois.TotalPages,
+                cauHois.HasNext,
+                cauHois.HasPrevious
+            };
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+            return Ok(cauHois);
         }
 
         [HttpGet("{id}")]

@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using System.Net.WebSockets;
 using ThiTracNghiem.Data;
 using ThiTracNghiem.Models;
 using ThiTracNghiem.ViewModels;
@@ -22,6 +24,25 @@ namespace ThiTracNghiem.Controllers
         public async Task<ActionResult<IEnumerable<DeThi>>> GetAll()
         {
             return Ok(await _context.DsDeThi.AsNoTracking().ToListAsync());
+        }
+
+        [HttpGet("Page")]
+        public async Task<ActionResult<PagedList<DeThi>>> GetDeThis([FromQuery]PaginationParams @params)
+        {
+            var deThis = await PagedList<DeThi>.CreateAsync(_context.DsDeThi.OrderBy(d => d.ID), @params.PageNumber, @params.PageSize);
+
+            var metadata = new
+            {
+                deThis.TotalCount,
+                deThis.PageSize,
+                deThis.CurrentPage,
+                deThis.TotalPages,
+                deThis.HasNext,
+                deThis.HasPrevious
+            };
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+            return Ok(deThis);
+
         }
 
         [HttpGet("{id}")]
