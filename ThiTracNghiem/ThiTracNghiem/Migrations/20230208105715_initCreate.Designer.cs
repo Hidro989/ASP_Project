@@ -12,8 +12,8 @@ using ThiTracNghiem.Data;
 namespace ThiTracNghiem.Migrations
 {
     [DbContext(typeof(TracNghiemContext))]
-    [Migration("20230118015050_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20230208105715_initCreate")]
+    partial class initCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

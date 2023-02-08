@@ -6,7 +6,7 @@ namespace ThiTracNghiem.Models
     {
         private int _iD;
         private string _tenDeThi;
-        private int? _soLuongCauHoi;
+        private int? _soLuongCauHoi = 0;
         private int? _thoiGian = 60;
 
       
@@ -17,5 +17,10 @@ namespace ThiTracNghiem.Models
         public MonThi MonThi { get; set; }
         public int MonThiID { get; set; }
         public ICollection<CauHoi> CauHois { get; set; }
+
+        public DeThi()
+        {
+            CauHois = new List<CauHoi>();
+        }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using ThiTracNghiem.Data;
 using ThiTracNghiem.Models;
 using ThiTracNghiem.ViewModels;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace ThiTracNghiem.Services
 {
@@ -52,12 +54,21 @@ namespace ThiTracNghiem.Services
         public async Task<PagedList<MonThi>> GetMonThis(PaginationParams @params)
         {
 
-            var monThis = await PagedList<MonThi>.CreateAsync(_context.DsMonThi.OrderBy(m => m.ID),
-                @params.PageNumber,
-                @params.PageSize);
+            IQueryable<MonThi> monThis= null;
+            if ( string.IsNullOrEmpty(@params.Text))
+            {
+                monThis = _context.DsMonThi.OrderBy(m => m.ID).AsNoTracking();
+            }
+            else
+            {
+                
+                monThis = _context.DsMonThi.OrderBy(m => m.TenMonThi).Where(m => m.TenMonThi.ToLower().Contains(@params.Text.Trim().ToLower())).AsNoTracking();
+            }
 
-            return monThis;
+
+            return await PagedList<MonThi>.CreateAsync(monThis, @params.PageNumber, @params.PageSize);
         }
+
 
         public async Task<MonThi> Insert(MonThiVM monThiVM)
         {

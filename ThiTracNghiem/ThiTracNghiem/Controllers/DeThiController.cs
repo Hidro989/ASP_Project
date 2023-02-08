@@ -6,6 +6,7 @@ using System.Net.WebSockets;
 using ThiTracNghiem.Data;
 using ThiTracNghiem.Models;
 using ThiTracNghiem.ViewModels;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace ThiTracNghiem.Controllers
 {
@@ -29,7 +30,17 @@ namespace ThiTracNghiem.Controllers
         [HttpGet("Page")]
         public async Task<ActionResult<PagedList<DeThi>>> GetDeThis([FromQuery]PaginationParams @params)
         {
-            var deThis = await PagedList<DeThi>.CreateAsync(_context.DsDeThi.OrderBy(d => d.ID), @params.PageNumber, @params.PageSize);
+            IQueryable<DeThi> query = null;
+            if (string.IsNullOrEmpty(@params.Text))
+            {
+                query = _context.DsDeThi.OrderBy(d => d.ID).AsNoTracking().Include(d => d.MonThi);
+            }
+            else
+            {
+                query = _context.DsDeThi.OrderBy(d => d.TenDeThi).AsNoTracking().Where(d => (d.MonThi.TenMonThi.ToLower().Contains(@params.Text.Trim().ToLower()) || d.TenDeThi.ToLower().Contains(@params.Text.Trim().ToLower()))).Include(d => d.MonThi);
+            }
+        
+            var deThis = await PagedList<DeThi>.CreateAsync(query, @params.PageNumber, @params.PageSize);
 
             var metadata = new
             {
@@ -100,9 +111,21 @@ namespace ThiTracNghiem.Controllers
             {
                 TenDeThi = model.TenDeThi,
                 MonThiID = model.MonThiID,
-            };
-            _context.DsDeThi.Add(deThi);
-            await _context.SaveChangesAsync();
+            };          
+
+            try
+            {
+                var monThi = await _context.Set<MonThi>().FirstOrDefaultAsync(m => m.ID == model.MonThiID);
+
+                monThi.SoLuongDe +=  1;
+                _context.DsDeThi.Add(deThi);
+                await _context.SaveChangesAsync();
+            }
+            catch
+            {
+                return BadRequest("Tạo đề thi thất bại");
+            }
+            
 
             return CreatedAtAction(nameof(GetById),new {id = deThi.ID}, deThi);
         }

@@ -31,7 +31,7 @@ namespace ThiTracNghiem.Controllers
         [HttpGet("Page")]
         public async Task<ActionResult<PagedList<MaThi>>> GetMaThis([FromQuery] PaginationParams @params)
         {
-            var maThis = await PagedList<MaThi>.CreateAsync(_context.DsMaThi, @params.PageNumber, @params.PageSize);
+            var maThis = await PagedList<MaThi>.CreateAsync(_context.DsMaThi.AsNoTracking(), @params.PageNumber, @params.PageSize);
 
             var metadata = new
             {
@@ -80,7 +80,7 @@ namespace ThiTracNghiem.Controllers
                 var maThi = new MaThi
                 {
                     Ma = num.ToString(),
-                    SLSD = 10
+                    SLSD = 5
                 };
 
                 _context.DsMaThi.Add(maThi);

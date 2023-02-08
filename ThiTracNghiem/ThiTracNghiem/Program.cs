@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System.Text.Json.Serialization;
 using ThiTracNghiem.Data;
 using ThiTracNghiem.Services;
 
@@ -14,8 +15,12 @@ namespace ThiTracNghiem
             // Add services to the container.
             builder.Services.AddDbContext<TracNghiemContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("MyDb")));
             builder.Services.AddScoped<IMonThiRepository, MonThiRepository>();
-            builder.Services.AddControllers();
-            
+            builder.Services.AddControllers().AddJsonOptions(x =>
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+
+            //.AddJsonOptions(x =>
+            //    x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             //builder.Services.AddCors(option =>
             //{

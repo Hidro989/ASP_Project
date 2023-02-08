@@ -29,8 +29,21 @@ namespace ThiTracNghiem.Controllers
 
         [HttpGet("Page")]
         public async Task<ActionResult<PagedList<CauHoi>>> GetCauHoi([FromQuery] PaginationParams @params)
-        {
-            var cauHois = await PagedList<CauHoi>.CreateAsync(_context.DsCauHoi.OrderBy(m => m.ID), @params.PageNumber, @params.PageSize);
+        {   
+
+            IQueryable<CauHoi> query = null;
+            if (string.IsNullOrEmpty(@params.Text))
+            {
+                query =  _context.DsCauHoi.OrderBy(c => c.ID).AsNoTracking().Include(c => c.DeThi);
+            }
+            else
+            {
+                var text = @params.Text.Trim().ToLower();
+                query = _context.DsCauHoi.OrderBy(c => c.ID).AsNoTracking().Where(c => c.NoiDung.ToLower().Contains(text) || c.DeThi.TenDeThi.ToLower().Contains(text)).Include(c => c.DeThi);
+            }
+
+            var cauHois = await PagedList<CauHoi>.CreateAsync(query, @params.PageNumber, @params.PageSize);
+
             var metadata = new
             {
                 cauHois.TotalCount,
@@ -82,8 +95,19 @@ namespace ThiTracNghiem.Controllers
                 DapAnDung = model.DapAnDung,
                 DeThiID = model.DethiID
             };
-            _context.DsCauHoi.Add(cauHoi);
-            await _context.SaveChangesAsync();
+            try
+            {
+                var deThis = await _context.DsDeThi.FindAsync(model.DethiID);
+                deThis.SoLuongCauHoi += 1;
+
+                _context.DsCauHoi.Add(cauHoi);
+                await _context.SaveChangesAsync();
+            }
+            catch
+            {
+                BadRequest("Tạo câu hỏi thất bại");
+            }
+            
             return CreatedAtAction(nameof(GetById), new { id = cauHoi.ID }, cauHoi);
         }
 
@@ -113,6 +137,8 @@ namespace ThiTracNghiem.Controllers
 
             try
             {
+                var deThis = await _context.DsDeThi.FindAsync(model[0].DethiID);
+                deThis.SoLuongCauHoi += model.Count;
                 await _context.SaveChangesAsync();
             }
             catch
