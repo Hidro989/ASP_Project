@@ -16,8 +16,6 @@
   color: var(--white-color);
   cursor: pointer;
 }
-.content-left_list {
-}
 .content-left_list .content-left_item:last-child {
   position: fixed;
   left: 0;
@@ -44,8 +42,8 @@
   border-radius: 4px;
 }
 .content-box.ol-auto{
-  min-height: 496px;
-  max-height: 496px;
+  min-height: calc(100vh - 209px);
+  max-height: calc(100vh - 209px);
   overflow-y: auto;
 }
 .search-box {
@@ -118,6 +116,22 @@
   font-size: 2rem;
 }
 
+.boxCopy{
+    position: relative;
+}
+.boxCopy button{
+  position: absolute;
+  top: 30px;
+  right: 6px;
+  padding: 4px 8px;
+  border: 1px solid #e7e7e7;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.boxCopy button:hover{
+  background: var(--white-color);
+}
 /* on/off display page */
 #pageDeThi,
 #pageCauHoi,

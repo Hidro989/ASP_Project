@@ -1,300 +1,377 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./asset/css/admin.css" />
+    <link rel="stylesheet" href="./asset/css/base.css" />
+    <link rel="stylesheet" href="./asset/css/grid.css" />
+    <link rel="stylesheet" href="./asset/css/responsive.css" />
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/xlsx.full.min.js"></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/jszip.js"></script>
+    <title>Admin Trang quản lý</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="./asset/css/admin.css" />
-  <link rel="stylesheet" href="./asset/css/base.css" />
-  <link rel="stylesheet" href="./asset/css/grid.css" />
-  <link rel="stylesheet" href="./asset/css/responsive.css" />
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/xlsx.full.min.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/jszip.js"></script>
-  <title>Admin Trang quản lý</title>
-</head>
+  <body onload="checkAdmin()">
+    <div class="app">
+      <div class="content u-cf">
+        <div class="content-left fl" id="leftSideBar">
+          <h1 class="tc logo">Thi <span>Trắc</span> Nghiệm</h1>
+          <div class="content-left_list m-t16">
+            <div class="content-left_item active tc">Quản lý môn thi</div>
+            <div class="content-left_item tc">Quản lý đề thi</div>
+            <div class="content-left_item tc">Quản lý câu hỏi</div>
+            <div class="content-left_item tc">Quản lý mã thi</div>
+            <div class="content-left_item tc" onclick="clearCookie()">
+              Đăng xuất
+            </div>
+          </div>
+        </div>
+        <div id="pageMonThi" class="content-main fl">
+          <div class="content-box u-cf">
+            <button class="btn btn-primary--small fl btnAddMonThi">Thêm</button>
+            <div class="fr search-box">
+              <label for="search-subject">Tìm kiếm: </label>
+              <input
+                type="text"
+                id="search-subject"
+                oninput="getMonThis(1, this.value)" />
+            </div>
+          </div>
 
-<body onload="checkAdmin()">
-  <div class="app">
-    <div class="content u-cf">
-      <div class="content-left fl" id="leftSideBar">
-        <h1 class="tc logo">Thi <span>Trắc</span> Nghiệm</h1>
-        <div class="content-left_list m-t16">
-          <div class="content-left_item active tc">Quản lý môn thi</div>
-          <div class="content-left_item tc">Quản lý đề thi</div>
-          <div class="content-left_item tc">Quản lý câu hỏi</div>
-          <div class="content-left_item tc">Quản lý mã thi</div>
-          <div class="content-left_item tc" onclick="clearCookie()">
-            Đăng xuất
+          <div class="content-box ol-auto m-t16">
+            <table>
+              <thead>
+                <tr>
+                  <td>ID</td>
+                  <td>Môn thi</td>
+                  <td colspan="2">Số đề thi</td>
+                </tr>
+              </thead>
+              <tbody id="tbodyMonThi"></tbody>
+            </table>
           </div>
-        </div>
-      </div>
-      <div id="pageMonThi" class="content-main fl">
-        <div class="content-box u-cf">
-          <button class="btn btn-primary--small fl btnAddMonThi">Thêm</button>
-          <div class="fr search-box">
-            <label for="search">Tìm kiếm: </label>
-            <input type="text" id="search" />
-          </div>
-        </div>
 
-        <div class="content-box ol-auto m-t16">
-          <table>
-            <thead>
-              <tr>
-                <td>ID</td>
-                <td>Môn thi</td>
-                <td colspan="2">Số đề thi</td>
-              </tr>
-            </thead>
-            <tbody id="tbodyMonThi"></tbody>
-          </table>
+          <div class="content-box m-t16">
+            <div class="tc" id="paginator">
+              <button
+                class="btn btn-primary--small"
+                id="prev-page-subject"
+                onclick="pageChange(-1, 'subject')">
+                &larr;
+              </button>
+              <button
+                class="btn btn-primary--small"
+                id="next-page-subject"
+                onclick="pageChange(+1, 'subject')">
+                &rarr;
+              </button>
+            </div>
+          </div>
         </div>
+        <div id="pageDeThi" class="content-main fl">
+          <div class="content-box u-cf">
+            <button class="btn btn-primary--small fl btnAddDeThi">Thêm</button>
+            <div class="fr search-box">
+              <label for="search-exam">Tìm kiếm: </label>
+              <input
+                type="text"
+                id="search-exam"
+                oninput="getListDeThi(1, this.value)" />
+            </div>
+          </div>
 
-        <div class="content-box m-t16">
-          <div class="tc" id="paginator">
-            <button class="btn btn-primary--small">&larr;</button>
-            <button class="btn btn-primary--small">&rarr;</button>
+          <div class="content-box ol-auto m-t16">
+            <table>
+              <thead>
+                <tr>
+                  <td>ID</td>
+                  <td>Tên đề thi</td>
+                  <td>Số lượng câu hỏi</td>
+                  <td colspan="2">Tên môn thi</td>
+                </tr>
+              </thead>
+              <tbody id="tbodyDeThi"></tbody>
+            </table>
+          </div>
+          <div class="content-box m-t16">
+            <div class="tc" id="paginator">
+              <button
+                class="btn btn-primary--small"
+                id="prev-page-exam"
+                onclick="pageChange(-1, 'exam')">
+                &larr;
+              </button>
+              <button
+                class="btn btn-primary--small"
+                id="next-page-exam"
+                onclick="pageChange(+1, 'exam')">
+                &rarr;
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-      <div id="pageDeThi" class="content-main fl">
-        <div class="content-box u-cf">
-          <button class="btn btn-primary--small fl btnAddDeThi">Thêm</button>
-          <div class="fr search-box">
-            <label for="search">Tìm kiếm: </label>
-            <input type="text" id="search" />
+        <div id="pageCauHoi" class="content-main fl">
+          <div class="content-box u-cf">
+            <button class="btn btn-primary--small fl btnAddCauHoi">Thêm</button>
+            <div class="fr search-box">
+              <label for="search-question">Tìm kiếm: </label>
+              <input
+                type="text"
+                id="search-question"
+                oninput="getListCauHoi(1, this.value)" />
+            </div>
           </div>
-        </div>
 
-        <div class="content-box ol-auto m-t16">
-          <table>
-            <thead>
-              <tr>
-                <td>ID</td>
-                <td>Tên đề thi</td>
-                <td>Số lượng câu hỏi</td>
-                <td colspan="2">Tên môn thi</td>
-              </tr>
-            </thead>
-            <tbody id="tbodyDeThi"></tbody>
-          </table>
-        </div>
-        <div class="content-box m-t16">
-          <div class="tc" id="paginator">
-            <button class="btn btn-primary--small">&larr;</button>
-            <button class="btn btn-primary--small">&rarr;</button>
+          <div class="content-box ol-auto m-t16">
+            <table>
+              <thead>
+                <tr>
+                  <td>ID</td>
+                  <td>Nội dung</td>
+                  <td>A</td>
+                  <td>B</td>
+                  <td>C</td>
+                  <td>D</td>
+                  <td>Đáp án đúng</td>
+                  <td colspan="2">Đề thi</td>
+                </tr>
+              </thead>
+              <tbody id="tbodyCauHoi"></tbody>
+            </table>
+          </div>
+          <div class="content-box m-t16">
+            <div class="tc" id="paginator">
+              <button
+                class="btn btn-primary--small"
+                id="prev-page-question"
+                onclick="pageChange(-1, 'question')">
+                &larr;
+              </button>
+              <button
+                class="btn btn-primary--small"
+                id="next-page-question"
+                onclick="pageChange(+1, 'question')">
+                &rarr;
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-      <div id="pageCauHoi" class="content-main fl">
-        <div class="content-box u-cf">
-          <button class="btn btn-primary--small fl btnAddCauHoi">Thêm</button>
-          <div class="fr search-box">
-            <label for="search">Tìm kiếm: </label>
-            <input type="text" id="search" />
+        <div id="pageMaThi" class="content-main fl">
+          <div class="content-box u-cf">
+            <button class="btn btn-primary--small fl btnAddMaThi">Thêm</button>
+            <div class="fr search-box">
+              <label for="search-code">Tìm kiếm: </label>
+              <input
+                type="text"
+                id="search-code"
+                oninput="getListMaThi(1, this.value)" />
+            </div>
           </div>
-        </div>
 
-        <div class="content-box ol-auto m-t16">
-          <table>
-            <thead>
-              <tr>
-                <td>ID</td>
-                <td>Nội dung</td>
-                <td>A</td>
-                <td>B</td>
-                <td>C</td>
-                <td>D</td>
-                <td>Đáp án đúng</td>
-                <td colspan="2">Đề thi</td>
-              </tr>
-            </thead>
-            <tbody id="tbodyCauHoi"></tbody>
-          </table>
-        </div>
-        <div class="content-box m-t16">
-          <div class="tc" id="paginator">
-            <button class="btn btn-primary--small">&larr;</button>
-            <button class="btn btn-primary--small">&rarr;</button>
+          <div class="content-box ol-auto m-t16">
+            <table>
+              <thead>
+                <tr>
+                  <td>Mã thi</td>
+                  <td colspan="2">SLSD</td>
+                </tr>
+              </thead>
+              <tbody id="tbodyMaThi">
+               
+              </tbody>
+            </table>
           </div>
-        </div>
-      </div>
-      <div id="pageMaThi" class="content-main fl">
-        <div class="content-box u-cf">
-          <button class="btn btn-primary--small fl btnAddMaThi">Thêm</button>
-          <div class="fr search-box">
-            <label for="search">Tìm kiếm: </label>
-            <input type="text" id="search" />
-          </div>
-        </div>
-
-        <div class="content-box ol-auto m-t16">
-          <table>
-            <thead>
-              <tr>
-                <td>Mã thi</td>
-                <td colspan="2">SLSD</td>
-              </tr>
-            </thead>
-            <tbody id="tbodyMaThi">
-              <tr>
-                <td>abcdxyz</td>
-                <td>5/10</td>
-                <td>
-                  <button>
-                    <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 448 512">
-                      <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
-                      <path
-                        d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z" />
-                    </svg>
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="content-box m-t16">
-          <div class="tc" id="paginator">
-            <button class="btn btn-primary--small">&larr;</button>
-            <button class="btn btn-primary--small">&rarr;</button>
+          <div class="content-box m-t16">
+            <div class="tc" id="paginator">
+              <button
+                class="btn btn-primary--small"
+                id="prev-page-code"
+                onclick="pageChange(-1, 'code')">
+                &larr;
+              </button>
+              <button
+                class="btn btn-primary--small"
+                id="next-page-code"
+                onclick="pageChange(+1, 'code')">
+                &rarr;
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="modal" id="insertMonThi">
-    <div class="modal__overlay"></div>
-    <div class="typingBox tc">
-      <div class="close">✕</div>
-      <h2>Thêm môn thi</h2>
-      <div class="m-t16">
-        <label for=""> Tên môn thi:</label>
-        <input onkeydown="if(event.keyCode === 13) themMonThi()" type="text" placeholder="Tên môn thi" id="tenMonThi"
-          value="" />
-        <p class="textAlert m-t16"></p>
-      </div>
-      <div class="btns m-t16">
-        <button>Thêm</button>
-        <button>Hủy</button>
-      </div>
-    </div>
-  </div>
-  <div class="modal" id="insertDeThi">
-    <div class="modal__overlay"></div>
-    <div class="typingBox tc">
-      <div class="close">✕</div>
-      <h2>Thêm đề thi</h2>
-      <div class="m-t16">
-        <label for="selectMonThi"> Môn thi:</label>
-        <select id="selectMonThi" onfocus="clearErrorDeThi()"></select>
-      </div>
-      <div class="m-t16">
-        <label for="inputDeThi"> Tên đề thi:</label>
-        <input type="text" placeholder="Tên đề thi" id="inputDeThi" onfocus="clearErrorDeThi()" />
-      </div>
-      <div class="m-t16">
-        <label for="fileUpload">Chọn file câu hỏi:</label>
-        <input type="file" id="fileUpload" placeholder="Chọn file"
-          accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" onfocus="clearErrorDeThi()" />
-      </div>
-      <p class="textAlert m-t16" id="textAlertDeThi"></p>
-      <div class="btns m-t16">
-        <button>Thêm</button>
-        <button>Hủy</button>
-      </div>
-    </div>
-  </div>
-  <div class="modal" id="insertCauHoi">
-    <div class="modal__overlay"></div>
-    <div class="typingBox tc">
-      <div class="close">✕</div>
-      <h2>Thêm câu hỏi</h2>
-      <div class="m-t16">
-        <label for="selectDeThi"> Tên đề thi:</label>
-        <select id="selectDeThi" onfocus="clearError()"></select>
-      </div>
-      <div class="m-t16">
-        <label for="noiDung"> Nội dung:</label>
-        <textarea name="" id="noiDung" rows="5" onfocus="clearError()"></textarea>
-      </div>
-      <div class="m-t16">
-        <div class="m-t16 subtext">
-          <label for="dapAnA"> A:</label>
-          <textarea name="" id="dapAnA" rows="5" onfocus="clearError()"></textarea>
+    <div class="modal" id="insertMonThi">
+      <div class="modal__overlay"></div>
+      <div class="typingBox tc">
+        <div class="close">✕</div>
+        <h2>Thêm môn thi</h2>
+        <div class="m-t16">
+          <label for=""> Tên môn thi:</label>
+          <input
+            onkeydown="if(event.keyCode === 13) themMonThi()"
+            type="text"
+            placeholder="Tên môn thi"
+            id="tenMonThi"
+            value="" />
+          <p class="textAlert m-t16"></p>
         </div>
-        <div class="m-t16 subtext">
-          <label for="dapAnB"> B</label>
-          <textarea name="" id="dapAnB" rows="5" onfocus="clearError()"></textarea>
+        <div class="btns m-t16">
+          <button>Thêm</button>
+          <button>Hủy</button>
         </div>
       </div>
-
-      <div class="m-t16">
-        <div class="m-t16 subtext">
-          <label for="dapAnC"> C</label>
-          <textarea name="" id="dapAnC" rows="5" onfocus="clearError()"></textarea>
+    </div>
+    <div class="modal" id="insertDeThi">
+      <div class="modal__overlay"></div>
+      <div class="typingBox tc">
+        <div class="close">✕</div>
+        <h2>Thêm đề thi</h2>
+        <div class="m-t16">
+          <label for="selectMonThi"> Môn thi:</label>
+          <select id="selectMonThi" onfocus="clearErrorDeThi()"></select>
         </div>
-        <div class="m-t16 subtext">
-          <label for="dapAnD"> D</label>
-          <textarea name="" id="dapAnD" rows="5" onfocus="clearError()"></textarea>
+        <div class="m-t16">
+          <label for="inputDeThi"> Tên đề thi:</label>
+          <input
+            type="text"
+            placeholder="Tên đề thi"
+            id="inputDeThi"
+            onfocus="clearErrorDeThi()" />
+        </div>
+        <div class="m-t16">
+          <label for="fileUpload">Chọn file câu hỏi:</label>
+          <input
+            type="file"
+            id="fileUpload"
+            placeholder="Chọn file"
+            accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            onfocus="clearErrorDeThi()" />
+        </div>
+        <p class="textAlert m-t16" id="textAlertDeThi"></p>
+        <div class="btns m-t16">
+          <button>Thêm</button>
+          <button>Hủy</button>
         </div>
       </div>
-      <div class="m-t16">
-        <label for="selectDapAn"> Đáp án đúng:</label>
-        <select id="selectDapAn" onfocus="clearError()">
-          <option value="-1">-- Chọn đáp án đúng --</option>
-          <option value="1">A</option>
-          <option value="2">B</option>
-          <option value="3">C</option>
-          <option value="4">D</option>
-        </select>
-      </div>
+    </div>
+    <div class="modal" id="insertCauHoi">
+      <div class="modal__overlay"></div>
+      <div class="typingBox tc">
+        <div class="close">✕</div>
+        <h2>Thêm câu hỏi</h2>
+        <div class="m-t16">
+          <label for="selectDeThi"> Tên đề thi:</label>
+          <select id="selectDeThi" onfocus="clearError()"></select>
+        </div>
+        <div class="m-t16">
+          <label for="noiDung"> Nội dung:</label>
+          <textarea
+            name=""
+            id="noiDung"
+            rows="5"
+            onfocus="clearError()"></textarea>
+        </div>
+        <div class="m-t16">
+          <div class="m-t16 subtext">
+            <label for="dapAnA"> A:</label>
+            <textarea
+              name=""
+              id="dapAnA"
+              rows="5"
+              onfocus="clearError()"></textarea>
+          </div>
+          <div class="m-t16 subtext">
+            <label for="dapAnB"> B</label>
+            <textarea
+              name=""
+              id="dapAnB"
+              rows="5"
+              onfocus="clearError()"></textarea>
+          </div>
+        </div>
 
-      <p class="textAlert m-t16" id="text-alert-question">
-        Vui lòng nhập đầy đủ dữ liệu
-      </p>
-      <div class="btns m-t16">
-        <button>Thêm</button>
-        <button>Hủy</button>
+        <div class="m-t16">
+          <div class="m-t16 subtext">
+            <label for="dapAnC"> C</label>
+            <textarea
+              name=""
+              id="dapAnC"
+              rows="5"
+              onfocus="clearError()"></textarea>
+          </div>
+          <div class="m-t16 subtext">
+            <label for="dapAnD"> D</label>
+            <textarea
+              name=""
+              id="dapAnD"
+              rows="5"
+              onfocus="clearError()"></textarea>
+          </div>
+        </div>
+        <div class="m-t16">
+          <label for="selectDapAn"> Đáp án đúng:</label>
+          <select id="selectDapAn" onfocus="clearError()">
+            <option value="-1">-- Chọn đáp án đúng --</option>
+            <option value="1">A</option>
+            <option value="2">B</option>
+            <option value="3">C</option>
+            <option value="4">D</option>
+          </select>
+        </div>
+
+        <p class="textAlert m-t16" id="text-alert-question">
+          Vui lòng nhập đầy đủ dữ liệu
+        </p>
+        <div class="btns m-t16">
+          <button>Thêm</button>
+          <button>Hủy</button>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="modal" id="insertMaThi">
-    <div class="modal__overlay"></div>
-    <div class="typingBox tc">
-      <div class="close">✕</div>
-      <h2>Thêm câu hỏi</h2>
-      <div class="m-t16">
-        <label for="">Số lượng:</label>
-        <input type="number" min="1" value="1" id="numberCode" />
-        <button class="btn btn-primary--small m-t16" style="display: inline-block">
-          Tạo mã
-        </button>
-      </div>
-      <div class="m-t16">
-        <label for="">Mã thi:</label>
-        <textarea name="" id="listCode" rows="5"></textarea>
-      </div>
-      <div class="btns m-t16">
-        <button>Thoát</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal" id="modalDelete">
-    <div class="modal__overlay"></div>
-    <div class="typingBox tc">
-      <div class="close">✕</div>
-      <h2>Thông báo</h2>
-      <p>Bạn có chắc chắn muốn xóa mục này không?</p>
-      <div class="btns m-t16">
-        <button>Đồng ý</button>
-        <button>Hủy</button>
+    <div class="modal" id="insertMaThi">
+      <div class="modal__overlay"></div>
+      <div class="typingBox tc">
+        <div class="close">✕</div>
+        <h2>Thêm câu hỏi</h2>
+        <div class="m-t16">
+          <label for="">Số lượng:</label>
+          <input type="number" min="1" value="1" id="numberCode" />
+          <button
+            class="btn btn-primary--small m-t16"
+            style="display: inline-block">
+            Tạo mã
+          </button>
+        </div>
+        <div class="m-t16 boxCopy">
+          <button onclick="copyMaThi()"><svg xmlns="http://www.w3.org/2000/svg" height="18" width="18" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M224 0c-35.3 0-64 28.7-64 64V288c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H224zM64 160c-35.3 0-64 28.7-64 64V448c0 35.3 28.7 64 64 64H288c35.3 0 64-28.7 64-64V384H304v64c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V224c0-8.8 7.2-16 16-16h64V160H64z"/></svg></button>
+          <label for="">Mã thi:</label>
+          <textarea name="" id="listCode" rows="5"></textarea>
+        </div>
+        <div class="btns m-t16">
+          <button>Thoát</button>
+        </div>
       </div>
     </div>
-  </div>
-</body>
-<script src="./asset/js/admin.js"></script>
 
+    <div class="modal" id="modalDelete">
+      <div class="modal__overlay"></div>
+      <div class="typingBox tc">
+        <div class="close">✕</div>
+        <h2>Thông báo</h2>
+        <p>Bạn có chắc chắn muốn xóa mục này không?</p>
+        <div class="btns m-t16">
+          <button>Đồng ý</button>
+          <button>Hủy</button>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="./asset/js/admin.js"></script>
 </html>

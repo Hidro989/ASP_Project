@@ -21,8 +21,10 @@ var tbodyMaThi = fromId("tbodyMaThi");
 var modalDelete = $("#modalDelete");
 
 // Tải danh sách môn thi
-function getMonThis() {
-  fetch("https://localhost:7002/api/MonThi/Page?pageNumber=1&pageSize=10")
+function getMonThis(index, search = "") {
+  let url = `https://localhost:7002/api/MonThi/Page?pageNumber=${index}`;
+  if (search) url += `&Text=${search}`
+  fetch(url)
     .then((res) => {
       let header = JSON.parse(res.headers.get('X-Pagination'));
       sessionStorage.setItem("CurrentPage", header.CurrentPage);
@@ -36,11 +38,13 @@ function getMonThis() {
     .then((data) => displayMonThi(data))
     .catch((err) => console.log(err));
 }
-getMonThis();
+getMonThis(1, "");
 
 // Tải danh sách đề thi
-async function getListDeThi() {
-  await fetch("https://localhost:7002/api/DeThi/Page")
+async function getListDeThi(index, search = "") {
+  let url = `https://localhost:7002/api/DeThi/Page?pageNumber=${index}`;
+  if (search) url += `&Text=${search}`
+  await fetch(url)
     .then((res) => {
       let header = JSON.parse(res.headers.get('X-Pagination'));
       sessionStorage.setItem("CurrentPage", header.CurrentPage);
@@ -57,19 +61,14 @@ async function getListDeThi() {
 
 // Hiển thị danh sách đề thi
 const displayDeThi = (data) => {
+  disibledButton("exam")
   tbodyDeThi.innerHTML = "";
-  data.forEach(async (element) => {
-    const questions = await fetch(
-      `https://localhost:7002/api/CauHoi/GetByDeThiId/${element.id}`
-    )
-      .then((res) => res.json())
-      .then((data) => data)
-      .catch((err) => console.log(err));
+  data.forEach((element) => {
     tbodyDeThi.innerHTML += `<tr>
         <td>${element.id}</td>
         <td>${element.tenDeThi}</td>
-        <td>${questions.length}</td>
-        <td>${element.tenMonThi}</td>
+        <td>${element.soLuongCauHoi}</td>
+        <td>${element.monThi.tenMonThi}</td>
         <td data-id="${element.id}">
             <button class="btnEditDeThi"><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/></svg></button>
             <button class="btnDeleteDeThi" ><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"/></svg></button>
@@ -79,8 +78,10 @@ const displayDeThi = (data) => {
 };
 
 // Tải danh sách câu hỏi
-async function getListCauHoi() {
-  await fetch("https://localhost:7002/api/CauHoi/Page")
+async function getListCauHoi(index, search = "") {
+  let url = `https://localhost:7002/api/CauHoi/Page?PageNumber=${index}`;
+  if (search) url += `&Text=${search}`
+  await fetch(url)
     .then((res) => {
       let header = JSON.parse(res.headers.get('X-Pagination'));
       sessionStorage.setItem("CurrentPage", header.CurrentPage);
@@ -96,10 +97,12 @@ async function getListCauHoi() {
 }
 
 // Hiển thị danh sách câu hỏi
-const displayCauHoi = (data) => {
+const displayCauHoi = async (data) => {
+  disibledButton("question")
   const tbodyCauHoi = $("#tbodyCauHoi");
   tbodyCauHoi.innerHTML = "";
-  data.forEach(async (element) => {
+
+  data.forEach((element) => {
     let dapAnDung = "";
     switch (element.dapAnDung) {
       case 1:
@@ -116,13 +119,6 @@ const displayCauHoi = (data) => {
         break;
     }
 
-    const exam = await fetch(
-      `https://localhost:7002/api/DeThi/${element.deThiID}`
-    )
-      .then((res) => res.json())
-      .then((data) => data)
-      .catch((err) => console.log(err));
-
     tbodyCauHoi.innerHTML += ` <tr>
         <td>${element.id}</td>
         <td>${element.noiDung}</td>
@@ -131,7 +127,7 @@ const displayCauHoi = (data) => {
         <td>${element.c}</td>
         <td>${element.d}</td>
         <td>${dapAnDung}</td>
-        <td>${exam.tenDeThi}</td>
+        <td>${element.deThi.tenDeThi}</td>
         <td data-id="${element.id}">
             <button hidden class="btnShowCauHoi"><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"
                     viewBox="0 0 576 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
@@ -153,6 +149,16 @@ const displayCauHoi = (data) => {
   });
 };
 
+const disibledButton = (name) => {
+  const hasPrev = sessionStorage.getItem("HasPrevious");
+  if (hasPrev == "false") $(`#prev-page-${name}`).disabled = true
+  else $(`#prev-page-${name}`).disabled = false
+
+  const hasNext = sessionStorage.getItem("HasNext");
+  if (hasNext == "false") $(`#next-page-${name}`).disabled = true
+  else $(`#next-page-${name}`).disabled = false
+}
+
 // Tải môn thi theo Id
 async function getMonThiById(Id) {
   const response = await fetch(`https://localhost:7002/api/MonThi/${Id}`)
@@ -166,18 +172,13 @@ async function getMonThiById(Id) {
 
 // Hiển thị dữ liệu lên table
 const displayMonThi = async (data) => {
+  disibledButton("subject")
   tbodyMonThi.innerHTML = "";
   data.forEach(async (element) => {
-    const exams = await fetch(
-      `https://localhost:7002/api/DeThi/GetByMonThiId/${element.id}`
-    )
-      .then((res) => res.json())
-      .then((data) => data)
-      .catch((err) => console.log(err));
     tbodyMonThi.innerHTML += `<tr>
         <td>${element.id}</td>
         <td>${element.tenMonThi}</td>
-        <td>${exams.length}</td>
+        <td>${element.soLuongDe}</td>
         <td data-id="${element.id}">
             <button class="btnEditMonThi"><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/></svg></button>
             <button class="btnDeleteMonThi" ><svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"/></svg></button>
@@ -187,8 +188,10 @@ const displayMonThi = async (data) => {
 };
 
 // Tải danh sách mã thi
-async function getListMaThi() {
-  await fetch("https://localhost:7002/api/mathi/Page")
+async function getListMaThi(index, search = "") {
+  let url = "https://localhost:7002/api/mathi/Page?pageNumber=" + index;
+  if (search) url += `&Text=${search}`
+  await fetch(url)
     .then((res) => {
       let header = JSON.parse(res.headers.get('X-Pagination'));
       sessionStorage.setItem("CurrentPage", header.CurrentPage);
@@ -205,11 +208,12 @@ async function getListMaThi() {
 
 // Hiển thị danh sách mã thi
 function displayMaThi(data) {
+  disibledButton("code")
   let html = [];
   data.forEach((element) => {
     let text = `<tr>
         <td>${element.ma}</td>
-        <td>${element.slsd}/10</td>
+        <td>${element.slsd}/5</td>
         <td hidden>
         <button class="btnDeleteMaThi" >
             <svg
@@ -250,25 +254,25 @@ contentLeft.addEventListener("click", (e) => {
         pageCauHoi.style.display = "none";
         pageMaThi.style.display = "none";
         pageMonThi.style.display = "block";
-        getMonThis();
+        getMonThis(1, "");
       } else if (e.target.innerText === "Quản lý đề thi") {
         pageDeThi.style.display = "block";
         pageCauHoi.style.display = "none";
         pageMaThi.style.display = "none";
         pageMonThi.style.display = "none";
-        getListDeThi();
+        getListDeThi(1, "");
       } else if (e.target.innerText === "Quản lý câu hỏi") {
         pageDeThi.style.display = "none";
         pageCauHoi.style.display = "block";
         pageMaThi.style.display = "none";
         pageMonThi.style.display = "none";
-        getListCauHoi();
+        getListCauHoi(1, "");
       } else if (e.target.innerText === "Quản lý mã thi") {
         pageDeThi.style.display = "none";
         pageCauHoi.style.display = "none";
         pageMaThi.style.display = "block";
         pageMonThi.style.display = "none";
-        getListMaThi();
+        getListMaThi(1, "");
       }
     }
   }
@@ -379,11 +383,10 @@ pageCauHoi.addEventListener("click", async (e) => {
     const idCauHoi =
       e.target.closest(".btnEditCauHoi").parentElement.dataset.id;
     const cauHoi = await fetch(
-      `https://localhost:7002/api/cauhoi/${idCauHoi}`,
-      {
-        method: "GET",
-      }
-    )
+        `https://localhost:7002/api/cauhoi/${idCauHoi}`, {
+          method: "GET",
+        }
+      )
       .then((res) => res.json())
       .then((data) => data)
       .catch((err) => console.log(err));
@@ -402,8 +405,8 @@ pageCauHoi.addEventListener("click", async (e) => {
     }
 
     const danhSachDeThi = await fetch(
-      "https://localhost:7002/api/dethi/GetDeThiWithName"
-    )
+        "https://localhost:7002/api/dethi/GetDeThiWithName"
+      )
       .then((res) => res.json())
       .then((data) => data)
       .catch((err) => console.log(err));
@@ -505,17 +508,17 @@ modalCauHoi.addEventListener("click", async (e) => {
       deThiID,
     };
     await fetch("https://localhost:7002/api/cauhoi", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(deThi),
-    })
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(deThi),
+      })
       .then((res) => res.json())
       .then(() => {
         modalCauHoi.classList.remove("active");
-        getListCauHoi();
+        getListCauHoi(1, "");
         clearDataQuestion();
       })
       .catch((err) => console.log(err));
@@ -566,16 +569,16 @@ modalCauHoi.addEventListener("click", async (e) => {
       deThiID,
     };
     await fetch("https://localhost:7002/api/cauhoi/" + id, {
-      method: "PUT",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(deThi),
-    })
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(deThi),
+      })
       .then(() => {
         modalCauHoi.classList.remove("active");
-        getListCauHoi();
+        getListCauHoi(1, "");
         clearDataQuestion();
       })
       .catch((err) => console.log(err));
@@ -600,7 +603,7 @@ modalMaThi.addEventListener("click", async (e) => {
     e.target.innerText == "Thoát"
   ) {
     modalMaThi.classList.remove("active");
-    getListMaThi();
+    getListMaThi(1, "");
     const listCodeArea = fromId("listCode");
     listCodeArea.value = "";
     fromId("numberCode").value = 1;
@@ -612,12 +615,12 @@ modalMaThi.addEventListener("click", async (e) => {
     const listCode = [];
     for (let index = 0; index < numberCode; index++) {
       await fetch("https://localhost:7002/api/mathi", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      })
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        })
         .then((res) => res.json())
         .then((data) => {
           listCode.push(data);
@@ -641,6 +644,7 @@ const clearDataInputDeThi = () => {
 // Xử lý page Đề Thi
 pageDeThi.addEventListener("click", async (e) => {
   if (e.target.closest(".btnAddDeThi") != null) {
+    $("#fileUpload").parentNode.classList.remove("none")
     const listMonThi = await fetch(`https://localhost:7002/api/monthi`)
       .then((res) => res.json())
       .catch((err) => console.log(err));
@@ -651,14 +655,16 @@ pageDeThi.addEventListener("click", async (e) => {
       html.push(`<option value="${element.id}">${element.tenMonThi}</option>`);
     });
     $("#selectMonThi").innerHTML = html.join("");
+    modalDeThi.children[1].children[1].innerText = "Thêm đề thi";
+    modalDeThi.children[1].lastElementChild.firstElementChild.innerText = "Thêm";
     modalDeThi.classList.add("active");
   }
 
   if (e.target.closest(".btnEditDeThi") !== null) {
     const idDeThi = e.target.closest(".btnEditDeThi").parentElement.dataset.id;
     const deThi = await fetch(`https://localhost:7002/api/dethi/${idDeThi}`, {
-      method: "GET",
-    })
+        method: "GET",
+      })
       .then((res) => res.json())
       .then((data) => data)
       .catch((err) => console.log(err));
@@ -729,16 +735,16 @@ modalDeThi.addEventListener("click", async (e) => {
     };
 
     await fetch("https://localhost:7002/api/dethi/" + id, {
-      method: "PUT",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(deThi),
-    })
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(deThi),
+      })
       .then(() => {
         modalDeThi.classList.remove("active");
-        getListDeThi();
+        getListDeThi(1, "");
         clearDataInputDeThi();
       })
       .catch((err) => console.log(err));
@@ -767,25 +773,23 @@ async function createMonThi(tenMonThi) {
     tenMonThi: tenMonThi,
   };
   await fetch("https://localhost:7002/api/MonThi", {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      mode: "no-cors",
-    },
-    body: JSON.stringify(item),
-  })
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        mode: "no-cors",
+      },
+      body: JSON.stringify(item),
+    })
     .then((res) => res.json)
     .then((data) => {
       alert("Thêm môn thi thành công!!");
-      console.log("Request succeeded with JSON response", data);
     })
     .catch((er) => {
       alert("Thêm môn thi thất bại");
-      console.log("Request failed", error);
     });
 
-  await getMonThis();
+  await getMonThis(1, "");
 }
 
 //Sửa môn thi
@@ -796,26 +800,26 @@ async function updateMonThi(Id, tenMonThi) {
   };
 
   await fetch(`https://localhost:7002/api/MonThi/${Id}`, {
-    method: "PUT",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(item),
-  })
-    .then(() => getMonThis())
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(item),
+    })
+    .then(() => getMonThis(1, ""))
     .catch((er) => console.error("Không thể cập nhật mục", er));
 }
 
 // Xóa mục
 async function deleteItem(Id, type) {
   await fetch(`https://localhost:7002/api/${type}/${Id}`, {
-    method: "DELETE",
-  })
+      method: "DELETE",
+    })
     .then(() => {
-      getMonThis();
-      getListCauHoi();
-      getListDeThi();
+      getMonThis(1, "");
+      getListCauHoi(1, "");
+      getListDeThi(1, "");
     })
     .catch((er) => console.error("Không thể xóa mục", er));
 }
@@ -859,7 +863,7 @@ function UploadProcess() {
 
 const createExamHandle = async () => {
   const deThiCreated = await createExam().then((data) => data);
-  if (deThiCreated != null) getListDeThi();
+  if (deThiCreated != null) getListDeThi(1, "");
 };
 
 const createExam = async () => {
@@ -880,13 +884,13 @@ const createExam = async () => {
 
   // Thêm đề thi
   const deThiCreated = await fetch(`https://localhost:7002/api/dethi`, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(deThi),
-  })
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(deThi),
+    })
     .then((res) => res.json())
     .catch((err) => console.log(err));
   if (deThiCreated != null) {
@@ -965,7 +969,7 @@ async function createDeThi(listQuestion) {
       },
       body: JSON.stringify(listQuestionPost),
     }).catch((err) => console.log(err));
-    getListDeThi();
+    getListDeThi(1, "");
   } else {
     alert("Danh sách câu hỏi không hợp lệ");
     return;
@@ -1004,13 +1008,13 @@ const checkAdmin = async () => {
       password,
     };
     await fetch(`https://localhost:7002/api/admin`, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(admin),
-    })
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(admin),
+      })
       .then((res) => res.json())
       .then((data) => {
         if (!data) window.location = "./login.html";
@@ -1051,3 +1055,44 @@ const clearCookie = () => {
     window.location = "./login.html";
   }, 500);
 };
+
+const pageChange = (num, name) => {
+  let currentPage = parseInt(sessionStorage.getItem("CurrentPage"))
+  if (num == -1) {
+    const hasPrev = sessionStorage.getItem("HasPrevious");
+    if (hasPrev == "true") {
+      currentPage += -1;
+    }
+  } else {
+    const hasNext = sessionStorage.getItem("HasNext");
+    if (hasNext == "true") {
+      currentPage += 1
+    }
+  }
+
+
+  if (name == "subject") {
+    const search = $("#search-subject").value.trim();
+    getMonThis(currentPage, search)
+  }
+  if (name == "exam") {
+    const search = $("#search-exam").value.trim();
+    getListDeThi(currentPage, search)
+  }
+  if (name == "question") {
+    const search = $("#search-question").value.trim();
+    getListCauHoi(currentPage, search);
+  }
+  if (name == "code") {
+    const search = $("#search-code").value.trim();
+    getListMaThi(currentPage, search);
+  }
+}
+
+function copyMaThi(){
+  const texetArea = $('#listCode');
+  texetArea.select();
+  texetArea.setSelectionRange(0, 99999);
+  navigator.clipboard.writeText(texetArea.value.trim());
+
+}

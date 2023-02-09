@@ -46,13 +46,13 @@ const login = async () => {
     password,
   };
   await fetch(`https://localhost:7002/api/admin`, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(admin),
-  })
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(admin),
+    })
     .then((res) => res.json())
     .then((data) => {
       if (data) {
@@ -76,8 +76,8 @@ const subjectLoaded = async () => {
   examChange();
 
   const options = await fetch(`https://localhost:7002/api/monthi`, {
-    method: "GET",
-  })
+      method: "GET",
+    })
     .then((res) => res.json())
     .then((data) => data)
     .catch((err) => console.log(err));
@@ -117,8 +117,8 @@ const examHandle = async () => {
   }
 
   const codeExam = await fetch(`https://localhost:7002/api/mathi/${code}`, {
-    method: "GET",
-  })
+      method: "GET",
+    })
     .then((res) => res.json())
     .then((data) => data)
     .catch((err) => console.log(err));
@@ -134,11 +134,10 @@ const examHandle = async () => {
   }
 
   const subjectExam = await fetch(
-    `https://localhost:7002/api/monthi/${select}`,
-    {
-      method: "GET",
-    }
-  )
+      `https://localhost:7002/api/monthi/${select}`, {
+        method: "GET",
+      }
+    )
     .then((res) => res.json())
     .then((data) => data)
     .catch((err) => console.log(err));
@@ -148,8 +147,8 @@ const examHandle = async () => {
 
 const chooseExam = async (code, subject) => {
   const listExam = await fetch("https://localhost:7002/api/dethi", {
-    method: "GET",
-  })
+      method: "GET",
+    })
     .then((res) => res.json())
     .then((data) => data)
     .catch((err) => console.log(err));
@@ -158,10 +157,14 @@ const chooseExam = async (code, subject) => {
   listExam.forEach((exam) => {
     if (exam.monThiID === subject.id) exams.push(exam);
   });
+  if (listExam.length == 0) {
+    examError("Hiện chưa có đề thi");
+    return;
+  }
   const randomExam = Math.floor(Math.random() * exams.length);
-  localStorage.setItem("exam", exams[randomExam].id);
-  localStorage.setItem("subject", subject.tenMonThi);
-  localStorage.setItem("code", code.ma);
+  sessionStorage.setItem("exam", exams[randomExam].id);
+  sessionStorage.setItem("subject", subject.tenMonThi);
+  sessionStorage.setItem("code", code.ma);
   window.location.href = "./index.html";
 };
 
@@ -176,11 +179,11 @@ let running = false;
 let questionIndexCurrent;
 
 const checkCode = async () => {
-  const code = localStorage.getItem("code");
+  const code = sessionStorage.getItem("code");
   if (code) {
     const cd = await fetch(`https://localhost:7002/api/mathi/${code}`, {
-      method: "GET",
-    })
+        method: "GET",
+      })
       .then((res) => res.json())
       .then((data) => data)
       .catch((err) => console.log(err));
@@ -198,16 +201,16 @@ const checkPermissions = async () => {
     clearDataLocal();
   }
   running = true;
-  const idExam = localStorage.getItem("exam");
+  const idExam = sessionStorage.getItem("exam");
   if (!idExam) window.location.href = "./loginCustomer.html";
-  const subject = localStorage.getItem("subject");
+  const subject = sessionStorage.getItem("subject");
   const subjectExam = $("#subject-exam");
   const resultSubject = $("#relt-modal h2");
   subjectExam.innerText = subject;
   resultSubject.innerText = subject;
   topic = await fetch(`https://localhost:7002/api/dethi/${idExam}`, {
-    method: "GET",
-  })
+      method: "GET",
+    })
     .then((res) => res.json())
     .then((data) => data)
     .catch((err) => console.log(err));
@@ -248,8 +251,8 @@ const timeCountDown = (time) => {
 
 const loadQuestion = async (id) => {
   listQuestion = await fetch("https://localhost:7002/api/cauhoi", {
-    method: "GET",
-  })
+      method: "GET",
+    })
     .then((res) => res.json())
     .then((data) => data)
     .catch((err) => console.log(err));
@@ -283,45 +286,46 @@ const mainQuestionLoading = (question, index) => {
         </div>
         <div class="question_answers" id="question-answer-${question.id}">
             <div class="row">
-                <button class="col c-12 answer" id="${question.id}-1"
-                >
-                    <span class="fl" onclick="chooseAnswer(event, 1, '${
+                <button onclick="chooseAnswer(event, 1, '${
                       question.a
-                    }', ${question.id})">A</span>
+                    }', ${question.id})" class="col c-12 answer" id="${question.id}-1"
+                >
+                    <span class="fl">A</span>
                     <p class="fl">${question.a}</p>
                 </button>
-                <button class="col c-12 answer" id="${question.id}-2" >
-                    <span class="fl" onclick="chooseAnswer(event, 2, '${
+                <button onclick="chooseAnswer(event, 2, '${
                       question.b
-                    }', ${question.id})">B</span>
+                    }', ${question.id})" class="col c-12 answer" id="${question.id}-2" >
+                    <span class="fl">B</span>
                     <p class="fl">${question.b}</p>
                 </button>
-                <button class="col c-12 answer" id="${question.id}-3" >
-                    <span class="fl" onclick="chooseAnswer(event, 3, '${
+                <button onclick="chooseAnswer(event, 3, '${
                       question.c
-                    }', ${question.id})">C</span>
+                    }', ${question.id})" class="col c-12 answer" id="${question.id}-3" >
+                    <span class="fl">C</span>
                     <p class="fl">${question.c}</p>
                 </button>
-                <button class="col c-12 answer" id="${question.id}-4" >
-                    <span class="fl" onclick="chooseAnswer(event, 4, '${
+                <button onclick="chooseAnswer(event, 4, '${
                       question.d
-                    }', ${question.id})">D</span>
+                    }', ${question.id})" class="col c-12 answer" id="${question.id}-4" >
+                    <span class="fl">D</span>
                     <p class="fl">${question.d}</p>
                 </button>
             </div>
         </div>
     </div>
   `;
+
   const rightAnswerItem = $(
     `.right-aws_item.right-${index + 1} .aws_item-box input:checked`
   );
   if (rightAnswerItem) {
     mainQuestion
-      .querySelectorAll(".answer")
-      [rightAnswerItem.name - 1].classList.add("selected");
+      .querySelectorAll(".answer")[rightAnswerItem.name - 1].classList.add("selected");
   }
 
   if (!running) {
+    mainQuestion.querySelectorAll(".answer").forEach((element) => element.disabled = "true")
     const answerSelect = $(`#right-answer-${question.id}`);
     if (answerSelect) {
       const answerSelectInput = answerSelect.querySelector("input:checked");
@@ -334,6 +338,13 @@ const mainQuestionLoading = (question, index) => {
       }
     }
   }
+
+  const listAnswerRight = $$(".right-aws_item");
+  listAnswerRight.forEach((element, idx) => {
+    element.classList.remove("selected");
+    if (idx == index) element.classList.add("selected");
+  })
+
   questionIndexCurrent = index;
 };
 
@@ -432,8 +443,8 @@ const showQuestion = async (e) => {
   }
   if ((id, number)) {
     const question = await fetch(`https://localhost:7002/api/cauhoi/${id}`, {
-      method: "GET",
-    })
+        method: "GET",
+      })
       .then((res) => res.json())
       .then((data) => data)
       .catch((err) => console.log(err));
@@ -458,11 +469,12 @@ const showQuestionNext = () => {
 };
 
 const chooseAnswer = (e, answerSelect, answer, id) => {
-  const allAnswer = e.target.parentNode.parentNode.querySelectorAll(".answer");
+  const allAnswer = $$(`#question-answer-${id} .answer`);
   allAnswer.forEach((asw) => {
     asw.classList.remove("selected");
+    if (asw.id.split("-")[1] == answerSelect)
+      asw.classList.add("selected");
   });
-  e.target.parentNode.classList.add("selected");
   const rightAnswer = $(`#right-answer-${id}`);
   const rightAnswerItems = rightAnswer.querySelectorAll(".aws_item-box input");
   rightAnswerItems.forEach((item) => {
@@ -509,8 +521,13 @@ const resultHandle = async () => {
   allAnswer.forEach(async (answer, index) => {
     const ans = answer.querySelector(".aws_item-box input:checked");
     if (ans) {
-      if (questions[index].dapAnDung == ans.name) correct++;
-    }
+      if (questions[index].dapAnDung == ans.name) {
+        correct++;
+        answer.classList.add("correct");
+      } else {
+        answer.classList.add("error");
+      }
+    } else answer.classList.add("error");
   });
   const score = (correct / questions.length) * 100;
   setTimeout(() => {
@@ -577,8 +594,8 @@ const showDetail = () => {
 
 const showAnswerDetail = async (index, id) => {
   const question = await fetch(`https://localhost:7002/api/cauhoi/${id}`, {
-    method: "GET",
-  })
+      method: "GET",
+    })
     .then((res) => res.json())
     .then((data) => data)
     .catch((err) => console.log(err));
@@ -598,7 +615,7 @@ const redoExam = () => {
       const btnCheck = $("#btn-check");
       btnCheck.disabled = false;
       const finishedMobile = $("#finished-mobile");
-      finishedMobile.disabled = true;
+      finishedMobile.disabled = false;
       const rework = $("#rework button");
       rework.style.display = "none";
       closeModal();
@@ -607,9 +624,9 @@ const redoExam = () => {
 };
 
 const clearDataLocal = () => {
-  localStorage.removeItem("exam");
-  localStorage.removeItem("subject");
-  localStorage.removeItem("code");
+  sessionStorage.removeItem("exam");
+  sessionStorage.removeItem("subject");
+  sessionStorage.removeItem("code");
 };
 
 const modalMobileToggle = () => {
