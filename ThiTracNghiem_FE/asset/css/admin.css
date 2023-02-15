@@ -135,6 +135,60 @@
 /* on/off display page */
 #pageDeThi,
 #pageCauHoi,
-#pageMaThi {
+#pageMaThi,
+#pageChangePassword{
   display: none;
+}
+
+/* Change Password */
+.passwordForm{
+  width: 400px;
+  margin: 0 auto;
+}
+.passwordForm label{
+  font-weight: 600;
+}
+.passwordForm input{
+  padding: 4px 35px 4px 8px;
+  width: 100%;
+  border: 1px solid #ccc;
+  -webkit-text-security:disc;
+  outline: none;
+}
+.passwordForm.error p{
+  display: block;
+  color: red;
+  font-size: 1.4rem;
+}
+.boxEye.active button{
+  display: block;
+}
+.boxEye{
+  position: relative;
+}
+.boxEye button{
+  position: absolute;
+  display: none;
+  right: 0;
+  top: 1.5px;
+  bottom: 0;
+  padding: 0 8px;
+  background: white;
+  outline: none;
+  border: 1px solid #ccc;
+  border-left: none;
+  padding-top: 2px;
+}
+.boxEye button:hover{
+  background: #e7e7e7;
+}
+.boxEye div:last-child{
+  display: none;
+  width: 22px;
+  height: 2px;
+  position: absolute;
+  background: #000;
+  right: 6px;
+  top: 12px;
+  transform: rotate(-39deg);
 }

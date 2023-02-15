@@ -189,7 +189,9 @@ namespace ThiTracNghiem.Controllers
             {
                 return NotFound();
             }
-
+            var deThi = await _context.DsDeThi.FindAsync(cauHoi.DeThiID);
+            deThi.SoLuongCauHoi -= 1;
+            _context.DsDeThi.Update(deThi);
             _context.DsCauHoi.Remove(cauHoi);
             await _context.SaveChangesAsync();
 

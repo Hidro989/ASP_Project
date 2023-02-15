@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ThiTracNghiem.Data;
 using ThiTracNghiem.Models;
+using ThiTracNghiem.ViewModels;
 
 namespace ThiTracNghiem.Controllers
 {
@@ -17,9 +19,9 @@ namespace ThiTracNghiem.Controllers
         }
 
         [HttpPost]
-        public bool Check(Admin model)
+        public bool Check(QuanLy model)
         {
-            var admin = _context.Admins.Where(a => (a.UserName == model.UserName && a.Password == model.Password)).FirstOrDefault();
+            var admin = _context.QuanLys.Where(a => (a.UserName == model.UserName && a.Password == model.Password)).FirstOrDefault();
             if (admin == null)
             {
                 return false;
@@ -28,6 +30,19 @@ namespace ThiTracNghiem.Controllers
             return true;
         }
 
+        [HttpPost("change-password")]
+        public async Task<IActionResult> ChangePassword([FromBody] QuanLyVM model)
+        {
+            var admin = await _context.QuanLys.FirstOrDefaultAsync(a => (a.UserName == model.username && a.Password == model.password));
+            if(admin == null)
+            {
+                return NotFound();
+            }
+            admin.Password = model.newPassword;
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+        
 
     }
 }

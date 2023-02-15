@@ -24,7 +24,7 @@ namespace ThiTracNghiem.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DeThi>>> GetAll()
         {
-            return Ok(await _context.DsDeThi.AsNoTracking().ToListAsync());
+            return Ok(await _context.DsDeThi.AsNoTracking().Include(d => d.MonThi).ToListAsync());
         }
 
         [HttpGet("Page")]
@@ -78,29 +78,6 @@ namespace ThiTracNghiem.Controllers
             }
 
             return Ok(deThis);
-        }
-
-        [HttpGet("GetDeThiWithName")]
-        public async Task<ActionResult<IEnumerable<DeThiWithNameVM>>> GetDeThiWithName()
-        {
-            var deThis = await _context.DsDeThi.Include(d => d.MonThi).AsNoTracking().ToListAsync();
-            var listDeThiWithName = new List<DeThiWithNameVM>();
-
-            for(int i = 0; i < deThis.Count; ++i)
-            {
-                DeThiWithNameVM item = new()
-                {
-                    ID = deThis[i].ID,
-                    TenDeThi = deThis[i].TenDeThi,
-                    SoLuongCauHoi = deThis[i].SoLuongCauHoi,
-                    MonThiID = deThis[i].MonThiID,
-                    TenMonThi = deThis[i].MonThi.TenMonThi
-                };
-
-                listDeThiWithName.Add(item);
-            }
-
-            return Ok(listDeThiWithName);
         }
 
 
@@ -167,7 +144,9 @@ namespace ThiTracNghiem.Controllers
             {
                 return NotFound();
             }
-
+            var monThi = await _context.DsMonThi.FindAsync(deThi.MonThiID);
+            monThi.SoLuongDe -= 1;
+            _context.DsMonThi.Update(monThi);
             _context.DsDeThi.Remove(deThi);
             await _context.SaveChangesAsync();
             return NoContent();

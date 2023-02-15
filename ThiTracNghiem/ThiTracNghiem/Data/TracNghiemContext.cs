@@ -10,7 +10,7 @@ namespace ThiTracNghiem.Data
         public DbSet<MonThi> DsMonThi { get; set; }
         public DbSet<DeThi> DsDeThi { get; set; }
         public DbSet<CauHoi> DsCauHoi { get; set; }
-        public DbSet<Admin> Admins { get; set; }
+        public DbSet<QuanLy> QuanLys { get; set; }
         public DbSet<MaThi> DsMaThi { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -18,7 +18,7 @@ namespace ThiTracNghiem.Data
             modelBuilder.Entity<MonThi>().ToTable("MonThi");
             modelBuilder.Entity<DeThi>().ToTable("DeThi");
             modelBuilder.Entity<CauHoi>().ToTable("CauHoi");
-            modelBuilder.Entity<Admin>().ToTable("Admin");
+            modelBuilder.Entity<QuanLy>().ToTable("QuanLy");
             modelBuilder.Entity<MaThi>().ToTable("MaThi");
         }
 

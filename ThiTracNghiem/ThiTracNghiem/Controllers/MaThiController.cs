@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
+using System.Diagnostics;
 using System.Net.WebSockets;
 using ThiTracNghiem.Data;
 using ThiTracNghiem.Models;
@@ -31,7 +32,17 @@ namespace ThiTracNghiem.Controllers
         [HttpGet("Page")]
         public async Task<ActionResult<PagedList<MaThi>>> GetMaThis([FromQuery] PaginationParams @params)
         {
-            var maThis = await PagedList<MaThi>.CreateAsync(_context.DsMaThi.AsNoTracking(), @params.PageNumber, @params.PageSize);
+            IQueryable<MaThi> query = null;
+            if (string.IsNullOrEmpty(@params.Text))
+            {
+                query = _context.DsMaThi.AsNoTracking();
+            }
+            else
+            {
+                query = _context.DsMaThi.AsNoTracking().Where(ma => ma.SLSD == Convert.ToInt32(@params.Text));
+            }
+
+            var maThis = await PagedList<MaThi>.CreateAsync(query, @params.PageNumber, @params.PageSize);
 
             var metadata = new
             {
@@ -97,12 +108,16 @@ namespace ThiTracNghiem.Controllers
             var maThi = await _context.DsMaThi.FindAsync(ma);
             if(maThi == null)
             {
-                NotFound();
+                return NotFound();
             }
 
-            if(maThi.SLSD > 0)
+            if(maThi.SLSD > 1)
             {
                 maThi.SLSD = maThi.SLSD - 1;
+            }
+            else
+            {
+                _context.DsMaThi.Remove(maThi);
             }
 
             try
@@ -114,6 +129,24 @@ namespace ThiTracNghiem.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+
+        [HttpDelete("{ma}")]
+        public async Task<IActionResult> Delete(string ma)
+        {
+            var maThis = await _context.DsMaThi.FindAsync(ma);
+            if(maThis == null)
+            {
+                return NotFound();
+            }
+
+            _context.DsMaThi.Remove(maThis);
+            await _context.SaveChangesAsync();
+            return NoContent();
+
+        }
+
+
+
     }
 }
 

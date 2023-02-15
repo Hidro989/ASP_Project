@@ -69,7 +69,7 @@ const login = async () => {
     });
 };
 
-// Login Customer
+// index
 const subjectLoaded = async () => {
   const select = $("#exam-select");
   select.length = 1;
@@ -165,7 +165,7 @@ const chooseExam = async (code, subject) => {
   sessionStorage.setItem("exam", exams[randomExam].id);
   sessionStorage.setItem("subject", subject.tenMonThi);
   sessionStorage.setItem("code", code.ma);
-  window.location.href = "./index.html";
+  window.location.href = "./home.html";
 };
 
 // Index
@@ -186,10 +186,15 @@ const checkCode = async () => {
       })
       .then((res) => res.json())
       .then((data) => data)
-      .catch((err) => console.log(err));
-    await fetch(`https://localhost:7002/api/mathi/${code}`, {
+      .catch((err) => {
+        console.log(err);
+      });
+    if(cd){
+      await fetch(`https://localhost:7002/api/mathi/${code}`, {
       method: "PUT",
     }).catch((err) => console.log(err));
+    }
+
     return cd.slsd > 0 ? true : false;
   }
 };
@@ -197,12 +202,12 @@ const checkCode = async () => {
 const checkPermissions = async () => {
   const isCode = await checkCode();
   if (!isCode) {
-    window.location.href = "./loginCustomer.html";
+    window.location.href = "./";
     clearDataLocal();
   }
   running = true;
   const idExam = sessionStorage.getItem("exam");
-  if (!idExam) window.location.href = "./loginCustomer.html";
+  if (!idExam) window.location.href = "./";
   const subject = sessionStorage.getItem("subject");
   const subjectExam = $("#subject-exam");
   const resultSubject = $("#relt-modal h2");
@@ -519,15 +524,20 @@ const resultHandle = async () => {
   let correct = 0;
 
   allAnswer.forEach(async (answer, index) => {
+    const ansMobile = $(`.subquestion-${index + 1} .subAnswer.selected`)
     const ans = answer.querySelector(".aws_item-box input:checked");
     if (ans) {
       if (questions[index].dapAnDung == ans.name) {
         correct++;
         answer.classList.add("correct");
+        ansMobile.classList.add("checked--right")
       } else {
         answer.classList.add("error");
+        ansMobile.classList.add("checked--wrong")
       }
-    } else answer.classList.add("error");
+    } else {
+      answer.classList.add("error");
+    }
   });
   const score = (correct / questions.length) * 100;
   setTimeout(() => {
@@ -638,7 +648,7 @@ const modalMobileToggle = () => {
 
 const exitExam = () => {
   setTimeout(() => {
-    window.location.href = "./loginCustomer.html";
+    window.location.href = "./";
     clearDataLocal();
   }, 500);
 };
