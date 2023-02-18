@@ -39,8 +39,8 @@ const inputChange = () => {
 };
 
 const login = async () => {
-  const username = $("#floatingInput").value;
-  const password = $("#floatingPassword").value;
+  const username = $("#floatingInput").value.trim();
+  const password = $("#floatingPassword").value.trim();
   const admin = {
     username,
     password,
@@ -56,11 +56,13 @@ const login = async () => {
     .then((res) => res.json())
     .then((data) => {
       if (data) {
+        const encodeUser = encode(username);
+        const encodePass = encode(password);
         const date = new Date();
         date.setTime(date.getTime() + 7 * 24 * 60 * 60 * 1000);
         const expires = "; expires=" + date.toUTCString();
-        document.cookie = `username=${username}; ${expires}; ; path=/`;
-        document.cookie = `password=${password}; ${expires}; ; path=/`;
+        document.cookie = `username=${encodeUser}; ${expires}; ; path=/`;
+        document.cookie = `password=${encodePass}; ${expires}; ; path=/`;
         window.location.href = "./admin.html";
       }
     })
@@ -69,7 +71,33 @@ const login = async () => {
     });
 };
 
-// index
+// encode
+function encode(plaintextTextarea) {
+  let Zx = getZx();
+  let key = getKey();
+  let code = "";
+  let temp = 0;
+  for (let i = 0; i < plaintextTextarea.length; i++) {
+    let val = "";
+    if (Zx.indexOf(plaintextTextarea.charAt(i)) >= 0) {
+      let chAtIndex =
+        (Zx.indexOf(plaintextTextarea.charAt(i)) + Zx.indexOf(key.charAt(temp))) %
+        Zx.length;
+      val = Zx.charAt(chAtIndex);
+      temp = (temp + 1) % key.length;
+    } else {
+      if (plaintextTextarea.charAt(i) == " ") {
+        val = " ";
+      } else {
+        val = "\n";
+      }
+    }
+    code += val;
+  }
+  return code;
+}
+
+// Index
 const subjectLoaded = async () => {
   const select = $("#exam-select");
   select.length = 1;
@@ -168,7 +196,7 @@ const chooseExam = async (code, subject) => {
   window.location.href = "./home.html";
 };
 
-// Index
+// Home
 let x;
 let minutes;
 let seconds;
@@ -189,10 +217,10 @@ const checkCode = async () => {
       .catch((err) => {
         console.log(err);
       });
-    if(cd){
+    if (cd) {
       await fetch(`https://localhost:7002/api/mathi/${code}`, {
-      method: "PUT",
-    }).catch((err) => console.log(err));
+        method: "PUT",
+      }).catch((err) => console.log(err));
     }
 
     return cd.slsd > 0 ? true : false;
@@ -255,7 +283,7 @@ const timeCountDown = (time) => {
 };
 
 const loadQuestion = async (id) => {
-  listQuestion = await fetch("https://localhost:7002/api/cauhoi", {
+  listQuestion = await fetch(`https://localhost:7002/api/cauhoi/getbydethiid/${id}`, {
       method: "GET",
     })
     .then((res) => res.json())
@@ -652,3 +680,11 @@ const exitExam = () => {
     clearDataLocal();
   }, 500);
 };
+
+const getZx = () => {
+  return "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*";
+}
+
+const getKey = () => {
+  return "vickynguyen";
+}

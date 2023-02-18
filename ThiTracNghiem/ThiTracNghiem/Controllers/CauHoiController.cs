@@ -74,11 +74,46 @@ namespace ThiTracNghiem.Controllers
         public async Task<ActionResult<IEnumerable<CauHoi>>> GetByDeThiId(int deThiId)
         {
             var cauHois = await _context.DsCauHoi.Where(c => c.DeThiID == deThiId).ToListAsync();
+            
             if(cauHois == null)
             {
                 return NotFound();
             }
-            return Ok(cauHois);
+            if(cauHois.Count <= 50)
+            {
+                return Ok(cauHois);
+            }
+            else
+            {
+                List<CauHoi> rdCauhois = new();
+                List<int> listNumber = new();
+                Random rnd = new Random();
+                
+                for(int i = 0; i < 50; ++i)
+                {
+                    int j = rnd.Next(cauHois.Count);
+                    if(listNumber.Count == 0)
+                    {
+                        listNumber.Add(j);
+                        rdCauhois.Add(cauHois[j]);
+                    }
+                    else
+                    {
+                        bool check = listNumber.Contains(j);
+                        while (check)
+                        {
+                            j = rnd.Next(cauHois.Count);
+                            check = listNumber.Contains(j);
+                        }
+                        listNumber.Add(j);
+                        rdCauhois.Add(cauHois[j]);
+                    }
+                    
+
+                }
+                return Ok(rdCauhois);
+            }
+            
         }
 
 

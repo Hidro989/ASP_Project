@@ -278,7 +278,7 @@ contentLeft.addEventListener("click", (e) => {
         pageMonThi.style.display = "none";
         pageChangePassword.style.display = "none";
         getListMaThi(1, "");
-      }else if(e.target.innerText == "Đổi mật khẩu"){
+      } else if (e.target.innerText == "Đổi mật khẩu") {
         pageDeThi.style.display = "none";
         pageCauHoi.style.display = "none";
         pageMaThi.style.display = "none";
@@ -394,10 +394,10 @@ pageCauHoi.addEventListener("click", async (e) => {
     const idCauHoi =
       e.target.closest(".btnEditCauHoi").parentElement.dataset.id;
     const cauHoi = await fetch(
-      `https://localhost:7002/api/cauhoi/${idCauHoi}`, {
-      method: "GET",
-    }
-    )
+        `https://localhost:7002/api/cauhoi/${idCauHoi}`, {
+          method: "GET",
+        }
+      )
       .then((res) => res.json())
       .then((data) => data)
       .catch((err) => console.log(err));
@@ -416,8 +416,8 @@ pageCauHoi.addEventListener("click", async (e) => {
     }
 
     const danhSachDeThi = await fetch(
-      "https://localhost:7002/api/dethi"
-    )
+        "https://localhost:7002/api/dethi"
+      )
       .then((res) => res.json())
       .then((data) => data)
       .catch((err) => console.log(err));
@@ -519,13 +519,13 @@ modalCauHoi.addEventListener("click", async (e) => {
       deThiID,
     };
     await fetch("https://localhost:7002/api/cauhoi", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(deThi),
-    })
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(deThi),
+      })
       .then((res) => res.json())
       .then(() => {
         modalCauHoi.classList.remove("active");
@@ -580,13 +580,13 @@ modalCauHoi.addEventListener("click", async (e) => {
       deThiID,
     };
     await fetch("https://localhost:7002/api/cauhoi/" + id, {
-      method: "PUT",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(deThi),
-    })
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(deThi),
+      })
       .then(() => {
         modalCauHoi.classList.remove("active");
         getListCauHoi(1, "");
@@ -605,7 +605,7 @@ pageMaThi.addEventListener("click", async (e) => {
     modalMaThi.classList.add("active");
   }
 
-  if(e.target.closest(".btnDeleteMaThi") != null){
+  if (e.target.closest(".btnDeleteMaThi") != null) {
     modalDelete.dataset.id =
       e.target.closest(".btnDeleteMaThi").parentElement.dataset.id;
     modalDelete.dataset.type = "mathi";
@@ -633,12 +633,12 @@ modalMaThi.addEventListener("click", async (e) => {
     const listCode = [];
     for (let index = 0; index < numberCode; index++) {
       await fetch("https://localhost:7002/api/mathi", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      })
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        })
         .then((res) => res.json())
         .then((data) => {
           listCode.push(data);
@@ -681,8 +681,8 @@ pageDeThi.addEventListener("click", async (e) => {
   if (e.target.closest(".btnEditDeThi") !== null) {
     const idDeThi = e.target.closest(".btnEditDeThi").parentElement.dataset.id;
     const deThi = await fetch(`https://localhost:7002/api/dethi/${idDeThi}`, {
-      method: "GET",
-    })
+        method: "GET",
+      })
       .then((res) => res.json())
       .then((data) => data)
       .catch((err) => console.log(err));
@@ -753,13 +753,13 @@ modalDeThi.addEventListener("click", async (e) => {
     };
 
     await fetch("https://localhost:7002/api/dethi/" + id, {
-      method: "PUT",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(deThi),
-    })
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(deThi),
+      })
       .then(() => {
         modalDeThi.classList.remove("active");
         getListDeThi(1, "");
@@ -791,14 +791,14 @@ async function createMonThi(tenMonThi) {
     tenMonThi: tenMonThi,
   };
   await fetch("https://localhost:7002/api/MonThi", {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      mode: "no-cors",
-    },
-    body: JSON.stringify(item),
-  })
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        mode: "no-cors",
+      },
+      body: JSON.stringify(item),
+    })
     .then((res) => res.json)
     .then((data) => {
       alert("Thêm môn thi thành công!!");
@@ -818,13 +818,13 @@ async function updateMonThi(Id, tenMonThi) {
   };
 
   await fetch(`https://localhost:7002/api/MonThi/${Id}`, {
-    method: "PUT",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(item),
-  })
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(item),
+    })
     .then(() => getMonThis(1, ""))
     .catch((er) => console.error("Không thể cập nhật mục", er));
 }
@@ -832,8 +832,8 @@ async function updateMonThi(Id, tenMonThi) {
 // Xóa mục
 async function deleteItem(Id, type) {
   await fetch(`https://localhost:7002/api/${type}/${Id}`, {
-    method: "DELETE",
-  })
+      method: "DELETE",
+    })
     .then(() => {
       getMonThis(1, "");
       getListCauHoi(1, "");
@@ -903,13 +903,13 @@ const createExam = async () => {
 
   // Thêm đề thi
   const deThiCreated = await fetch(`https://localhost:7002/api/dethi`, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(deThi),
-  })
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(deThi),
+    })
     .then((res) => res.json())
     .catch((err) => console.log(err));
   if (deThiCreated != null) {
@@ -1019,21 +1019,21 @@ function clearErrorDeThi() {
 }
 
 const checkAdmin = async () => {
-  const username = getCookie("username");
-  const password = getCookie("password");
+  const username = decode(getCookie("username").trim());
+  const password = decode(getCookie("password").trim());
   if (username && password) {
     const admin = {
       username,
       password,
     };
     await fetch(`https://localhost:7002/api/admin`, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(admin),
-    })
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(admin),
+      })
       .then((res) => res.json())
       .then((data) => {
         if (!data) window.location = "./login.html";
@@ -1113,9 +1113,9 @@ function copyMaThi() {
   texetArea.select();
   texetArea.setSelectionRange(0, 99999);
   navigator.clipboard.writeText(texetArea.value.trim())
-  .then(() => {
-    console.log("Copy thanh cong")
-  })
+    .then(() => {
+      console.log("Copy thanh cong")
+    })
     .catch(() => {
       console.log("Copy that bai");
     });
@@ -1131,3 +1131,194 @@ modalChangePass.addEventListener('click', (e) => {
     modalChangePass.classList.remove("active");
   }
 });
+
+// encode
+function encode(plaintextTextarea) {
+  let Zx = getZx();
+  let key = getKey();
+  let code = "";
+  let temp = 0;
+  for (let i = 0; i < plaintextTextarea.length; i++) {
+    let val = "";
+    if (Zx.indexOf(plaintextTextarea.charAt(i)) >= 0) {
+      let chAtIndex =
+        (Zx.indexOf(plaintextTextarea.charAt(i)) + Zx.indexOf(key.charAt(temp))) %
+        Zx.length;
+      val = Zx.charAt(chAtIndex);
+      temp = (temp + 1) % key.length;
+    } else {
+      if (plaintextTextarea.charAt(i) == " ") {
+        val = " ";
+      } else {
+        val = "\n";
+      }
+    }
+    code += val;
+  }
+  return code;
+}
+
+// decode
+function decode(codeTextarea) {
+  let planitext = "";
+  let temp = 0;
+  for (let i = 0; i < codeTextarea.length; i++) {
+    let val = "";
+    if (getZx().indexOf(codeTextarea.charAt(i)) >= 0) {
+      let tmp =
+        (getZx().indexOf(codeTextarea.charAt(i)) - getZx().indexOf(getKey().charAt(temp))) %
+        getZx().length;
+      let chAtIndex = 0;
+      if (tmp >= 0) {
+        chAtIndex = tmp % getZx().length;
+      } else {
+        chAtIndex =
+          tmp + (Math.floor(Math.abs(temp) / getZx().length) + 1) * getZx().length;
+      }
+      val = getZx().charAt(chAtIndex);
+      temp = (temp + 1) % getKey().length;
+    } else {
+      if (plaintext.charAt(i) == " ") {
+        val = " ";
+      } else {
+        val = "\n";
+      }
+    }
+    planitext += val;
+  }
+  return planitext;
+}
+
+const getZx = () => {
+  return "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*";
+}
+
+const getKey = () => {
+  return "vickynguyen";
+}
+
+const passwordChange = (input) => {
+  const boxPassOld = $("#box-pass-old");
+  const boxPassNew = $("#box-pass-new");
+  const boxPassAgNew = $("#box-pass-agNew");
+  boxPassOld.classList.remove("error")
+  boxPassNew.classList.remove("error")
+  boxPassAgNew.classList.remove("error")
+
+  const boxEye = $(`#${input.id}`).parentElement;
+  if (input.value.length > 0) {
+    boxEye.classList.add("active");
+  } else {
+    const hidEye = input.parentElement.querySelector("div");
+    input.classList.add("webkit-security");
+    hidEye.classList.add("none");
+    boxEye.classList.remove("active");
+  }
+}
+
+const togPassword = (button) => {
+  const input = button.parentElement.querySelector("input");
+  const hidEye = button.parentElement.querySelector("div");
+  if (input.classList.contains("webkit-security")) {
+    input.classList.remove("webkit-security");
+    hidEye.classList.remove("none");
+  } else {
+    input.classList.add("webkit-security");
+    hidEye.classList.add("none");
+  }
+}
+
+const checkPassword = (password, boxPass) => {
+  if (!password.match(/^[a-zA-Z0-9!@#$%^&*]{5,16}$/)) {
+    boxPass.querySelector("p").innerText = "Mật khẩu chỉ chứa ký tự số, chữ hoặc một số ký tự đặc biệt như !,@,#,$,%,^,&,* và phải có độ dài từ 5 đến 16 ký tự";
+    boxPass.classList.add("error");
+    return false;
+  }
+  return true;
+};
+
+const boxPassOld = $("#box-pass-old");
+const boxPassNew = $("#box-pass-new");
+const boxPassAgNew = $("#box-pass-agNew");
+const changePasswordHandle = () => {
+  const oldPass = $("#oldPass").value.trim();
+  const newPass = $("#newPass").value.trim();
+  const agNewPass = $("#againNewPass").value.trim();
+  if (!oldPass) {
+    boxPassOld.querySelector("p").innerText = "Bạn chưa nhập mật khẩu cũ";
+    boxPassOld.classList.add("error");
+  }
+
+  if (!newPass) {
+    boxPassNew.querySelector("p").innerText = "Bạn chưa nhập mật khẩu mới";
+    boxPassNew.classList.add("error");
+  }
+
+  if (!agNewPass) {
+    boxPassAgNew.querySelector("p").innerText = "Bạn chưa nhập lại mật khẩu mới";
+    boxPassAgNew.classList.add("error");
+  }
+
+  if (!oldPass || !newPass || !agNewPass) return;
+
+  if (!checkPassword(oldPass, boxPassOld) || !checkPassword(newPass, boxPassNew) || !checkPassword(agNewPass, boxPassAgNew)) return;
+
+  if (newPass != agNewPass) {
+    boxPassAgNew.querySelector("p").innerText = "Mật khẩu mới không khớp";
+    boxPassAgNew.classList.add("error");
+    return;
+  }
+
+  changePassword(oldPass, newPass);
+}
+
+const changePassword = async (oldPass, newPass) => {
+  const username = decode(getCookie("username"));
+  const admin = {
+    username,
+    password: oldPass,
+    newPassword: newPass
+  }
+  await fetch(`https://localhost:7002/api/admin/change-password`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(admin),
+    })
+    .then((res) => {
+      if (!res.ok) {
+        boxPassOld.querySelector("p").innerText = "Mật khẩu cũ không đúng";
+        boxPassOld.classList.add("error");
+        return;
+      }
+      updateCookie(username, newPass);
+      resetAfterChangePassword();
+      alert("Đổi mật khẩu thành công");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
+const updateCookie = (username, newPass) => {
+  const encodeUser = encode(username);
+  const encodePass = encode(newPass);
+  const date = new Date();
+  date.setTime(date.getTime() + 7 * 24 * 60 * 60 * 1000);
+  const expires = "; expires=" + date.toUTCString();
+  document.cookie = `username=${encodeUser}; ${expires}; ; path=/`;
+  document.cookie = `password=${encodePass}; ${expires}; ; path=/`;
+}
+
+const resetAfterChangePassword = () => {
+  $("#oldPass").value = "";
+  $("#newPass").value = "";
+  $("#againNewPass").value = "";
+  $$(".boxEye").forEach((e) => {
+    e.classList.remove("active");
+    e.querySelector("div").classList.add("none");
+    e.querySelector("input").classList.add("webkit-security");
+  })
+}

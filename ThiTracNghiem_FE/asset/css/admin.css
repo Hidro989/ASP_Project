@@ -152,7 +152,6 @@
   padding: 4px 35px 4px 8px;
   width: 100%;
   border: 1px solid #ccc;
-  -webkit-text-security:disc;
   outline: none;
 }
 .passwordForm.error p{
@@ -168,6 +167,7 @@
 }
 .boxEye button{
   position: absolute;
+  cursor: pointer;
   display: none;
   right: 0;
   top: 1.5px;
@@ -183,12 +183,14 @@
   background: #e7e7e7;
 }
 .boxEye div:last-child{
-  display: none;
   width: 22px;
   height: 2px;
   position: absolute;
   background: #000;
   right: 6px;
-  top: 12px;
+  top: 10px;
   transform: rotate(-39deg);
+}
+.webkit-security {
+  -webkit-text-security:disc;
 }
