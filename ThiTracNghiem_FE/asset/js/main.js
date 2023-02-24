@@ -64,6 +64,8 @@ const login = async () => {
         document.cookie = `username=${encodeUser}; ${expires}; ; path=/`;
         document.cookie = `password=${encodePass}; ${expires}; ; path=/`;
         window.location.href = "./admin.html";
+      }else{
+        showError("Error");
       }
     })
     .catch((err) => {
@@ -248,10 +250,8 @@ const checkPermissions = async () => {
     .then((data) => data)
     .catch((err) => console.log(err));
   if (topic) {
-    const numQuestion = $("#num-question");
     const timeExam = $("#time-exam");
     const timeDown = $$(".time-down");
-    numQuestion.innerText = topic.soLuongCauHoi + " câu";
     timeExam.innerText = topic.thoiGian + " phút";
     timeDown.forEach((time) => {
       time.innerText = topic.thoiGian + ":00";
@@ -270,7 +270,7 @@ const timeCountDown = (time) => {
     let distance = countDownDate - now;
     minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     seconds = Math.floor((distance % (1000 * 60)) / 1000);
-    if (minutes == 0 && seconds == 0) {
+    if (minutes <= 0 && seconds <= 0) {
       clearInterval(x);
       resultHandle();
     }
@@ -294,6 +294,8 @@ const loadQuestion = async (id) => {
   listQuestion.forEach((question) => {
     if (question.deThiID === id) questions.push(question);
   });
+  const numQuestion = $("#num-question");
+  numQuestion.innerText = topic.soLuongCauHoi + " câu";
   if (questions.length > 0) {
     rightAnswerLoading(questions);
     subQuestionLoading(questions);
@@ -390,6 +392,7 @@ const rightAnswerLoading = (listQuestion) => {
       question.id
     }" onclick="showQuestion(event)">
             <span class="question-c">C${index + 1}</span>
+           
             <div class="aws_item-box">
                 <label>A</label>
                 <input type="checkbox" name="1" id="${
